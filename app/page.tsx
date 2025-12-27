@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
 import {
+  Users,
   ArrowRight,
   BarChart3,
   Boxes,
@@ -147,6 +148,88 @@ function TopTabs({
   );
 }
 
+function MobileTabs({
+  containerRef,
+  items,
+}: {
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  items: Array<{ id: string; label: string; icon: React.ComponentType<{ className?: string }> }>;
+}) {
+  const [active, setActive] = useState(items[0]?.id ?? "product");
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  useEffect(() => {
+    const rootEl = containerRef.current;
+    if (!rootEl) return;
+
+    const els = items
+      .map((s) => document.getElementById(s.id))
+      .filter(Boolean) as HTMLElement[];
+    if (!els.length) return;
+
+    observerRef.current?.disconnect();
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => (a.boundingClientRect.top ?? 0) - (b.boundingClientRect.top ?? 0));
+        const topMost = visible[0];
+        if (!topMost) return;
+        setActive((topMost.target as HTMLElement).id);
+      },
+      {
+        root: rootEl,
+        rootMargin: "-20% 0px -60% 0px",
+        threshold: 0.01,
+      }
+    );
+
+    els.forEach((el) => observerRef.current?.observe(el));
+    return () => observerRef.current?.disconnect();
+  }, [containerRef, items]);
+
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  return (
+    <div className="md:hidden fixed bottom-3 left-0 right-0 z-50 px-3">
+      <div className="mx-auto max-w-md rounded-2xl border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/70 shadow-lg">
+        <div className="grid grid-cols-5">
+          {items.map((t) => {
+            const Icon = t.icon;
+            const isActive = active === t.id;
+            return (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => scrollTo(t.id)}
+                className={cn(
+                  "flex flex-col items-center justify-center gap-1 py-2.5 text-[11px] font-medium transition cursor-pointer",
+                  isActive ? "text-foreground" : "text-muted-foreground"
+                )}
+                aria-current={isActive ? "page" : undefined}
+              >
+                <span
+                  className={cn(
+                    "inline-flex h-9 w-9 items-center justify-center rounded-xl transition",
+                    isActive ? "bg-primary/12 border border-primary/25" : "bg-transparent"
+                  )}
+                >
+                  <Icon className={cn("h-5 w-5", isActive ? "text-primary" : "")} />
+                </span>
+                <span className={cn("leading-none", isActive ? "text-foreground" : "")}>{t.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SnapSection({
   id,
   children,
@@ -174,18 +257,18 @@ function SnapSection({
 export default function VorpiLanding() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
-  const tabs = [
-    { id: "product", label: "Product" },
-    { id: "for", label: "Industries" },
-    { id: "why", label: "Our Innovation" },
-    { id: "proof", label: "Case Studies" },
-    { id: "team", label: "Team" },
-  ];
+const tabs = [
+  { id: "product", label: "Product", icon: LineChart },
+  { id: "for", label: "Industries", icon: Factory },
+  { id: "why", label: "Innovation", icon: Brain },
+  { id: "proof", label: "Cases", icon: BarChart3 },
+  { id: "team", label: "Team", icon: Users }, // add Users import
+];
 
   return (
     <div
       ref={scrollRef}
-      className="h-screen overflow-y-auto scroll-smooth snap-y snap-mandatory bg-background text-foreground"
+      className="h-screen overflow-y-auto scroll-smooth snap-y snap-mandatory bg-background text-foreground pb-24 md:pb-0"
     >
       {/* Sticky header */}
       <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/70">
@@ -199,6 +282,7 @@ export default function VorpiLanding() {
           </div>
 
           <TopTabs containerRef={scrollRef} items={tabs} />
+          <MobileTabs containerRef={scrollRef} items={tabs} />
 
           <div className="hidden md:block">
             <Button asChild>
