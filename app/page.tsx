@@ -1,65 +1,685 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  BarChart3,
+  Boxes,
+  Building2,
+  CheckCircle2,
+  Factory,
+  Gauge,
+  Layers,
+  LineChart,
+  Lock,
+  ShieldCheck,
+  Search,
+  Activity,
+  Sparkles,
+  Brain,
+  Store,
+  Truck,
+  Workflow,
+} from "lucide-react";
+
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
+/**
+ * vorpi.ai — Full-page snap landing (modern-startup) using shadcn/ui
+ *
+ * Requirements:
+ * - shadcn/ui installed (button, badge, card)
+ * - Tailwind configured (shadcn init)
+ * - This file is a Client Component (hooks + framer-motion)
+ */
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
+};
+
+function ListItem({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <li className="flex gap-2 text-sm md:text-base">
+      <CheckCircle2 className="mt-0.5 h-5 w-5 flex-none text-primary" />
+      <span className="leading-relaxed">{children}</span>
+    </li>
+  );
+}
+
+function KPI({ label, value, note }: { label: string; value: string; note?: string }) {
+  return (
+    <Card className="shadow-sm">
+      <CardContent className="p-4">
+        <div className="text-xs text-muted-foreground">{label}</div>
+        <div className="mt-1 text-lg md:text-xl font-semibold tracking-tight text-foreground">
+          {value}
+        </div>
+        {note ? <div className="mt-1 text-xs text-muted-foreground">{note}</div> : null}
+      </CardContent>
+    </Card>
+  );
+}
+
+function TopTabs({
+  containerRef,
+  items,
+}: {
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  items: Array<{ id: string; label: string }>;
+}) {
+  const [active, setActive] = useState(items[0]?.id ?? "product");
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  useEffect(() => {
+    const rootEl = containerRef.current;
+    if (!rootEl) return;
+
+    const els = items
+      .map((s) => document.getElementById(s.id))
+      .filter(Boolean) as HTMLElement[];
+    if (!els.length) return;
+
+    observerRef.current?.disconnect();
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => (a.boundingClientRect.top ?? 0) - (b.boundingClientRect.top ?? 0));
+        const topMost = visible[0];
+        if (!topMost) return;
+        setActive((topMost.target as HTMLElement).id);
+      },
+      {
+        root: rootEl,
+        rootMargin: "-10% 0px -70% 0px",
+        threshold: 0.01,
+      }
+    );
+
+    els.forEach((el) => observerRef.current?.observe(el));
+    return () => observerRef.current?.disconnect();
+  }, [containerRef, items]);
+
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  return (
+    <nav className="hidden md:flex items-center gap-1">
+      {items.map((t) => (
+        <button
+          key={t.id}
+          type="button"
+          onClick={() => scrollTo(t.id)}
+          className={cn(
+            "rounded-xl px-4 py-2 text-sm font-semibold transition cursor-pointer",
+            active === t.id
+              ? "bg-primary/10 text-foreground border border-primary/25"
+              : "text-muted-foreground hover:text-foreground hover:bg-primary/10"
+          )}
+          aria-current={active === t.id ? "page" : undefined}
+        >
+          {t.label}
+        </button>
+      ))}
+    </nav>
+  );
+}
+
+function SnapSection({
+  id,
+  children,
+  tone = "base",
+}: {
+  id: string;
+  children: React.ReactNode;
+  tone?: "base" | "tint";
+}) {
+  return (
+    <section
+      id={id}
+      className={cn(
+        "relative overflow-hidden snap-start min-h-screen flex items-center",
+        tone === "tint" ? "bg-primary/5" : "bg-background"
+      )}
+    >
+      <div className="mx-auto max-w-6xl px-4 w-full pt-20 pb-14 md:pb-18">
+        {children}
+      </div>
+    </section>
+  );
+}
+
+export default function VorpiLanding() {
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  const tabs = [
+    { id: "product", label: "Product" },
+    { id: "for", label: "Industries" },
+    { id: "why", label: "Our Innovation" },
+    { id: "proof", label: "Case Studies" },
+    { id: "team", label: "Team" },
+  ];
+
+  return (
+    <div
+      ref={scrollRef}
+      className="h-screen overflow-y-auto scroll-smooth snap-y snap-mandatory bg-background text-foreground"
+    >
+      {/* Sticky header */}
+      <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/70">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+          <div className="flex items-center gap-2">
+            <div className="h-9 w-9 rounded-xl bg-primary" />
+            <div className="leading-tight">
+              <div className="font-semibold">VORPI AI</div>
+              <div className="text-xs text-muted-foreground">Algorithmic Operational Excellence</div>
+            </div>
+          </div>
+
+          <TopTabs containerRef={scrollRef} items={tabs} />
+
+          <div className="hidden md:block">
+            <Button asChild>
+              <a href="#contact">Contact us</a>
+            </Button>
+          </div>
+        </div>
+      </header>
+
+
+
+
+      {/* PRODUCT */}
+      <SnapSection id="product" tone="base">
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <img
+            src="/vorpi-product.jpg"
+            alt=""
+            className="h-full w-full object-cover scale-110 brightness-[0.55] contrast-[1.35] saturate-[1.35]"
+          />
+          <div className="absolute inset-0 bg-sky-600/20 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/55 to-background/10" />
+        </div>
+        <div className="relative z-10">
+        <div className="grid gap-10 lg:grid-cols-12 items-start">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.35 }}
+            className="lg:col-span-12"
+          >
+
+            <h1 className="mt-5 text-3xl md:text-5xl font-semibold tracking-tight">
+              Transactional Digital Twin for Operational Excellence 
+            </h1>
+
+            <p className="mt-4 text-base md:text-lg leading-relaxed">
+              Supply chain systems often suffer from three common problems:
+            </p>
+
+            <ul className="mt-6 space-y-3">
+              <ListItem>Data aggregation causing loss of information and inaccurate forecasts</ListItem>
+              <ListItem>Inflexible optimization tools built on unrealistic assumptions</ListItem>
+              <ListItem>Misleading reporting applications mixing trade-offs</ListItem>
+            </ul>
+
+            <p className="mt-4 text-base md:text-lg font-semibold leading-relaxed">
+              VORPI AI solves these problems through{" "}
+              <span className="underline decoration-primary/30">research-backed innovations:</span>
+            </p>
+          </motion.div>
+        </div>
+
+        <div className="mt-10 grid gap-4 md:grid-cols-4">
+          <Card className="relative overflow-hidden rounded-3xl bg-background/85 backdrop-blur-xl border border-white/20 shadow-2xl">
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2">
+                <LineChart className="h-4 w-4 text-primary" /> Accurate Demand Forecasting
+              </CardTitle>
+              <CardDescription>Uncertainty modeling for accurate forecasting.</CardDescription>
+            </CardHeader>
+            <CardContent className="text-sm text-muted-foreground">
+              Our state-of-art algorithms based on the Fast Fourier Transform and Machine Learning Regularization use transactional data and leverage customer traffic and product selection information. 
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2">
+                <Layers className="h-4 w-4 text-primary" /> Inventory & Fulfillment Optimization
+              </CardTitle>
+              <CardDescription>Large-scale optimization under uncertainty.</CardDescription>
+            </CardHeader>
+            <CardContent className="text-sm text-muted-foreground">
+              We use dynamic optimization and decomposition techniques and optimize end-to-end decisions in supply chains.
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4 text-primary" /> Detailed Scenario Analysis
+              </CardTitle>
+              <CardDescription>Simplified scenario analysis even in very complex settings.</CardDescription>
+            </CardHeader>
+            <CardContent className="text-sm text-muted-foreground">
+              Our VORPI (Vendors, Operations, Resources, Products, Intelligence) framework has five modules highlighting five fundamental trade-offs of supply chain management, making scenario analysis centered around trade-offs. 
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2">
+                <Activity className="h-4 w-4 text-primary" /> Real Time Activity Monitoring
+              </CardTitle>
+              <CardDescription>Blending activity monitoring with foresight.</CardDescription>
+            </CardHeader>
+            <CardContent className="text-sm text-muted-foreground">
+              Our database model, which is unique for the VORPI framework, allows rapid information transfer and updates existing projectories immediately. 
+            </CardContent>
+          </Card>
+        </div>
+        </div>
+      </SnapSection>
+
+
+
+
+
+      {/* INDUSTRIES */}
+      <SnapSection id="for" tone="tint">
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <img
+            src="/vorpi-for.jpg"
+            alt=""
+            className="h-full w-full object-cover scale-110 brightness-[0.55] contrast-[1.35] saturate-[1.35]"
+          />
+          <div className="absolute inset-0 bg-sky-600/20 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/55 to-background/10" />
+        </div>
+        <div className="relative z-10">
+        <div className="grid gap-10 lg:grid-cols-12 items-start"></div>
+
+        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.35 }}>
+          <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">Built for manufacturers, wholesalers, and retailers</h2>
+          <p className="mt-3 max-w-3xl text-base md:text-lg leading-relaxed">
+            Same twin, different decisions. Clear outcomes for each audience.
           </p>
+        </motion.div>
+        
+
+        <div className="mt-8 grid gap-4 lg:grid-cols-12">
+          <Card className="lg:col-span-4 shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2">
+                <Factory className="h-4 w-4 text-primary" /> Manufacturers
+              </CardTitle>
+              <CardDescription>Plan and execute under deep uncertainty.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-3">
+                <ListItem>Inventory optimization under demand, production lead time, and supply lead time uncertainties.</ListItem>
+                <ListItem>State-of-art demand forecasting with advance order and demand lead time variations.</ListItem>
+                <ListItem>Seamless integration of sales transactions and MPS/MRP. </ListItem>
+              </ul>
+            </CardContent>
+          </Card>
+
+          <Card className="lg:col-span-4 shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2">
+                <Truck className="h-4 w-4 text-primary" /> Wholesalers
+              </CardTitle>
+              <CardDescription>Allocate scarce supply across customers.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-3">
+                <ListItem>Inventory optimization with downstream proliferation of locations.</ListItem>
+                <ListItem>State-of-art demand forecasting with price-dependent product selection.</ListItem>
+                <ListItem>Strategic inventory placement across distribution and fulfillment centers.</ListItem>
+              </ul>
+            </CardContent>
+          </Card>
+
+          <Card className="lg:col-span-4 shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2">
+                <Store className="h-4 w-4 text-primary" /> Retailers
+              </CardTitle>
+              <CardDescription>Keep products where and when customers buy.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-3">
+                <ListItem>Omni-channel inventory optimization.</ListItem>
+                <ListItem>State-of-art demand forecasting with store and website traffic, product selection, and pricing dynamics.</ListItem>
+                <ListItem>Streamline replenishment at key locations.</ListItem>
+              </ul>
+            </CardContent>
+          </Card>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
         </div>
-      </main>
+      </SnapSection>
+
+
+
+
+
+      {/* OUR INNOVATION */}
+      <SnapSection id="why" tone="base">
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <img
+            src="/vorpi-why.jpg"
+            alt=""
+            className="h-full w-full object-cover scale-110 brightness-[0.55] contrast-[1.35] saturate-[1.35]"
+          />
+          <div className="absolute inset-0 bg-sky-600/20 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/55 to-background/10" />
+        </div>
+        <div className="relative z-10">
+        <div className="grid gap-10 lg:grid-cols-12 items-start"></div>
+        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.35 }}>
+          <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">Major breakthrough in supply chain management</h2>
+          <p className="mt-3 max-w-3xl text-base md:text-lg leading-relaxed">
+            Perfect decomposition of predictive, optimization, and reporting tools.
+          </p>
+        </motion.div>
+
+                <Card className="mt-8 shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-base flex items-center gap-2">
+              <Gauge className="h-4 w-4 text-primary" /> VORPI AI redefines supply chains in the most simple way.
+            </CardTitle>
+            <CardDescription>
+              Modern supply chain management is all about receiving inputs from (1) vendors (e.g., raw material suppliers), carrying out (2) operations that utilize some (3) resources, and move (4) products to the market in an (5) intelligent way to meet customer demand. These five elements are the key dimensions of supply chains, representing different trade-offs decision makers face.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <div className="mt-8 grid gap-4 md:grid-cols-2">
+          {[
+            { icon: Factory, t: "Vendors", d: "In-house vs outsourcing (lead time, reliability, cost-to-serve)." },
+            { icon: Boxes, t: "Operations", d: "Excess inventory vs shortages (service, working capital, obsolescence)." },
+            { icon: Truck, t: "Resources", d: "Efficiency vs responsiveness (capacity, flexibility, throughput)." },
+            { icon: Building2, t: "Products", d: "Standardization vs customization (complexity, margin, availability)." },
+            { icon: Sparkles, t: "Intelligence", d: "Growth trade-off: mismatch risk vs revenue growth across the four above." },
+          ].map((x) => (
+            <Card key={x.t} className="shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-base flex items-center gap-2">
+                  <x.icon className="h-4 w-4 text-primary" /> {x.t}
+                </CardTitle>
+                <CardDescription>{x.d}</CardDescription>
+              </CardHeader>
+            </Card>
+          ))}
+        </div>
+
+        <Card className="mt-8 shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-base flex items-center gap-2">
+              <Brain className="h-4 w-4 text-primary" /> Decomposition keeps it fast at high granularity
+            </CardTitle>
+            <CardDescription>
+              Instead of one opaque model, VORPI AI coordinates modular subproblems (forecasting, inventory, sourcing, fulfillment) through shared constraints and KPIs.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+        </div>
+      </SnapSection>
+
+
+
+      {/* CASE STUDIES */}
+      <SnapSection id="proof" tone="tint">
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <img
+            src="/vorpi-proof.jpg"
+            alt=""
+            className="h-full w-full object-cover scale-110 brightness-[0.55] contrast-[1.35] saturate-[1.35]"
+          />
+          <div className="absolute inset-0 bg-sky-600/20 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/55 to-background/10" />
+        </div>
+        <div className="relative z-10">
+        <div className="grid gap-10 lg:grid-cols-12 items-start"></div>
+        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.35 }}>
+          <h2 className="text-2xl md:text-4xl font-semibold tracking-tight"> Case studies </h2>
+          <p className="mt-3 max-w-3xl text-base md:text-lg leading-relaxed">
+            Evidence-based research tested extensively in practice.
+          </p>
+        </motion.div>
+
+        <div className="mt-8 grid gap-4 lg:grid-cols-12">
+          <Card className="lg:col-span-7 shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2">
+                <BarChart3 className="h-4 w-4 text-primary" /> Success stories
+              </CardTitle>
+              <CardDescription>Our case studies went through extensive academic reviews to justify our claims.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-3">
+                <ListItem>
+                Working capital reduction and accurate demand forecasting in the automotive industry. &nbsp;
+                <a
+                  href="https://hbr.org/2022/01/using-uncertainty-modeling-to-better-predict-demand"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-primary hover:text-primary/80 transition"
+                >
+                  Read our article published at the Harvard Business Review!
+                </a>
+                </ListItem>
+                <ListItem>
+                Inventory and fulfillment optimization in the manufacturing, wholesale, and retail industries. &nbsp;
+                <a
+                  href="https://link.springer.com/book/10.1007/978-3-031-30347-0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-primary hover:text-primary/80 transition"
+                >
+                  Read our book published by Springer!
+                </a>
+                </ListItem>
+                <ListItem>
+                Supply chain design boosting performance. &nbsp;
+                <a
+                  href="https://www.cambridge.org/core/books/reimagining-supply-chain-management/F52562BF8E0860206693593CC8A0B73D"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-primary hover:text-primary/80 transition"
+                >
+                  Read our book published by the Cambridge University Press!
+                </a>
+                </ListItem>
+              </ul>
+            </CardContent>
+          </Card>
+
+          <Card className="lg:col-span-5 shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2">
+                <Lock className="h-4 w-4 text-primary" /> Enterprise readiness
+              </CardTitle>
+              <CardDescription>Start small, scale confidently.</CardDescription>
+            </CardHeader>
+            <CardContent className="grid gap-3">
+              {["Pilot-first", "Integration-friendly architecture", "Tailored to your company's needs"].map(
+                (t) => (
+                  <div key={t} className="rounded-2xl border bg-primary/5 p-3 text-sm text-muted-foreground">
+                    {t}
+                  </div>
+                )
+              )}
+            </CardContent>
+          </Card>
+        </div>
+        </div>
+      </SnapSection>
+
+
+
+
+      {/* TEAM */}
+      <SnapSection id="team" tone="tint">
+        {/* Background (same treatment as your other pages) */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <img
+            src="/vorpi-team.jpg"
+            alt=""
+            className="h-full w-full object-cover scale-110 brightness-[0.55] contrast-[1.35] saturate-[1.35]"
+          />
+          <div className="absolute inset-0 bg-sky-600/20 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/55 to-background/10" />
+        </div>
+
+        <div className="relative z-10">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.35 }}
+          >
+            <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">Team</h2>
+            <p className="mt-3 max-w-3xl text-base md:text-lg leading-relaxed">
+              Researchers with professional experience focusing on measurable operational performance.
+            </p>
+          </motion.div>
+
+          <div className="mt-8 grid gap-4 lg:grid-cols-12">
+            {/* Left: Founder profile (main card) */}
+            <Card className="lg:col-span-8 relative overflow-hidden rounded-3xl bg-background/85 backdrop-blur-xl border border-white/20 shadow-2xl">
+              <CardHeader>
+                <CardTitle className="text-base flex items-center gap-2">
+                  Our Founder
+                </CardTitle>
+              </CardHeader>
+
+              <CardContent className="flex flex-col md:flex-row gap-6">
+                {/* Photo */}
+                <div className="flex-none">
+                  <div className="h-28 w-28 md:h-32 md:w-32 rounded-2xl overflow-hidden border border-white/30 shadow-sm">
+                    <img
+                      src="/team/isik.jpg"   // <-- put your headshot here
+                      alt="Your name"
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                </div>
+
+                {/* Bio */}
+                <div className="min-w-0">
+                  <div className="text-lg font-semibold">Isik Bicer, PhD</div>
+                  <div className="text-sm text-muted-foreground">
+                    Founder, VORPI AI • Supply chain analytics & optimization
+                  </div>
+
+                  <p className="mt-3 text-sm md:text-base leading-relaxed text-muted-foreground">
+                    Isik is a tenured professor of operations management and information systems at the Schulich School of Business,
+                    York University, where he leads the Supply Chain Analytics Lab.
+                    With 19 years of academic and industry experience, he has published 15 top-tier journal articles,
+                    authored a book on supply-chain analytics with Springer Nature, and a second book on
+                    digital transformation with Cambridge University Press. The analytical tools and
+                    frameworks he has developed have been adopted across the pharmaceutical, automotive, agriculture,
+                    and finance industries. 
+                  </p>
+
+                  {/* Links */}
+                  <div className="mt-5 flex flex-wrap gap-3">
+                    <Button asChild size="sm">
+                      <a href="https://www.linkedin.com/in/isikbicer" target="_blank" rel="noopener noreferrer">
+                        LinkedIn
+                      </a>
+                    </Button>
+                    <Button asChild size="sm" variant="outline">
+                      <a href="https://www.yorku.ca/research/areas/supplychainanalytics/" target="_blank" rel="noopener noreferrer">
+                        Isik's lab webpage
+                      </a>
+                    </Button>
+                    <Button asChild size="sm" variant="outline">
+                      <a href="mailto:contact@vorpi.ai">Email</a>
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </SnapSection>
+
+
+
+
+
+
+      {/* CONTACT */}
+      <SnapSection id="contact" tone="base">
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <img
+            src="/vorpi-contact.jpg"
+            alt=""
+            className="h-full w-full object-cover scale-110 brightness-[0.55] contrast-[1.35] saturate-[1.35]"
+          />
+          <div className="absolute inset-0 bg-sky-600/20 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/55 to-background/10" />
+        </div>
+        <div className="relative z-10">
+        <div className="grid gap-10 lg:grid-cols-12 items-start"></div>
+        <div className="grid gap-8 lg:grid-cols-12 items-start">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.35 }}
+            className="lg:col-span-7"
+          >
+            <h2 className="mt-4 text-2xl md:text-4xl font-semibold tracking-tight">Run VORPI AI on Your Supply Chain</h2>
+            <p className="mt-3 max-w-2xl text-base md:text-lg leading-relaxed">
+              Tell us your problem. We’ll come up with a digital solution tailored to your operations.
+            </p>
+            <div className="mt-6 flex flex-col sm:flex-row gap-3">
+              <Button asChild size="lg">
+                <a
+                  href="mailto:contact@vorpi.ai?subject=Vorpi%20Demo%20Request&body=Hello%20Vorpi%20Team,%0D%0A%0D%0AI%20would%20like%20to%20request%20a%20demo%20of%20Vorpi%E2%80%99s%20Transactional%20Digital%20Twin.%0D%0A%0D%0ACompany:%0D%0AIndustry:%0D%0AThank%20you,%0D%0A"
+                  target="_blank"
+                >
+                  Email us
+                </a>
+              </Button>
+
+              <Button asChild variant="outline" size="lg">
+                <a
+                  href="https://calendly.com/your-calendar-link"
+                  target="_blank"
+                >
+                  Book a call
+                </a>
+              </Button>
+            </div>
+
+          </motion.div>
+        </div>
+
+        <div className="mt-10 text-sm text-muted-foreground">
+          © {new Date().getFullYear()} VORPI AI • Transactional Digital Twin
+        </div>
+        </div>
+      </SnapSection>
     </div>
   );
 }
