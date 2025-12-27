@@ -307,7 +307,6 @@ const scrollToSection = (id: string) => {
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
-          <MobileTabs containerRef={scrollRef} items={tabs} />
 
           <div className="hidden md:block">
             <Button asChild>
@@ -350,6 +349,7 @@ const scrollToSection = (id: string) => {
               </div>
             </div>
           </div>
+          <MobileTabs containerRef={scrollRef} items={tabs} />
         </div>
       ) : null}
 
