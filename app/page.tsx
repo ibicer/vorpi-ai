@@ -4,6 +4,8 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
 import {
+  Menu,
+  X,
   Users,
   ArrowRight,
   BarChart3,
@@ -255,6 +257,8 @@ function SnapSection({
 }
 
 export default function VorpiLanding() {
+
+  const [mobileOpen, setMobileOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
 const tabs = [
@@ -262,8 +266,15 @@ const tabs = [
   { id: "for", label: "Industries", icon: Factory },
   { id: "why", label: "Innovation", icon: Brain },
   { id: "proof", label: "Cases", icon: BarChart3 },
-  { id: "team", label: "Team", icon: Users }, // add Users import
+  { id: "team", label: "Team", icon: Users }, 
 ];
+
+const scrollToSection = (id: string) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+  setMobileOpen(false);
+};
 
   return (
     <div
@@ -281,7 +292,21 @@ const tabs = [
             </div>
           </div>
 
+          {/* Desktop tabs */}
           <TopTabs containerRef={scrollRef} items={tabs} />
+
+          {/* Mobile hamburger */}
+          <div className="md:hidden">
+            <button
+              type="button"
+              onClick={() => setMobileOpen((v) => !v)}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-xl border bg-background/70 backdrop-blur hover:bg-background"
+              aria-label="Open menu"
+              aria-expanded={mobileOpen}
+            >
+              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
           <MobileTabs containerRef={scrollRef} items={tabs} />
 
           <div className="hidden md:block">
@@ -291,6 +316,43 @@ const tabs = [
           </div>
         </div>
       </header>
+
+      {/* Mobile menu dropdown */}
+{mobileOpen ? (
+  <div className="md:hidden">
+    {/* backdrop */}
+    <div
+      className="fixed inset-0 z-40 bg-black/30"
+      onClick={() => setMobileOpen(false)}
+    />
+    {/* panel */}
+    <div className="fixed left-0 right-0 top-[57px] z-50 border-b bg-background/95 backdrop-blur">
+      <div className="mx-auto max-w-6xl px-4 py-3">
+        <div className="grid gap-2">
+          {tabs.map((t) => (
+            <button
+              key={t.id}
+              type="button"
+              onClick={() => scrollToSection(t.id)}
+              className="w-full rounded-xl px-4 py-3 text-left text-sm font-semibold hover:bg-primary/10"
+            >
+              {t.label}
+            </button>
+          ))}
+
+          <button
+            type="button"
+            onClick={() => scrollToSection("contact")}
+            className="mt-2 w-full rounded-xl bg-primary px-4 py-3 text-left text-sm font-semibold text-primary-foreground hover:opacity-95"
+          >
+            Contact us
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+) : null}
+
 
 
 
