@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 import {
   ArrowRight,
   BarChart3,
@@ -43,9 +44,16 @@ import {
  * - This file is a Client Component (hooks + framer-motion)
  */
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 14 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.55,
+      ease: [0.16, 1, 0.3, 1], // <-- replaces "easeOut"
+    },
+  },
 };
 
 function ListItem({ children }: { children: React.ReactNode }) {
