@@ -318,40 +318,40 @@ const scrollToSection = (id: string) => {
       </header>
 
       {/* Mobile menu dropdown */}
-{mobileOpen ? (
-  <div className="md:hidden">
-    {/* backdrop */}
-    <div
-      className="fixed inset-0 z-40 bg-black/30"
-      onClick={() => setMobileOpen(false)}
-    />
-    {/* panel */}
-    <div className="fixed left-0 right-0 top-[57px] z-50 border-b bg-background/95 backdrop-blur">
-      <div className="mx-auto max-w-6xl px-4 py-3">
-        <div className="grid gap-2">
-          {tabs.map((t) => (
-            <button
-              key={t.id}
-              type="button"
-              onClick={() => scrollToSection(t.id)}
-              className="w-full rounded-xl px-4 py-3 text-left text-sm font-semibold hover:bg-primary/10"
-            >
-              {t.label}
-            </button>
-          ))}
+      {mobileOpen ? (
+        <div className="md:hidden">
+          {/* backdrop */}
+          <div
+            className="fixed inset-0 z-40 bg-black/30"
+            onClick={() => setMobileOpen(false)}
+          />
+          {/* panel */}
+          <div className="fixed left-0 right-0 top-[57px] z-50 border-b bg-background/95 backdrop-blur">
+            <div className="mx-auto max-w-6xl px-4 py-3">
+              <div className="grid gap-2">
+                {tabs.map((t) => (
+                  <button
+                    key={t.id}
+                    type="button"
+                    onClick={() => scrollToSection(t.id)}
+                    className="w-full rounded-xl px-4 py-3 text-left text-sm font-semibold hover:bg-primary/10"
+                  >
+                    {t.label}
+                  </button>
+                ))}
 
-          <button
-            type="button"
-            onClick={() => scrollToSection("contact")}
-            className="mt-2 w-full rounded-xl bg-primary px-4 py-3 text-left text-sm font-semibold text-primary-foreground hover:opacity-95"
-          >
-            Contact us
-          </button>
+                <button
+                  type="button"
+                  onClick={() => scrollToSection("contact")}
+                  className="mt-2 w-full rounded-xl bg-primary px-4 py-3 text-left text-sm font-semibold text-primary-foreground hover:opacity-95"
+                >
+                  Contact us
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-) : null}
+      ) : null}
 
 
 
