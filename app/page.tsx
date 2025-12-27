@@ -382,18 +382,15 @@ const scrollToSection = (id: string) => {
               Transactional Digital Twin for Operational Excellence 
             </h1>
 
-            <p className="mt-4 text-base md:text-lg leading-relaxed">
-              Supply chain systems often suffer from three common problems:
-            </p>
 
             <ul className="mt-6 space-y-3">
-              <ListItem>Data aggregation causing loss of information and inaccurate forecasts</ListItem>
-              <ListItem>Inflexible optimization tools built on unrealistic assumptions</ListItem>
-              <ListItem>Misleading reporting applications mixing trade-offs</ListItem>
+              <ListItem>Data aggregation reduces granularity, leading to information loss and less accurate forecasts.</ListItem>
+              <ListItem>Optimization tools are often inflexible and rely on unrealistic assumptions.</ListItem>
+              <ListItem>Reporting applications can obscure or conflate critical operational trade-offs.</ListItem>
             </ul>
 
             <p className="mt-4 text-base md:text-lg font-semibold leading-relaxed">
-              VORPI AI solves these problems through{" "}
+              VORPI AI addresses these issues through{" "}
               <span className="underline decoration-primary/30">research-backed innovations:</span>
             </p>
           </motion.div>
@@ -405,10 +402,13 @@ const scrollToSection = (id: string) => {
               <CardTitle className="text-base flex items-center gap-2">
                 <LineChart className="h-4 w-4 text-primary" /> Accurate Demand Forecasting
               </CardTitle>
-              <CardDescription>Uncertainty modeling for accurate forecasting.</CardDescription>
+              <CardDescription>Uncertainty modeling for robust and precise forecasting.</CardDescription>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              Our state-of-art algorithms based on the Fast Fourier Transform and Machine Learning Regularization use transactional data and leverage customer traffic and product selection information. 
+            <CardContent>
+              <ul className="space-y-3">
+                <ListItem>Built on the fast Fourier transform and machine-learning regularization. </ListItem>
+                <ListItem>Operates directly on transactional data while incorporating customer traffic, product-selection, and demand lead-time dynamics. </ListItem>
+              </ul>              
             </CardContent>
           </Card>
 
@@ -419,8 +419,11 @@ const scrollToSection = (id: string) => {
               </CardTitle>
               <CardDescription>Large-scale optimization under uncertainty.</CardDescription>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              We use dynamic optimization and decomposition techniques and optimize end-to-end decisions in supply chains.
+            <CardContent>
+              <ul className="space-y-3">
+                <ListItem>Built on dynamic optimization and decomposition techniques. </ListItem>
+                <ListItem>Optimizes end-to-end decisions (including procurement, production, and fulfillment) across the supply chain.</ListItem>
+              </ul> 
             </CardContent>
           </Card>
 
@@ -429,10 +432,13 @@ const scrollToSection = (id: string) => {
               <CardTitle className="text-base flex items-center gap-2">
                 <ShieldCheck className="h-4 w-4 text-primary" /> Detailed Scenario Analysis
               </CardTitle>
-              <CardDescription>Simplified scenario analysis even in very complex settings.</CardDescription>
+              <CardDescription>Simplified scenario analysis in complex environments.</CardDescription>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              Our VORPI (Vendors, Operations, Resources, Products, Intelligence) framework has five modules highlighting five fundamental trade-offs of supply chain management, making scenario analysis centered around trade-offs. 
+            <CardContent>
+              <ul className="space-y-3">
+                <ListItem>Built on the VORPI framework (Vendors, Operations, Resources, Products, Intelligence), articulating the five fundamental supply chain trade-offs. </ListItem>
+                <ListItem>Structures scenario analysis directly around these interacting trade-offs.</ListItem>
+              </ul> 
             </CardContent>
           </Card>
 
@@ -441,10 +447,13 @@ const scrollToSection = (id: string) => {
               <CardTitle className="text-base flex items-center gap-2">
                 <Activity className="h-4 w-4 text-primary" /> Real Time Activity Monitoring
               </CardTitle>
-              <CardDescription>Blending activity monitoring with foresight.</CardDescription>
+              <CardDescription>Blending operational monitoring with predictive foresight.</CardDescription>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              Our database model, which is unique for the VORPI framework, allows rapid information transfer and updates existing projectories immediately. 
+            <CardContent>
+              <ul className="space-y-3">
+                <ListItem>Powered by a database model uniquely tailored to the VORPI framework. </ListItem>
+                <ListItem>Enables rapid information transfer and continuously updates system trajectories in real time.</ListItem>
+              </ul> 
             </CardContent>
           </Card>
         </div>
