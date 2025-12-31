@@ -17,6 +17,7 @@ import {
   Layers,
   LineChart,
   Lock,
+  AlertTriangle,
   ShieldCheck,
   Search,
   Activity,
@@ -65,7 +66,7 @@ function SectionBg({ src }: { src: string }) {
       <img
         src={src}
         alt=""
-        className="h-full w-full object-cover scale-110 brightness-[0.55] contrast-[1.35] saturate-[1.35]"
+        className="h-full w-full object-cover scale-110 brightness-[0.62] contrast-[1.25] saturate-[1.35]"
       />
       <div className="absolute inset-0 bg-sky-600/20 mix-blend-multiply" />
       <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/65 to-background/55" />
@@ -82,6 +83,16 @@ function ListItem({ children }: { children: React.ReactNode }) {
     </li>
   );
 }
+
+function WarningItem({ children }: { children: React.ReactNode }) {
+  return (
+    <li className="flex gap-2 text-sm md:text-base text-foreground/90">
+      <AlertTriangle className="mt-0.5 h-4 w-4 flex-none text-primary" />
+      <span>{children}</span>
+    </li>
+  );
+}
+
 
 function KPI({ label, value, note }: { label: string; value: string; note?: string }) {
   return (
@@ -391,9 +402,17 @@ const scrollToSection = (id: string) => {
 
 
             <ul className="mt-6 space-y-3">
-              <ListItem>Data aggregation reduces granularity, leading to information loss and less accurate forecasts.</ListItem>
-              <ListItem>Optimization tools are often inflexible and rely on unrealistic assumptions.</ListItem>
-              <ListItem>Reporting applications can obscure or conflate critical operational trade-offs.</ListItem>
+              <WarningItem>
+                Data aggregation reduces granularity, leading to information loss and less accurate forecasts.
+              </WarningItem>
+
+              <WarningItem>
+                Optimization tools are often inflexible and rely on unrealistic assumptions.
+              </WarningItem>
+
+              <WarningItem>
+                Reporting applications can obscure or conflate critical operational trade-offs.
+              </WarningItem>
             </ul>
 
             <p className="mt-4 text-base md:text-lg font-semibold leading-relaxed">
