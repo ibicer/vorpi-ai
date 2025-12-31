@@ -162,10 +162,10 @@ function TopTabs({
           type="button"
           onClick={() => scrollTo(t.id)}
           className={cn(
-            "rounded-xl px-4 py-2 text-sm font-semibold transition cursor-pointer",
+            "rounded-xl px-4 py-2 text-sm font-semibold transition cursor-pointer text-white/80 hover:text-white hover:bg-white/10",
             active === t.id
-              ? "bg-primary/10 text-foreground border border-primary/25"
-              : "text-muted-foreground hover:text-foreground hover:bg-primary/10"
+              ? "bg-white/15 text-white border border-white/30 shadow"
+              : "text-white/70 hover:text-white hover:bg-white/10"
           )}
           aria-current={active === t.id ? "page" : undefined}
         >
@@ -308,36 +308,60 @@ const scrollToSection = (id: string) => {
       className="h-screen overflow-y-auto scroll-smooth snap-y snap-mandatory bg-background text-foreground pb-24 md:pb-0"
     >
       {/* Sticky header */}
-      <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/70">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-2">
-            <div className="h-9 w-9 rounded-xl bg-primary" />
-            <div className="leading-tight">
-              <div className="font-semibold">VORPI AI</div>
-              <div className="text-xs text-muted-foreground">Algorithmic Operational Excellence</div>
+      <header
+        className="sticky top-0 z-40 border-b"
+      >
+        {/* Background image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/vorpi-logo-wide-bg.jpg')" }}
+        />
+
+        {/* Optional: subtle contrast layer (keep it LIGHT so it doesn't go black) */}
+        <div className="absolute inset-0 bg-black/15" />
+
+        {/* Content */}
+        <div className="relative">
+          <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+            {/* Logo strip with smooth fade to the right */}
+            <div className="relative h-14">
+              <img
+                src="/vorpi-logo-wide.jpg"
+                alt="VORPI AI"
+                className="h-14 w-auto"
+                style={{
+                  WebkitMaskImage:
+                    "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 78%, rgba(0,0,0,0) 100%)",
+                  maskImage:
+                    "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 78%, rgba(0,0,0,0) 100%)",
+                }}
+              />
             </div>
-          </div>
 
-          {/* Desktop tabs */}
-          <TopTabs containerRef={scrollRef} items={tabs} />
+            {/* Desktop tabs (make text white on this header) */}
+            <div className="hidden md:block text-white">
+              <TopTabs containerRef={scrollRef} items={tabs} />
+            </div>
 
-          {/* Mobile hamburger */}
-          <div className="md:hidden">
-            <button
-              type="button"
-              onClick={() => setMobileOpen((v) => !v)}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-xl border bg-background/70 backdrop-blur hover:bg-background"
-              aria-label="Open menu"
-              aria-expanded={mobileOpen}
-            >
-              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
-          </div>
+            {/* Mobile hamburger (white icon) */}
+            <div className="md:hidden">
+              <button
+                type="button"
+                onClick={() => setMobileOpen((v) => !v)}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-white/10 backdrop-blur hover:bg-white/15"
+                aria-label="Open menu"
+                aria-expanded={mobileOpen}
+              >
+                {mobileOpen ? <X className="h-5 w-5 text-white" /> : <Menu className="h-5 w-5 text-white" />}
+              </button>
+            </div>
 
-          <div className="hidden md:block">
-            <Button asChild>
-              <a href="#contact">Contact us</a>
-            </Button>
+            {/* Contact button (white style) */}
+            <div className="hidden md:block">
+              <Button asChild className="bg-white text-black hover:bg-white/90">
+                <a href="#contact">Contact us</a>
+              </Button>
+            </div>
           </div>
         </div>
       </header>
