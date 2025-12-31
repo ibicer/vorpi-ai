@@ -369,21 +369,32 @@ const scrollToSection = (id: string) => {
       {/* Mobile menu dropdown */}
       {mobileOpen ? (
         <div className="md:hidden">
-          {/* backdrop */}
+          {/* Backdrop */}
           <div
-            className="fixed inset-0 z-40 bg-black/30"
+            className="fixed inset-0 z-40 bg-black/40"
             onClick={() => setMobileOpen(false)}
           />
-          {/* panel */}
-          <div className="fixed left-0 right-0 top-[57px] z-50 border-b bg-background/95 backdrop-blur">
-            <div className="mx-auto max-w-6xl px-4 py-3">
-              <div className="grid gap-2">
+
+          {/* Branded panel */}
+          <div className="fixed left-0 right-0 top-[57px] z-50 overflow-hidden">
+            {/* Background image */}
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: "url('/vorpi-logo-wide-bg.jpg')" }}
+            />
+            {/* Light contrast layer */}
+            <div className="absolute inset-0 bg-black/25" />
+
+            {/* Content */}
+            <div className="relative mx-auto max-w-6xl px-4 py-4">
+              <div className="grid gap-2 text-white">
                 {tabs.map((t) => (
                   <button
                     key={t.id}
                     type="button"
                     onClick={() => scrollToSection(t.id)}
-                    className="w-full rounded-xl px-4 py-3 text-left text-sm font-semibold hover:bg-primary/10"
+                    className="w-full rounded-xl px-4 py-3 text-left text-sm font-semibold
+                              hover:bg-white/15 transition"
                   >
                     {t.label}
                   </button>
@@ -392,16 +403,19 @@ const scrollToSection = (id: string) => {
                 <button
                   type="button"
                   onClick={() => scrollToSection("contact")}
-                  className="mt-2 w-full rounded-xl bg-primary px-4 py-3 text-left text-sm font-semibold text-primary-foreground hover:opacity-95"
+                  className="mt-2 w-full rounded-xl bg-white text-black px-4 py-3 text-left
+                            text-sm font-semibold hover:bg-white/90 transition"
                 >
                   Contact us
                 </button>
               </div>
             </div>
           </div>
+
           <MobileTabs containerRef={scrollRef} items={tabs} />
         </div>
       ) : null}
+
 
 
 
