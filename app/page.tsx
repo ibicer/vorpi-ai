@@ -417,10 +417,6 @@ const scrollToSection = (id: string) => {
       ) : null}
 
 
-
-
-
-
       {/* PRODUCT */}
       <SnapSection id="product" tone="base">
         <SectionBg src="/vorpi-product.jpg" />
