@@ -59,6 +59,21 @@ const fadeUp: Variants = {
   },
 };
 
+function SectionBg({ src }: { src: string }) {
+  return (
+    <div className="absolute inset-0 z-0 pointer-events-none">
+      <img
+        src={src}
+        alt=""
+        className="h-full w-full object-cover scale-110 brightness-[0.55] contrast-[1.35] saturate-[1.35]"
+      />
+      <div className="absolute inset-0 bg-sky-600/20 mix-blend-multiply" />
+      <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/65 to-background/55" />
+      <div className="absolute inset-0 bg-gradient-to-l from-background/35 via-transparent to-transparent" />
+    </div>
+  );
+}
+
 function ListItem({ children }: { children: React.ReactNode }) {
   return (
     <li className="flex gap-2 text-sm md:text-base">
@@ -359,15 +374,7 @@ const scrollToSection = (id: string) => {
 
       {/* PRODUCT */}
       <SnapSection id="product" tone="base">
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <img
-            src="/vorpi-product.jpg"
-            alt=""
-            className="h-full w-full object-cover scale-110 brightness-[0.55] contrast-[1.35] saturate-[1.35]"
-          />
-          <div className="absolute inset-0 bg-sky-600/20 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/55 to-background/10" />
-        </div>
+        <SectionBg src="/vorpi-product.jpg" />
         <div className="relative z-10">
         <div className="grid gap-10 lg:grid-cols-12 items-start">
           <motion.div
@@ -466,15 +473,7 @@ const scrollToSection = (id: string) => {
 
       {/* INDUSTRIES */}
       <SnapSection id="for" tone="tint">
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <img
-            src="/vorpi-for.jpg"
-            alt=""
-            className="h-full w-full object-cover scale-110 brightness-[0.55] contrast-[1.35] saturate-[1.35]"
-          />
-          <div className="absolute inset-0 bg-sky-600/20 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/55 to-background/10" />
-        </div>
+        <SectionBg src="/vorpi-for.jpg" />
         <div className="relative z-10">
         <div className="grid gap-10 lg:grid-cols-12 items-start"></div>
 
@@ -544,15 +543,7 @@ const scrollToSection = (id: string) => {
 
       {/* OUR INNOVATION */}
       <SnapSection id="why" tone="base">
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <img
-            src="/vorpi-why.jpg"
-            alt=""
-            className="h-full w-full object-cover scale-110 brightness-[0.55] contrast-[1.35] saturate-[1.35]"
-          />
-          <div className="absolute inset-0 bg-sky-600/20 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/55 to-background/10" />
-        </div>
+        <SectionBg src="/vorpi-why.jpg" />
         <div className="relative z-10">
         <div className="grid gap-10 lg:grid-cols-12 items-start"></div>
         <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.35 }}>
@@ -609,15 +600,7 @@ const scrollToSection = (id: string) => {
 
       {/* CASE STUDIES */}
       <SnapSection id="proof" tone="tint">
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <img
-            src="/vorpi-proof.jpg"
-            alt=""
-            className="h-full w-full object-cover scale-110 brightness-[0.55] contrast-[1.35] saturate-[1.35]"
-          />
-          <div className="absolute inset-0 bg-sky-600/20 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/55 to-background/10" />
-        </div>
+        <SectionBg src="/vorpi-proof.jpg" />
         <div className="relative z-10">
         <div className="grid gap-10 lg:grid-cols-12 items-start"></div>
         <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.35 }}>
@@ -701,15 +684,7 @@ const scrollToSection = (id: string) => {
       {/* TEAM */}
       <SnapSection id="team" tone="tint">
         {/* Background (same treatment as your other pages) */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <img
-            src="/vorpi-team.jpg"
-            alt=""
-            className="h-full w-full object-cover scale-110 brightness-[0.55] contrast-[1.35] saturate-[1.35]"
-          />
-          <div className="absolute inset-0 bg-sky-600/20 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/55 to-background/10" />
-        </div>
+        <SectionBg src="/vorpi-team.jpg" />
 
         <div className="relative z-10">
           <motion.div
@@ -792,15 +767,7 @@ const scrollToSection = (id: string) => {
 
       {/* CONTACT */}
       <SnapSection id="contact" tone="base">
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <img
-            src="/vorpi-contact.jpg"
-            alt=""
-            className="h-full w-full object-cover scale-110 brightness-[0.55] contrast-[1.35] saturate-[1.35]"
-          />
-          <div className="absolute inset-0 bg-sky-600/20 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/55 to-background/10" />
-        </div>
+        <SectionBg src="/vorpi-contact.jpg" />
         <div className="relative z-10">
         <div className="grid gap-10 lg:grid-cols-12 items-start"></div>
         <div className="grid gap-8 lg:grid-cols-12 items-start">
