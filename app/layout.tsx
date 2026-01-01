@@ -6,6 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 const siteUrl = "https://vorpi.ai";
 
 export const metadata: Metadata = {
+  manifest: "/site.webmanifest",
   metadataBase: new URL(siteUrl),
 
   title: "VORPI AI",
@@ -40,20 +41,16 @@ export const metadata: Metadata = {
     description: "Transactional Digital Twin for Algorithmic Operational Excellence.",
     images: ["/og-logo.png"],
   },
-
-    icons: {
-      icon: [
-        { url: "/favicon.ico?v=3" }, // important
-        { url: "/favicon-32x32-v2.png", sizes: "32x32", type: "image/png" },
-        { url: "/favicon-16x16-v2.png", sizes: "16x16", type: "image/png" },
-      ],
-      apple: [
-        { url: "/apple-touch-icon-v2.png", sizes: "180x180", type: "image/png" },
-      ],
-      other: [
-        { rel: "android-chrome", url: "/android-chrome-192x192-v2.png" },
-        { rel: "android-chrome", url: "/android-chrome-512x512-v2.png" },
-      ],
+  
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
 };
 
