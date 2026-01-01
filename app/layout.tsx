@@ -6,7 +6,6 @@ const inter = Inter({ subsets: ["latin"] });
 const siteUrl = "https://vorpi.ai";
 
 export const metadata: Metadata = {
-  manifest: "/site.webmanifest",
   metadataBase: new URL(siteUrl),
 
   title: "VORPI AI",
@@ -42,16 +41,15 @@ export const metadata: Metadata = {
     images: ["/og-logo.png"],
   },
   
-  icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-    ],
-    apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-    ],
-  },
+icons: {
+  icon: [
+    { url: "/favicon.ico" },
+    { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+  ],
+  apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+},
+manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({
