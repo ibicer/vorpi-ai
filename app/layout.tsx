@@ -57,6 +57,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={inter.className}>
+      <head>
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+      </head>
+
       <body className="min-h-screen bg-background text-foreground">
         {children}
       </body>
