@@ -275,7 +275,7 @@ function SnapSection({
         tone === "tint" ? "bg-primary/5" : "bg-background"
       )}
     >
-      <div className="mx-auto max-w-6xl px-4 w-full pt-20 pb-14 md:pb-18">
+      <div className="mx-auto max-w-6xl px-4 w-full pt-20 pb-42 md:pb-18">
         {children}
       </div>
     </section>
@@ -305,7 +305,7 @@ const scrollToSection = (id: string) => {
   return (
     <div
       ref={scrollRef}
-      className="h-screen overflow-y-auto scroll-smooth snap-y snap-proximity bg-background text-foreground pb-24 md:pb-0"
+      className="h-screen overflow-y-auto scroll-smooth snap-y snap-mandatory bg-background text-foreground pb-24 md:pb-0"
     >
       {/* Sticky header */}
       <header
