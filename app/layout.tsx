@@ -3,20 +3,50 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
+const siteUrl = "https://vorpi.ai";
 
-export const metadata = {
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+
   title: "VORPI AI",
-  description: "Transactional Digital Twin for Operational Excellence",
+  description: "Transactional Digital Twin for Algorithmic Operational Excellence.",
+
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    siteName: "VORPI AI",
+    title: "VORPI AI",
+    description: "Transactional Digital Twin for Operational Excellence.",
+    images: [
+      {
+        url: "/og-logo.png", // must exist in /public
+        width: 1200,
+        height: 630,
+        alt: "VORPI AI — Algorithmic Operational Excellence",
+      },
+      // Optional square fallback:
+      // {
+      //   url: "/og-vorpi-square.png",
+      //   width: 1200,
+      //   height: 1200,
+      //   alt: "VORPI AI",
+      // },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "VORPI AI",
+    description: "Transactional Digital Twin for Algorithmic Operational Excellence.",
+    images: ["/og-logo.png"],
+  },
+
   icons: {
     icon: [
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
     ],
-    apple: "/apple-touch-icon.png",
-    other: [
-      { rel: "icon", url: "/android-chrome-192x192.png" },
-      { rel: "icon", url: "/android-chrome-512x512.png" },
-    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
 };
 
