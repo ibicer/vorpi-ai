@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "VORPI AI",
-    description: "Transactional Digital Twin for Algorithmic Operational Excellence.",
+    description: "Transactional Digital Twin for Operational Excellence.",
     images: ["/og-logo.png"],
   },
   
