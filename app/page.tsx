@@ -305,7 +305,7 @@ const scrollToSection = (id: string) => {
   return (
     <div
       ref={scrollRef}
-      className="h-screen overflow-y-auto scroll-smooth snap-y snap-mandatory bg-background text-foreground pb-24 md:pb-0"
+      className="h-screen overflow-y-auto scroll-smooth snap-y snap-proximity bg-background text-foreground pb-24 md:pb-0"
     >
       {/* Sticky header */}
       <header
@@ -623,7 +623,7 @@ const scrollToSection = (id: string) => {
             { icon: Boxes, t: "Operations", d: "Excess inventory vs shortages (service, working capital, obsolescence)." },
             { icon: Truck, t: "Resources", d: "Efficiency vs responsiveness (capacity, flexibility, throughput)." },
             { icon: Building2, t: "Products", d: "Standardization vs customization (complexity, margin, availability)." },
-            { icon: Sparkles, t: "Intelligence", d: "Growth trade-off: mismatch risk vs revenue growth across the four above." },
+            { icon: Sparkles, t: "Intelligence", d: "Total supply-demand mismatches vs revenue growth across the four above." },
           ].map((x) => (
             <Card key={x.t} className="shadow-sm">
               <CardHeader>
