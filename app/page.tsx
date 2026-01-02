@@ -619,11 +619,11 @@ const scrollToSection = (id: string) => {
 
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           {[
-            { icon: Factory, t: "Vendors", d: "In-house vs outsourcing (lead time, reliability, cost-to-serve)." },
-            { icon: Boxes, t: "Operations", d: "Excess inventory vs shortages (service, working capital, obsolescence)." },
-            { icon: Truck, t: "Resources", d: "Efficiency vs responsiveness (capacity, flexibility, throughput)." },
-            { icon: Building2, t: "Products", d: "Standardization vs customization (complexity, margin, availability)." },
-            { icon: Sparkles, t: "Intelligence", d: "Total supply-demand mismatches vs revenue growth across the four above." },
+            { icon: Factory, t: "Vendors", d: "In-house vs outsourcing." },
+            { icon: Boxes, t: "Operations", d: "Excess inventory vs shortages." },
+            { icon: Truck, t: "Resources", d: "Efficiency vs responsiveness." },
+            { icon: Building2, t: "Products", d: "Standardization vs customization." },
+            { icon: Sparkles, t: "Intelligence", d: "Inventory imbalances vs revenue growth." },
           ].map((x) => (
             <Card key={x.t} className="shadow-sm">
               <CardHeader>
