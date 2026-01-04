@@ -352,7 +352,7 @@ function BootstrapCarousel() {
                       {s.title}
                     </h3>
 
-                    <ul className="space-y-2 sm:space-y-3">
+                    <ul className="mt-4 space-y-3">
                       {s.bullets.map((b) => (
                         <ListItem key={b}>{b}</ListItem>
                       ))}
