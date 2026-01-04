@@ -9,20 +9,20 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
   title: "VORPI AI",
-  description: "Transactional Digital Twin for Algorithmic Operational Excellence.",
+  description: "AI-Powered Operating System for Supply Chain Management.",
 
   openGraph: {
     type: "website",
     url: siteUrl,
     siteName: "VORPI AI",
     title: "VORPI AI",
-    description: "Transactional Digital Twin for Operational Excellence.",
+    description: "AI-Powered Supply Chain Operating System",
     images: [
       {
         url: "/og-logo.png", // must exist in /public
         width: 1200,
         height: 630,
-        alt: "VORPI AI — Algorithmic Operational Excellence",
+        alt: "VORPI AI — Operating System for Supply Chain Management",
       },
       // Optional square fallback:
       // {
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "VORPI AI",
-    description: "Transactional Digital Twin for Operational Excellence.",
+    description: "AI-Powered Operating System for Supply Chain Management.",
     images: ["/og-logo.png"],
   },
   

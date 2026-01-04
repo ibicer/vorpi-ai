@@ -431,7 +431,7 @@ const scrollToSection = (id: string) => {
           >
 
             <h1 className="mt-5 text-3xl md:text-5xl font-semibold tracking-tight">
-              Transactional Digital Twin for Operational Excellence 
+              AI-Powered Operating System for Supply Chain Management 
             </h1>
 
 
