@@ -258,6 +258,151 @@ function MobileTabs({
   );
 }
 
+function BootstrapCarousel() {
+  const slides = [
+    {
+      k: "Unique Architecture",
+      title: "VORPI 5 dimensions of supply chains",
+      image: "/vorpi-bootstrap-one.jpg",
+      bullets: [
+        "Vendors, operations, resources, products, and intelligence",
+        "AI architecture built on key dimensions and trade-offs",
+      ],
+    },
+    {
+      k: "Novel AI Algorithms",
+      title: "Advanced Predictive and Optimization Models",
+      image: "/vorpi-bootstrap-two.jpg",
+      bullets: [
+        "Uncertainty modeling for accurate forecasting with transactional data",
+        "Large-scale optimization using decomposition techniques",
+      ],
+    },
+    {
+      k: "Robust Improvements",
+      title: "A Peer-Reviewed Breakthrough in Supply Chain Management",
+      image: "/vorpi-bootstrap-three.jpg",
+      bullets: [
+        "+10% reduction of inventory levels with service targets",
+        "5% reduction of working capital needs",
+      ],
+    },
+  ];
+
+  const [i, setI] = React.useState(0);
+  const total = slides.length;
+
+  const prev = () => setI((v) => (v - 1 + total) % total);
+  const next = () => setI((v) => (v + 1) % total);
+
+  return (
+    <div className="relative">
+      {/* Outer viewport */}
+      <div className="overflow-hidden rounded-[28px] border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl">
+        {/* Track */}
+        <div
+          className="flex w-full transition-transform duration-500 ease-out"
+          style={{ transform: `translateX(-${i * 100}%)` }}
+        >
+          {slides.map((s, idx) => (
+            <div
+              key={s.k}
+              className="w-full min-w-full flex-none" // IMPORTANT: no px here
+              aria-hidden={idx !== i}
+            >
+
+              <div className="overflow-hidden rounded-[28px] border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl">
+                <div
+                  className="flex w-full transition-transform duration-500 ease-out"
+                  style={{ transform: `translateX(-${i * 100}%)` }}
+                >
+                  {slides.map((s, idx) => (
+                    <div key={s.k} className="w-full min-w-full flex-none" aria-hidden={idx !== i}>
+                      {/* Content padding ONLY (no inner border/rounded) */}
+                      <div className="p-6 md:p-10">
+                        <div className="grid md:grid-cols-12 gap-6 items-center">
+                          {/* Image */}
+                          <div className="md:col-span-5">
+                            <div className="h-[220px] md:h-[320px] w-full">
+                              <img
+                                src={s.image}
+                                alt={s.title}
+                                className="h-full w-full object-contain"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Text */}
+                          <div className="md:col-span-7">
+                            <div className="text-[11px] uppercase tracking-[0.22em] text-foreground/70 font-semibold">
+                              {s.k}
+                            </div>
+
+                            <h3 className="mt-2 text-xl md:text-3xl font-semibold tracking-tight text-foreground">
+                              {s.title}
+                            </h3>
+
+                            <ul className="mt-4 space-y-3">
+                              {s.bullets.map((b) => (
+                                <ListItem key={b}>{b}</ListItem>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Controls */}
+      <div className="mt-4 flex items-center justify-between">
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={prev}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border bg-background/70 hover:bg-background"
+            aria-label="Previous"
+          >
+            ‹
+          </button>
+          <button
+            type="button"
+            onClick={next}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border bg-background/70 hover:bg-background"
+            aria-label="Next"
+          >
+            ›
+          </button>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {slides.map((_, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => setI(idx)}
+              className={cn(
+                "h-2.5 w-2.5 rounded-full transition",
+                idx === i ? "bg-primary" : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+              )}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+
+
 function SnapSection({
   id,
   children,
@@ -288,6 +433,7 @@ export default function VorpiLanding() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
 const tabs = [
+  { id: "bootstrap", label: "Highlights", icon: Workflow }, 
   { id: "product", label: "Product", icon: LineChart },
   { id: "for", label: "Industries", icon: Factory },
   { id: "why", label: "Innovation", icon: Brain },
@@ -417,6 +563,29 @@ const scrollToSection = (id: string) => {
       ) : null}
 
 
+      {/* BOOTSTRAP ENTRY */}
+      <SnapSection id="bootstrap" tone="base">
+        <SectionBg src="/vorpi-bootstrap.jpg" />
+        <div className="relative z-10">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.35 }}
+          >
+            <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">
+              VORPI AI - The operating system for supply chain management
+            </h2>
+          </motion.div>
+
+          <div className="mt-4 text-base md:text-lg font-semibold leading-relaxed">
+            <BootstrapCarousel />
+          </div>
+        </div>
+      </SnapSection>
+
+
+
       {/* PRODUCT */}
       <SnapSection id="product" tone="base">
         <SectionBg src="/vorpi-product.jpg" />
@@ -430,9 +599,7 @@ const scrollToSection = (id: string) => {
             className="lg:col-span-12"
           >
 
-            <h1 className="mt-5 text-3xl md:text-5xl font-semibold tracking-tight">
-              AI-Powered Operating System for Supply Chain Management 
-            </h1>
+            <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">AI-powered system for complex supply chains at transactional granularity</h2>
 
 
             <ul className="mt-6 space-y-3">
