@@ -329,7 +329,7 @@ function BootstrapCarousel() {
         >
           {slides.map((s, idx) => (
             <div key={s.k} className="w-full min-w-full flex-none" aria-hidden={idx !== i}>
-              <div className="p-6 md:p-10">
+              <div className="p-4 sm:p-6 md:p-8">
                 <div className="grid md:grid-cols-12 gap-6 items-center">
                   {/* Image */}
                   <div className="md:col-span-5 flex justify-center">
@@ -337,7 +337,7 @@ function BootstrapCarousel() {
                       <img
                         src={s.image}
                         alt={s.title}
-                        className="max-h-full w-full object-contain"
+                        className="max-h-full w-full object-contain object-center"
                       />
                     </div>
                   </div>
@@ -348,11 +348,11 @@ function BootstrapCarousel() {
                       {s.k}
                     </div>
 
-                    <h3 className="mt-2 text-xl md:text-3xl font-semibold tracking-tight text-foreground">
+                    <h3 className="mt-1 text-lg sm:text-xl md:text-2xl font-semibold tracking-tight">
                       {s.title}
                     </h3>
 
-                    <ul className="mt-4 space-y-3">
+                    <ul className="space-y-2 sm:space-y-3">
                       {s.bullets.map((b) => (
                         <ListItem key={b}>{b}</ListItem>
                       ))}
@@ -407,8 +407,6 @@ function BootstrapCarousel() {
 }
 
 
-
-
 function SnapSection({
   id,
   children,
@@ -457,7 +455,7 @@ const scrollToSection = (id: string) => {
   return (
     <div
       ref={scrollRef}
-      className="h-screen overflow-y-auto scroll-smooth snap-y snap-proximity md:snap-mandatory bg-background text-foreground pb-24 md:pb-0"
+      className="h-screen overflow-y-auto overflow-x-hidden scroll-smooth snap-y snap-proximity md:snap-mandatory bg-background text-foreground pb-24 md:pb-0"
     >
       {/* Sticky header */}
       <header
