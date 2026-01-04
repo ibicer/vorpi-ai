@@ -580,7 +580,7 @@ const scrollToSection = (id: string) => {
             viewport={{ once: true, amount: 0.35 }}
           >
             <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">
-              VORPI AI - The operating system for supply chain management
+              AI-powered operating system for supply chain management
             </h2>
           </motion.div>
 
@@ -605,7 +605,7 @@ const scrollToSection = (id: string) => {
             className="lg:col-span-12"
           >
 
-            <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">AI-powered system for complex supply chains at transactional granularity</h2>
+            <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">Designed for supply chain complexity with transactional granularity</h2>
 
 
             <ul className="mt-6 space-y-3">
