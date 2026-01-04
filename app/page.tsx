@@ -289,69 +289,75 @@ function BootstrapCarousel() {
     },
   ];
 
-  const [i, setI] = React.useState(0);
+  const [i, setI] = useState(0);
   const total = slides.length;
 
   const prev = () => setI((v) => (v - 1 + total) % total);
   const next = () => setI((v) => (v + 1) % total);
 
+  const [paused, setPaused] = useState(false);
+
+  // Make this smaller to go faster (e.g., 1800–2500)
+  const AUTO_MS = 3500;
+
+  useEffect(() => {
+    if (paused) return;
+
+    const id = window.setInterval(() => {
+      // don’t advance if tab is hidden
+      if (document.hidden) return;
+      setI((v) => (v + 1) % total);
+    }, AUTO_MS);
+
+    return () => window.clearInterval(id);
+  }, [paused, total]);
+
   return (
-    <div className="relative">
-      {/* Outer viewport */}
-      <div className="overflow-hidden rounded-[28px] border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl">
+    <div
+      className="relative"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onTouchStart={() => setPaused(true)}
+      onTouchEnd={() => setPaused(false)}
+    >
+      {/* Single outer glass frame */}
+      <div className="overflow-hidden rounded-[28px] border border-white/15 bg-white/5 backdrop-blur-xl shadow-2xl">
         {/* Track */}
         <div
           className="flex w-full transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${i * 100}%)` }}
         >
           {slides.map((s, idx) => (
-            <div
-              key={s.k}
-              className="w-full min-w-full flex-none" // IMPORTANT: no px here
-              aria-hidden={idx !== i}
-            >
-
-              <div className="overflow-hidden rounded-[28px] border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl">
-                <div
-                  className="flex w-full transition-transform duration-500 ease-out"
-                  style={{ transform: `translateX(-${i * 100}%)` }}
-                >
-                  {slides.map((s, idx) => (
-                    <div key={s.k} className="w-full min-w-full flex-none" aria-hidden={idx !== i}>
-                      {/* Content padding ONLY (no inner border/rounded) */}
-                      <div className="p-6 md:p-10">
-                        <div className="grid md:grid-cols-12 gap-6 items-center">
-                          {/* Image */}
-                          <div className="md:col-span-5">
-                            <div className="h-[220px] md:h-[320px] w-full">
-                              <img
-                                src={s.image}
-                                alt={s.title}
-                                className="h-full w-full object-contain"
-                              />
-                            </div>
-                          </div>
-
-                          {/* Text */}
-                          <div className="md:col-span-7">
-                            <div className="text-[11px] uppercase tracking-[0.22em] text-foreground/70 font-semibold">
-                              {s.k}
-                            </div>
-
-                            <h3 className="mt-2 text-xl md:text-3xl font-semibold tracking-tight text-foreground">
-                              {s.title}
-                            </h3>
-
-                            <ul className="mt-4 space-y-3">
-                              {s.bullets.map((b) => (
-                                <ListItem key={b}>{b}</ListItem>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
+            <div key={s.k} className="w-full min-w-full flex-none" aria-hidden={idx !== i}>
+              <div className="p-6 md:p-10">
+                <div className="grid md:grid-cols-12 gap-6 items-center">
+                  {/* Image */}
+                  <div className="md:col-span-5 flex justify-center">
+                    <div className="h-[220px] md:h-[320px] w-full flex items-center justify-center">
+                      <img
+                        src={s.image}
+                        alt={s.title}
+                        className="max-h-full w-full object-contain"
+                      />
                     </div>
-                  ))}
+                  </div>
+
+                  {/* Text */}
+                  <div className="md:col-span-7">
+                    <div className="text-[11px] uppercase tracking-[0.22em] text-foreground/70 font-semibold">
+                      {s.k}
+                    </div>
+
+                    <h3 className="mt-2 text-xl md:text-3xl font-semibold tracking-tight text-foreground">
+                      {s.title}
+                    </h3>
+
+                    <ul className="mt-4 space-y-3">
+                      {s.bullets.map((b) => (
+                        <ListItem key={b}>{b}</ListItem>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
@@ -380,6 +386,7 @@ function BootstrapCarousel() {
           </button>
         </div>
 
+        {/* Dots */}
         <div className="flex items-center gap-2">
           {slides.map((_, idx) => (
             <button
@@ -398,7 +405,6 @@ function BootstrapCarousel() {
     </div>
   );
 }
-
 
 
 
