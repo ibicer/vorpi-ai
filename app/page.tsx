@@ -262,7 +262,7 @@ function BootstrapCarousel() {
   const slides = [
     {
       k: "Unique Architecture",
-      title: "VORPI 5 dimensions of supply chains",
+      title: "VORPI - 5 dimensions of supply chains",
       image: "/vorpi-bootstrap-one.jpg",
       bullets: [
         "Vendors, operations, resources, products, and intelligence",
