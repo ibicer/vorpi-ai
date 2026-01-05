@@ -283,8 +283,8 @@ function BootstrapCarousel() {
       title: "A Peer-Reviewed Breakthrough in Supply Chain Management",
       image: "/vorpi-bootstrap-three.jpg",
       bullets: [
-        "+10% reduction of inventory levels with service targets",
-        "5% reduction of working capital needs",
+        "+10% leaner inventories with guaranteed service performance",
+        "+5% lower working-capital requirements",
       ],
     },
   ];
