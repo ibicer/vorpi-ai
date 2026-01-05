@@ -265,8 +265,8 @@ function BootstrapCarousel() {
       title: "VORPI - 5 dimensions of supply chains",
       image: "/vorpi-bootstrap-one.jpg",
       bullets: [
-        "Vendors, operations, resources, products, and intelligence",
-        "AI architecture built on key dimensions and trade-offs",
+        "Modular design capturing VORPI (vendors, operations, resources, products, and intelligence) dynamics",
+        "AI built on core dimensions and trade-offs",
       ],
     },
     {
@@ -275,7 +275,7 @@ function BootstrapCarousel() {
       image: "/vorpi-bootstrap-two.jpg",
       bullets: [
         "Uncertainty modeling for accurate forecasting with transactional data",
-        "Large-scale optimization using decomposition techniques",
+        "Large-scale optimization via decomposition",
       ],
     },
     {
