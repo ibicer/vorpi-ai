@@ -643,11 +643,16 @@ const scrollToSection = (id: string) => {
         </div>
       ) : null}
 
-
       {/* PRODUCT */}
       <SnapSection id="product" tone="base">
         <SectionBg src="/vorpi-product.jpg" />
         <div className="relative z-10">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.35 }}>
+            <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">Major breakthrough in supply chain management</h2>
+            <p className="mt-3 max-w-3xl text-base md:text-lg leading-relaxed">
+              Perfect decomposition of predictive, optimization, and reporting tools.
+            </p>
+          </motion.div>
           <ProductAccordion />
         </div>
       </SnapSection>
