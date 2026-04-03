@@ -357,7 +357,7 @@ function BootstrapCarousel() {
                 </div>
 
                 {/* TEXT */}
-                <div className="md:col-span-4">
+                <div className="md:col-span-6">
                   <div className="text-[11px] uppercase tracking-[0.22em] text-foreground/60 font-semibold">
                     {current.k}
                   </div>
