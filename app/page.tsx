@@ -262,7 +262,7 @@ function BootstrapCarousel() {
   const slides = [
     {
       k: "Unique Architecture",
-      title: "VORPI: Advanced Supply Chain Intelligence and Engine",
+      title: "Advanced Supply Chain Intelligence and Engine",
       image: "/vorpi-bootstrap-one.jpg",
       bullets: [
         "Modular design",
@@ -567,27 +567,6 @@ const scrollToSection = (id: string) => {
       ) : null}
 
 
-      {/* BOOTSTRAP ENTRY */}
-      <SnapSection id="bootstrap" tone="base">
-        <SectionBg src="/vorpi-bootstrap.jpg" />
-        <div className="relative z-10">
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.35 }}
-          >
-            <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">
-              AI-powered operating system for supply chain management
-            </h2>
-          </motion.div>
-
-          <div className="mt-4 text-base md:text-lg font-semibold leading-relaxed">
-            <BootstrapCarousel />
-          </div>
-        </div>
-      </SnapSection>
-
 
 
       {/* PRODUCT */}
@@ -762,6 +741,26 @@ const scrollToSection = (id: string) => {
       </SnapSection>
 
 
+      {/* BOOTSTRAP ENTRY */}
+      <SnapSection id="bootstrap" tone="base">
+        <SectionBg src="/vorpi-bootstrap.jpg" />
+        <div className="relative z-10">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.35 }}
+          >
+            <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">
+              AI-Powered Supply Chain System
+            </h2>
+          </motion.div>
+
+          <div className="mt-4 text-base md:text-lg font-semibold leading-relaxed">
+            <BootstrapCarousel />
+          </div>
+        </div>
+      </SnapSection>
 
 
 
