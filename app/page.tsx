@@ -297,7 +297,7 @@ function BootstrapCarousel() {
       <div className="overflow-hidden rounded-[30px] border border-white/15 bg-white/5 backdrop-blur-xl shadow-2xl">
         <div className="grid lg:grid-cols-12">
           {/* LEFT SELECTOR */}
-          <div className="lg:col-span-4 border-b lg:border-b-0 lg:border-r border-white/10 bg-black/10">
+          <div className="lg:col-span-3 border-b lg:border-b-0 lg:border-r border-white/10 bg-black/10">
             <div className="p-4 md:p-5">
               <div className="text-xs uppercase tracking-[0.22em] text-foreground/60 font-semibold">
                 Foresight
@@ -336,8 +336,8 @@ function BootstrapCarousel() {
           </div>
 
           {/* RIGHT CONTENT */}
-          <div className="lg:col-span-11">
-            <div className="p-5 md:p-8">
+          <div className="lg:col-span-9">
+            <div className="p-5 md:p-6">
               <motion.div
                 key={active}
                 initial={{ opacity: 0, y: 14 }}
@@ -357,7 +357,7 @@ function BootstrapCarousel() {
                 </div>
 
                 {/* TEXT */}
-                <div className="md:col-span-4">
+                <div className="md:col-span-3">
                   <div className="text-[11px] uppercase tracking-[0.22em] text-foreground/60 font-semibold">
                     {current.k}
                   </div>
