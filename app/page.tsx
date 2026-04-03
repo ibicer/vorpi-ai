@@ -258,12 +258,11 @@ function MobileTabs({
   );
 }
 
-function BootstrapCarousel() {
-  const slides = [
+function BootstrapAccordion() {
+  const items = [
     {
       k: "Unique Architecture",
       title: "Advanced Supply Chain Intelligence and Engine",
-      image: "/vorpi-bootstrap-one.jpg",
       bullets: [
         "Modular design",
         "AI built on core dimensions and trade-offs",
@@ -272,7 +271,6 @@ function BootstrapCarousel() {
     {
       k: "Novel AI Algorithms",
       title: "Advanced Predictive and Optimization Models",
-      image: "/vorpi-bootstrap-two.jpg",
       bullets: [
         "Uncertainty-aware forecasting with transactional data",
         "Large-scale optimization via decomposition",
@@ -281,7 +279,6 @@ function BootstrapCarousel() {
     {
       k: "Robust Improvements",
       title: "A Peer-Reviewed Breakthrough in Supply Chain Management",
-      image: "/vorpi-bootstrap-three.jpg",
       bullets: [
         "+10% leaner inventories with guaranteed service performance",
         "+5% lower working-capital requirements",
@@ -289,98 +286,92 @@ function BootstrapCarousel() {
     },
   ];
 
-  const [active, setActive] = useState(0);
-  const current = slides[active];
+  const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <div className="relative">
-      <div className="overflow-hidden rounded-[30px] border border-white/15 bg-white/5 backdrop-blur-xl shadow-2xl">
-        <div className="grid lg:grid-cols-12">
-          {/* LEFT SELECTOR */}
-          <div className="lg:col-span-3 border-b lg:border-b-0 lg:border-r border-white/10 bg-black/10">
-            <div className="p-4 md:p-5">
-              <div className="text-xs uppercase tracking-[0.22em] text-foreground/60 font-semibold">
-                Foresight
-              </div>
-
-              <div className="mt-4 space-y-2">
-                {slides.map((s, idx) => {
-                  const isActive = idx === active;
-
-                  return (
-                    <button
-                      key={s.k}
-                      type="button"
-                      onClick={() => setActive(idx)}
-                      className={cn(
-                        "w-full rounded-2xl px-4 py-4 text-left transition-all",
-                        isActive
-                          ? "bg-white/15 border border-white/20 shadow-lg"
-                          : "hover:bg-white/10 border border-transparent"
-                      )}
-                    >
-                      <div
-                        className={cn(
-                          "mt-1 text-sm md:text-base font-semibold leading-snug",
-                          isActive ? "text-foreground" : "text-foreground/75"
-                        )}
-                      >
-                        {s.k}
-                      </div>
-
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+    <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
+      {/* LEFT PANEL */}
+      <div className="lg:col-span-4">
+        <div className="rounded-[28px] border border-white/10 bg-white/5 p-6 md:p-8 backdrop-blur-xl">
+          <div className="text-[11px] uppercase tracking-[0.22em] text-foreground/55 font-semibold">
+            Foresight
           </div>
 
-          {/* RIGHT CONTENT */}
-          <div className="lg:col-span-9">
-            <div className="p-5 md:p-6">
-              <motion.div
-                key={active}
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className="grid gap-6 md:grid-cols-12 items-center"
+          <h3 className="mt-3 text-3xl md:text-5xl font-semibold tracking-tight leading-none">
+            AI Powered
+          </h3>
+
+          <p className="mt-6 max-w-md text-base md:text-lg leading-relaxed text-foreground/70">
+            A modular intelligence layer combining architecture, algorithms,
+            and validated operational gains across complex supply chains.
+          </p>
+
+          <div className="mt-8">
+            <Button asChild size="lg" className="rounded-2xl px-8">
+              <a href="#contact">Get Started</a>
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* RIGHT PANEL */}
+      <div className="lg:col-span-8">
+        <div className="rounded-[28px] border border-white/10 bg-white/5 px-5 md:px-8 backdrop-blur-xl">
+          {items.map((item, idx) => {
+            const isOpen = idx === openIndex;
+
+            return (
+              <div
+                key={item.k}
+                className="border-b border-white/10 last:border-b-0"
               >
-                {/* IMAGE */}
-                <div className="md:col-span-5 flex justify-center">
-                  <div className="w-full h-[250px] md:h-[280px] flex items-center justify-center rounded-2xl bg-black/10 overflow-hidden">
-                    <img
-                      src={current.image}
-                      alt={current.title}
-                      className="max-h-full w-full object-contain object-center"
-                    />
-                  </div>
-                </div>
-
-                {/* TEXT */}
-                <div className="md:col-span-6">
-                  <div className="text-[11px] uppercase tracking-[0.22em] text-foreground/60 font-semibold">
-                    {current.k}
-                  </div>
-
-                  <div className="mt-1 text-foreground/75 font-semibold">
-                    {current.title}
+                <button
+                  type="button"
+                  onClick={() => setOpenIndex(isOpen ? -1 : idx)}
+                  className="flex w-full items-center justify-between gap-6 py-5 md:py-6 text-left"
+                  aria-expanded={isOpen}
+                >
+                  <div>
+                    <div className="text-lg md:text-2xl font-semibold tracking-tight text-foreground/90">
+                      {item.k}
+                    </div>
+                    {isOpen ? (
+                      <div className="mt-2 text-sm md:text-base text-foreground/60 font-medium">
+                        {item.title}
+                      </div>
+                    ) : null}
                   </div>
 
-                  <ul className="mt-5 space-y-3">
-                    {current.bullets.map((b) => (
-                      <ListItem key={b}>{b}</ListItem>
-                    ))}
-                  </ul>
-                </div>
-              </motion.div>
-            </div>
-          </div>
+                  <div className="shrink-0 text-3xl md:text-4xl leading-none text-foreground/35">
+                    {isOpen ? "−" : "+"}
+                  </div>
+                </button>
+
+                <motion.div
+                  initial={false}
+                  animate={{
+                    height: isOpen ? "auto" : 0,
+                    opacity: isOpen ? 1 : 0,
+                  }}
+                  transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                  className="overflow-hidden"
+                >
+                  <div className="pb-5 md:pb-6">
+                    <ul className="space-y-3">
+                      {item.bullets.map((b) => (
+                        <ListItem key={b}>{b}</ListItem>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
   );
 }
-
 
 function SnapSection({
   id,
@@ -720,23 +711,7 @@ const scrollToSection = (id: string) => {
       <SnapSection id="bootstrap" tone="base">
         <SectionBg src="/vorpi-bootstrap.jpg" />
         <div className="relative z-10">
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.35 }}
-          >
-            <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">
-              Foresight
-            </h2>
-            <p className="mt-3 max-w-3xl text-base md:text-lg leading-relaxed">
-              A modular intelligence layer combining architecture, algorithms, and validated operational gains.
-            </p>
-          </motion.div>
-
-          <div className="mt-6">
-            <BootstrapCarousel />
-          </div>
+          <BootstrapAccordion />
         </div>
       </SnapSection>
 
