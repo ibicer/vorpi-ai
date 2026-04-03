@@ -346,8 +346,8 @@ function BootstrapCarousel() {
                 className="grid gap-6 md:grid-cols-12 items-center"
               >
                 {/* IMAGE */}
-                <div className="md:col-span-5 flex justify-center">
-                  <div className="w-full h-[280px] md:h-[280px] flex items-center justify-center rounded-2xl bg-black/10 overflow-hidden">
+                <div className="md:col-span-8 flex justify-center">
+                  <div className="w-full h-[240px] md:h-[280px] flex items-center justify-center rounded-2xl bg-black/10 overflow-hidden">
                     <img
                       src={current.image}
                       alt={current.title}
