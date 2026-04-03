@@ -321,13 +321,12 @@ function BootstrapCarousel() {
                     >
                       <div
                         className={cn(
-                          "text-[11px] uppercase tracking-[0.18em] font-semibold",
-                          isActive ? "text-foreground/80" : "text-foreground/50"
+                          "mt-1 text-sm md:text-base font-semibold leading-snug",
+                          isActive ? "text-foreground" : "text-foreground/75"
                         )}
                       >
                         {s.k}
                       </div>
-
 
                     </button>
                   );
@@ -348,7 +347,7 @@ function BootstrapCarousel() {
               >
                 {/* IMAGE */}
                 <div className="md:col-span-5 flex justify-center">
-                  <div className="w-full h-[220px] md:h-[320px] flex items-center justify-center rounded-2xl bg-black/10 overflow-hidden">
+                  <div className="w-full h-[280px] md:h-[280px] flex items-center justify-center rounded-2xl bg-black/10 overflow-hidden">
                     <img
                       src={current.image}
                       alt={current.title}
@@ -358,7 +357,7 @@ function BootstrapCarousel() {
                 </div>
 
                 {/* TEXT */}
-                <div className="md:col-span-7">
+                <div className="md:col-span-5">
                   <div className="text-[11px] uppercase tracking-[0.22em] text-foreground/60 font-semibold">
                     {current.k}
                   </div>
