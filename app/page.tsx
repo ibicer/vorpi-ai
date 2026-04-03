@@ -302,33 +302,14 @@ function ProductAccordion() {
       <div className="lg:col-span-4">
         <div className="rounded-[28px] border border-white/10 bg-white/5 p-6 md:p-8 backdrop-blur-xl">
           <div className="text-[11px] uppercase tracking-[0.22em] text-foreground/55 font-semibold">
-            Product
+            Replacing compexity with simplicity in supply chains
           </div>
-
-          <h3 className="mt-3 text-3xl md:text-5xl font-semibold tracking-tight leading-none">
-            Designed for supply chain complexity
-          </h3>
 
           <p className="mt-6 max-w-md text-base md:text-lg leading-relaxed text-foreground/70">
             Built at transactional granularity to overcome information loss,
             inflexible optimization, and reporting systems that blur critical trade-offs.
           </p>
 
-          <ul className="mt-6 space-y-3">
-            <WarningItem>
-              Data aggregation reduces granularity, leading to information loss and less accurate forecasts.
-            </WarningItem>
-            <WarningItem>
-              Optimization tools are often inflexible and rely on unrealistic assumptions.
-            </WarningItem>
-            <WarningItem>
-              Reporting applications can obscure or conflate critical operational trade-offs.
-            </WarningItem>
-          </ul>
-
-          <div className="mt-8 text-sm md:text-base font-semibold text-foreground/80">
-            VORPI AI addresses these issues through research-backed innovations.
-          </div>
         </div>
       </div>
 
@@ -650,14 +631,14 @@ const scrollToSection = (id: string) => {
           <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.35 }}>
             <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">Major breakthrough in supply chain management</h2>
             <p className="mt-3 max-w-3xl text-base md:text-lg leading-relaxed">
-              Perfect decomposition of predictive, optimization, and reporting tools.
+               Modern supply chain management is all about receiving inputs from (1) vendors (e.g., raw material suppliers), carrying out (2) operations that utilize some (3) resources, and move (4) products to the market in an (5) intelligent way to meet customer demand. These five elements are the key dimensions of supply chains, representing different trade-offs decision makers face.
+               Yet, there are three challenges in supply chain systems such that (a) data aggregation reduces granularity, leading to information loss and less accurate forecasts, (b) optimization tools are often inflexible and rely on unrealistic assumptions, and (c) reporting applications can obscure or conflate critical operational trade-offs. VORPI AI addresses these issues through 
+               research-backed innovations built on the LLM technology.
             </p>
           </motion.div>
           <ProductAccordion />
         </div>
       </SnapSection>
-
-
 
 
       {/* INDUSTRIES */}
