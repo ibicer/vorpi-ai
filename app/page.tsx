@@ -328,14 +328,7 @@ function BootstrapCarousel() {
                         {s.k}
                       </div>
 
-                      <div
-                        className={cn(
-                          "mt-1 text-sm md:text-base font-semibold leading-snug",
-                          isActive ? "text-foreground" : "text-foreground/75"
-                        )}
-                      >
-                        {s.title}
-                      </div>
+
                     </button>
                   );
                 })}
