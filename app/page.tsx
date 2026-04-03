@@ -262,27 +262,15 @@ function BootstrapAccordion() {
   const items = [
     {
       k: "Unique Architecture",
-      title: "Advanced Supply Chain Intelligence and Engine",
-      bullets: [
-        "Modular design",
-        "AI built on core dimensions and trade-offs",
-      ],
+      title: " VOPRI AI's modular architecture is built on core supply chain dimensions and trade-offs, enabling full-scale leverage of LLMs",
     },
     {
       k: "Novel AI Algorithms",
-      title: "Advanced Predictive and Optimization Models",
-      bullets: [
-        "Uncertainty-aware forecasting with transactional data",
-        "Large-scale optimization via decomposition",
-      ],
+      title: "VORPI AI uses decomposition-based predictive and optimization models to minimize the inefficiecies resulting from algorithmic issues.",
     },
     {
       k: "Robust Improvements",
-      title: "A Peer-Reviewed Breakthrough in Supply Chain Management",
-      bullets: [
-        "+10% leaner inventories with guaranteed service performance",
-        "+5% lower working-capital requirements",
-      ],
+      title: "VORPI AI offers robust improvements in supply chains: +10% leaner inventories with guaranteed service performance, +5% lower working-capital requirements",
     },
   ];
 
@@ -293,17 +281,14 @@ function BootstrapAccordion() {
       {/* LEFT PANEL */}
       <div className="lg:col-span-4">
         <div className="rounded-[28px] border border-white/10 bg-white/5 p-6 md:p-8 backdrop-blur-xl">
-          <div className="text-[11px] uppercase tracking-[0.22em] text-foreground/55 font-semibold">
-            Foresight
-          </div>
 
           <h3 className="mt-3 text-3xl md:text-5xl font-semibold tracking-tight leading-none">
-            AI Powered
+            Foresight
           </h3>
 
           <p className="mt-6 max-w-md text-base md:text-lg leading-relaxed text-foreground/70">
-            A modular intelligence layer combining architecture, algorithms,
-            and validated operational gains across complex supply chains.
+            A novel method combining architecture, algorithms, workflows into Intelligence and Engine modules. 
+            Backed by the founder's two academic books and case article publsihed in Cambridge University Press, Springer, and Harvard Business Press, respectively.
           </p>
 
           <div className="mt-8">
@@ -356,13 +341,6 @@ function BootstrapAccordion() {
                   transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
                   className="overflow-hidden"
                 >
-                  <div className="pb-5 md:pb-6">
-                    <ul className="space-y-3">
-                      {item.bullets.map((b) => (
-                        <ListItem key={b}>{b}</ListItem>
-                      ))}
-                    </ul>
-                  </div>
                 </motion.div>
               </div>
             );
