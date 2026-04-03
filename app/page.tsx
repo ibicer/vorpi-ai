@@ -274,7 +274,7 @@ function BootstrapCarousel() {
       title: "Advanced Predictive and Optimization Models",
       image: "/vorpi-bootstrap-two.jpg",
       bullets: [
-        "Uncertainty modeling for accurate forecasting with transactional data",
+        "Uncertainty-aware forecasting with transactional data",
         "Large-scale optimization via decomposition",
       ],
     },
@@ -289,117 +289,100 @@ function BootstrapCarousel() {
     },
   ];
 
-  const [i, setI] = useState(0);
-  const total = slides.length;
-
-  const prev = () => setI((v) => (v - 1 + total) % total);
-  const next = () => setI((v) => (v + 1) % total);
-
-  const [paused, setPaused] = useState(false);
-
-  // Make this smaller to go faster (e.g., 1800–2500)
-  const AUTO_MS = 3500;
-
-  useEffect(() => {
-    if (paused) return;
-
-    const id = window.setInterval(() => {
-      // don’t advance if tab is hidden
-      if (document.hidden) return;
-      setI((v) => (v + 1) % total);
-    }, AUTO_MS);
-
-    return () => window.clearInterval(id);
-  }, [paused, total]);
+  const [active, setActive] = useState(0);
+  const current = slides[active];
 
   return (
-    <div
-      className="relative"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onTouchStart={() => setPaused(true)}
-      onTouchEnd={() => setPaused(false)}
-    >
-      {/* Single outer glass frame */}
-      <div className="overflow-hidden rounded-[28px] border border-white/15 bg-white/5 backdrop-blur-xl shadow-2xl">
-        {/* Track */}
-        <div
-          className="flex w-full transition-transform duration-500 ease-out"
-          style={{ transform: `translateX(-${i * 100}%)` }}
-        >
-          {slides.map((s, idx) => (
-            <div key={s.k} className="w-full min-w-full flex-none" aria-hidden={idx !== i}>
-              <div className="p-4 sm:p-6 md:p-8">
-                <div className="grid md:grid-cols-12 gap-6 items-center">
-                  {/* Image */}
-                  <div className="md:col-span-5 flex justify-center">
-                    <div className="h-[220px] md:h-[320px] w-full flex items-center justify-center">
-                      <img
-                        src={s.image}
-                        alt={s.title}
-                        className="max-h-full w-full object-contain object-center"
-                      />
-                    </div>
-                  </div>
+    <div className="relative">
+      <div className="overflow-hidden rounded-[30px] border border-white/15 bg-white/5 backdrop-blur-xl shadow-2xl">
+        <div className="grid lg:grid-cols-12">
+          {/* LEFT SELECTOR */}
+          <div className="lg:col-span-4 border-b lg:border-b-0 lg:border-r border-white/10 bg-black/10">
+            <div className="p-4 md:p-5">
+              <div className="text-xs uppercase tracking-[0.22em] text-foreground/60 font-semibold">
+                Foresight Engine
+              </div>
 
-                  {/* Text */}
-                  <div className="md:col-span-7">
-                    <div className="text-[11px] uppercase tracking-[0.22em] text-foreground/70 font-semibold">
-                      {s.k}
-                    </div>
+              <div className="mt-4 space-y-2">
+                {slides.map((s, idx) => {
+                  const isActive = idx === active;
 
-                    <h3 className="mt-1 text-lg sm:text-xl md:text-2xl font-semibold tracking-tight">
-                      {s.title}
-                    </h3>
+                  return (
+                    <button
+                      key={s.k}
+                      type="button"
+                      onClick={() => setActive(idx)}
+                      className={cn(
+                        "w-full rounded-2xl px-4 py-4 text-left transition-all",
+                        isActive
+                          ? "bg-white/15 border border-white/20 shadow-lg"
+                          : "hover:bg-white/10 border border-transparent"
+                      )}
+                    >
+                      <div
+                        className={cn(
+                          "text-[11px] uppercase tracking-[0.18em] font-semibold",
+                          isActive ? "text-foreground/80" : "text-foreground/50"
+                        )}
+                      >
+                        {s.k}
+                      </div>
 
-                    <ul className="mt-4 space-y-3">
-                      {s.bullets.map((b) => (
-                        <ListItem key={b}>{b}</ListItem>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
+                      <div
+                        className={cn(
+                          "mt-1 text-sm md:text-base font-semibold leading-snug",
+                          isActive ? "text-foreground" : "text-foreground/75"
+                        )}
+                      >
+                        {s.title}
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
 
-      {/* Controls */}
-      <div className="mt-4 flex items-center justify-between">
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={prev}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border bg-background/70 hover:bg-background"
-            aria-label="Previous"
-          >
-            ‹
-          </button>
-          <button
-            type="button"
-            onClick={next}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border bg-background/70 hover:bg-background"
-            aria-label="Next"
-          >
-            ›
-          </button>
-        </div>
+          {/* RIGHT CONTENT */}
+          <div className="lg:col-span-8">
+            <div className="p-5 md:p-8">
+              <motion.div
+                key={active}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                className="grid gap-6 md:grid-cols-12 items-center"
+              >
+                {/* IMAGE */}
+                <div className="md:col-span-5 flex justify-center">
+                  <div className="w-full h-[220px] md:h-[320px] flex items-center justify-center rounded-2xl bg-black/10 overflow-hidden">
+                    <img
+                      src={current.image}
+                      alt={current.title}
+                      className="max-h-full w-full object-contain object-center"
+                    />
+                  </div>
+                </div>
 
-        {/* Dots */}
-        <div className="flex items-center gap-2">
-          {slides.map((_, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => setI(idx)}
-              className={cn(
-                "h-2.5 w-2.5 rounded-full transition",
-                idx === i ? "bg-primary" : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
-              )}
-              aria-label={`Go to slide ${idx + 1}`}
-            />
-          ))}
+                {/* TEXT */}
+                <div className="md:col-span-7">
+                  <div className="text-[11px] uppercase tracking-[0.22em] text-foreground/60 font-semibold">
+                    {current.k}
+                  </div>
+
+                  <h3 className="mt-2 text-xl md:text-3xl font-semibold tracking-tight text-foreground">
+                    {current.title}
+                  </h3>
+
+                  <ul className="mt-5 space-y-3">
+                    {current.bullets.map((b) => (
+                      <ListItem key={b}>{b}</ListItem>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -437,9 +420,9 @@ export default function VorpiLanding() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
 const tabs = [
-  { id: "bootstrap", label: "Highlights", icon: Workflow }, 
   { id: "product", label: "Product", icon: LineChart },
   { id: "for", label: "Industries", icon: Factory },
+  { id: "bootstrap", label: "Foresight", icon: Workflow }, 
   { id: "why", label: "Innovation", icon: Brain },
   { id: "proof", label: "Cases", icon: BarChart3 },
   { id: "team", label: "Team", icon: Users }, 
@@ -752,11 +735,14 @@ const scrollToSection = (id: string) => {
             viewport={{ once: true, amount: 0.35 }}
           >
             <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">
-              AI-Powered Supply Chain System
+              Foresight Engine
             </h2>
+            <p className="mt-3 max-w-3xl text-base md:text-lg leading-relaxed">
+              A modular intelligence layer combining architecture, algorithms, and validated operational gains.
+            </p>
           </motion.div>
 
-          <div className="mt-4 text-base md:text-lg font-semibold leading-relaxed">
+          <div className="mt-6">
             <BootstrapCarousel />
           </div>
         </div>
