@@ -258,6 +258,139 @@ function MobileTabs({
   );
 }
 
+function ProductAccordion() {
+  const items = [
+    {
+      k: "Accurate Demand Forecasting",
+      title: "Uncertainty modeling for robust and precise forecasting.",
+      bullets: [
+        "Built on the fast Fourier transform and machine-learning regularization",
+        "Operates directly on transactional data while incorporating customer traffic, product-selection, and demand lead-time dynamics",
+      ],
+    },
+    {
+      k: "Inventory & Fulfillment Optimization",
+      title: "Large-scale optimization under uncertainty.",
+      bullets: [
+        "Built on dynamic optimization and decomposition techniques",
+        "Optimizes end-to-end decisions including procurement, production, and fulfillment across the supply chain",
+      ],
+    },
+    {
+      k: "Detailed Scenario Analysis",
+      title: "Simplified scenario analysis in complex environments.",
+      bullets: [
+        "Built on the VORPI framework across Vendors, Operations, Resources, Products, and Intelligence",
+        "Structures scenario analysis directly around interacting supply-chain trade-offs",
+      ],
+    },
+    {
+      k: "Real-Time Activity Monitoring",
+      title: "Blending operational monitoring with predictive foresight.",
+      bullets: [
+        "Powered by a database model uniquely tailored to the VORPI framework",
+        "Enables rapid information transfer and continuously updates system trajectories in real time",
+      ],
+    },
+  ];
+
+  const [openIndex, setOpenIndex] = useState(0);
+
+  return (
+    <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
+      {/* LEFT PANEL */}
+      <div className="lg:col-span-4">
+        <div className="rounded-[28px] border border-white/10 bg-white/5 p-6 md:p-8 backdrop-blur-xl">
+          <div className="text-[11px] uppercase tracking-[0.22em] text-foreground/55 font-semibold">
+            Product
+          </div>
+
+          <h3 className="mt-3 text-3xl md:text-5xl font-semibold tracking-tight leading-none">
+            Designed for supply chain complexity
+          </h3>
+
+          <p className="mt-6 max-w-md text-base md:text-lg leading-relaxed text-foreground/70">
+            Built at transactional granularity to overcome information loss,
+            inflexible optimization, and reporting systems that blur critical trade-offs.
+          </p>
+
+          <ul className="mt-6 space-y-3">
+            <WarningItem>
+              Data aggregation reduces granularity, leading to information loss and less accurate forecasts.
+            </WarningItem>
+            <WarningItem>
+              Optimization tools are often inflexible and rely on unrealistic assumptions.
+            </WarningItem>
+            <WarningItem>
+              Reporting applications can obscure or conflate critical operational trade-offs.
+            </WarningItem>
+          </ul>
+
+          <div className="mt-8 text-sm md:text-base font-semibold text-foreground/80">
+            VORPI AI addresses these issues through research-backed innovations.
+          </div>
+        </div>
+      </div>
+
+      {/* RIGHT PANEL */}
+      <div className="lg:col-span-8">
+        <div className="rounded-[28px] border border-white/10 bg-white/5 px-5 md:px-8 backdrop-blur-xl">
+          {items.map((item, idx) => {
+            const isOpen = idx === openIndex;
+
+            return (
+              <div
+                key={item.k}
+                className="border-b border-white/10 last:border-b-0"
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenIndex(isOpen ? -1 : idx)}
+                  className="flex w-full items-center justify-between gap-6 py-5 md:py-6 text-left"
+                  aria-expanded={isOpen}
+                >
+                  <div>
+                    <div className="text-lg md:text-2xl font-semibold tracking-tight text-foreground/90">
+                      {item.k}
+                    </div>
+                    {isOpen ? (
+                      <div className="mt-2 text-sm md:text-base text-foreground/60 font-medium">
+                        {item.title}
+                      </div>
+                    ) : null}
+                  </div>
+
+                  <div className="shrink-0 text-3xl md:text-4xl leading-none text-foreground/35">
+                    {isOpen ? "−" : "+"}
+                  </div>
+                </button>
+
+                <motion.div
+                  initial={false}
+                  animate={{
+                    height: isOpen ? "auto" : 0,
+                    opacity: isOpen ? 1 : 0,
+                  }}
+                  transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                  className="overflow-hidden"
+                >
+                  <div className="pb-5 md:pb-6">
+                    <ul className="space-y-3">
+                      {item.bullets.map((b) => (
+                        <ListItem key={b}>{b}</ListItem>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function BootstrapAccordion() {
   const items = [
     {
@@ -283,7 +416,7 @@ function BootstrapAccordion() {
         <div className="rounded-[28px] border border-white/10 bg-white/5 p-6 md:p-8 backdrop-blur-xl">
 
           <h3 className="mt-3 text-3xl md:text-5xl font-semibold tracking-tight leading-none">
-            Foresight
+            Research Background
           </h3>
 
           <p className="mt-6 max-w-md text-base md:text-lg leading-relaxed text-foreground/70">
@@ -511,109 +644,13 @@ const scrollToSection = (id: string) => {
       ) : null}
 
 
-
-
       {/* PRODUCT */}
       <SnapSection id="product" tone="base">
         <SectionBg src="/vorpi-product.jpg" />
         <div className="relative z-10">
-        <div className="grid gap-10 lg:grid-cols-12 items-start">
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.35 }}
-            className="lg:col-span-12"
-          >
-
-            <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">Designed for supply chain complexity with transactional granularity</h2>
-
-
-            <ul className="mt-6 space-y-3">
-              <WarningItem>
-                Data aggregation reduces granularity, leading to information loss and less accurate forecasts.
-              </WarningItem>
-
-              <WarningItem>
-                Optimization tools are often inflexible and rely on unrealistic assumptions.
-              </WarningItem>
-
-              <WarningItem>
-                Reporting applications can obscure or conflate critical operational trade-offs.
-              </WarningItem>
-            </ul>
-
-            <p className="mt-4 text-base md:text-lg font-semibold leading-relaxed">
-              VORPI AI addresses these issues through{" "}
-              <span className="underline decoration-primary/30">research-backed innovations:</span>
-            </p>
-          </motion.div>
-        </div>
-
-        <div className="mt-10 grid gap-4 md:grid-cols-4">
-          <Card className="relative overflow-hidden rounded-3xl bg-background/85 backdrop-blur-xl border border-white/20 shadow-2xl">
-            <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2">
-                <LineChart className="h-4 w-4 text-primary" /> Accurate Demand Forecasting
-              </CardTitle>
-              <CardDescription>Uncertainty modeling for robust and precise forecasting.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3">
-                <ListItem>Built on the fast Fourier transform and machine-learning regularization. </ListItem>
-                <ListItem>Operates directly on transactional data while incorporating customer traffic, product-selection, and demand lead-time dynamics. </ListItem>
-              </ul>              
-            </CardContent>
-          </Card>
-
-          <Card className="shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2">
-                <Layers className="h-4 w-4 text-primary" /> Inventory & Fulfillment Optimization
-              </CardTitle>
-              <CardDescription>Large-scale optimization under uncertainty.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3">
-                <ListItem>Built on dynamic optimization and decomposition techniques. </ListItem>
-                <ListItem>Optimizes end-to-end decisions (including procurement, production, and fulfillment) across the supply chain.</ListItem>
-              </ul> 
-            </CardContent>
-          </Card>
-
-          <Card className="shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2">
-                <ShieldCheck className="h-4 w-4 text-primary" /> Detailed Scenario Analysis
-              </CardTitle>
-              <CardDescription>Simplified scenario analysis in complex environments.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3">
-                <ListItem>Built on the VORPI framework (Vendors, Operations, Resources, Products, Intelligence), articulating the five fundamental supply chain trade-offs. </ListItem>
-                <ListItem>Structures scenario analysis directly around these interacting trade-offs.</ListItem>
-              </ul> 
-            </CardContent>
-          </Card>
-
-          <Card className="shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2">
-                <Activity className="h-4 w-4 text-primary" /> Real Time Activity Monitoring
-              </CardTitle>
-              <CardDescription>Blending operational monitoring with predictive foresight.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3">
-                <ListItem>Powered by a database model uniquely tailored to the VORPI framework. </ListItem>
-                <ListItem>Enables rapid information transfer and continuously updates system trajectories in real time.</ListItem>
-              </ul> 
-            </CardContent>
-          </Card>
-        </div>
+          <ProductAccordion />
         </div>
       </SnapSection>
-
 
 
 
