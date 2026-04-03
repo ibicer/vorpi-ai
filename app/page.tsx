@@ -262,10 +262,10 @@ function BootstrapCarousel() {
   const slides = [
     {
       k: "Unique Architecture",
-      title: "VORPI - 5 dimensions of supply chains",
+      title: "VORPI - ",
       image: "/vorpi-bootstrap-one.jpg",
       bullets: [
-        "Modular design capturing VORPI (vendors, operations, resources, products, and intelligence) dynamics",
+        "Modular design with complete supply chain intelligence and engine",
         "AI built on core dimensions and trade-offs",
       ],
     },
@@ -578,7 +578,7 @@ const scrollToSection = (id: string) => {
             viewport={{ once: true, amount: 0.35 }}
           >
             <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">
-              AI-powered operating system for supply chain management
+              AI-Powered Supply Chain System
             </h2>
           </motion.div>
 
