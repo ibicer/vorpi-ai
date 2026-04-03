@@ -396,7 +396,7 @@ function BootstrapAccordion() {
       <div className="lg:col-span-4">
         <div className="rounded-[28px] border border-white/10 bg-white/5 p-6 md:p-8 backdrop-blur-xl">
 
-          <h3 className="mt-5 text-3xl md:text-5xl font-semibold tracking-tight leading-none">
+          <h3 className="mt-3 text-lg md:text-2xl font-semibold tracking-tight text-foreground/90">
             Research Background
           </h3>
 
