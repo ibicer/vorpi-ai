@@ -370,6 +370,10 @@ function BootstrapCarousel() {
                     {current.k}
                   </div>
 
+                  <h3 className="mt-2 text-xl md:text-3xl font-semibold tracking-tight text-foreground">
+                    {current.title}
+                  </h3>
+
                   <ul className="mt-5 space-y-3">
                     {current.bullets.map((b) => (
                       <ListItem key={b}>{b}</ListItem>
