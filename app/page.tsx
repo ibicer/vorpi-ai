@@ -300,7 +300,7 @@ function BootstrapCarousel() {
           <div className="lg:col-span-4 border-b lg:border-b-0 lg:border-r border-white/10 bg-black/10">
             <div className="p-4 md:p-5">
               <div className="text-xs uppercase tracking-[0.22em] text-foreground/60 font-semibold">
-                Foresight Engine
+                Foresight
               </div>
 
               <div className="mt-4 space-y-2">
@@ -362,9 +362,9 @@ function BootstrapCarousel() {
                     {current.k}
                   </div>
 
-                  <h3 className="mt-2 text-xl md:text-3xl font-semibold tracking-tight text-foreground">
+                  <div className="text-[13px] uppercase tracking-[0.22em] text-foreground/60 font-semibold">
                     {current.title}
-                  </h3>
+                  </div>
 
                   <ul className="mt-5 space-y-3">
                     {current.bullets.map((b) => (
@@ -727,7 +727,7 @@ const scrollToSection = (id: string) => {
             viewport={{ once: true, amount: 0.35 }}
           >
             <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">
-              Foresight Engine
+              Foresight
             </h2>
             <p className="mt-3 max-w-3xl text-base md:text-lg leading-relaxed">
               A modular intelligence layer combining architecture, algorithms, and validated operational gains.
