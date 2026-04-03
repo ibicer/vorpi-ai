@@ -362,7 +362,7 @@ function BootstrapCarousel() {
                     {current.k}
                   </div>
 
-                  <div className="text-[13px] uppercase tracking-[0.22em] text-foreground/60 font-semibold">
+                  <div className="mt-1 text-foreground/75 font-semibold">
                     {current.title}
                   </div>
 
