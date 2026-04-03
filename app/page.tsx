@@ -346,7 +346,7 @@ function BootstrapCarousel() {
                 className="grid gap-6 md:grid-cols-12 items-center"
               >
                 {/* IMAGE */}
-                <div className="md:col-span-7 flex justify-center">
+                <div className="md:col-span-5 flex justify-center">
                   <div className="w-full h-[250px] md:h-[280px] flex items-center justify-center rounded-2xl bg-black/10 overflow-hidden">
                     <img
                       src={current.image}
@@ -357,7 +357,7 @@ function BootstrapCarousel() {
                 </div>
 
                 {/* TEXT */}
-                <div className="md:col-span-3">
+                <div className="md:col-span-4">
                   <div className="text-[11px] uppercase tracking-[0.22em] text-foreground/60 font-semibold">
                     {current.k}
                   </div>
