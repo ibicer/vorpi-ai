@@ -669,18 +669,15 @@ const scrollToSection = (id: string) => {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.35 }}
-            className="mb-8 md:mb-10 max-w-5xl"
+            className="mb-8 md:mb-10 max-w-6xl"
           >
-            <div className="text-[11px] uppercase tracking-[0.22em] text-foreground/60 font-semibold">
-              Product
-            </div>
 
             <div className="mt-3 rounded-[28px] border border-white/40 bg-white/90 p-6 md:p-8 backdrop-blur-sm shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
-              <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">
+              <h2 className="text-2xl md:text-5xl font-semibold tracking-tight">
                 Major breakthrough in supply chain management
               </h2>
 
-              <p className="mt-4 max-w-4xl text-base md:text-lg leading-relaxed text-foreground/80">
+              <p className="mt-4 max-w-5xl text-base md:text-lg leading-relaxed text-foreground/80">
                 Modern supply chain management is all about receiving inputs from (1) vendors (e.g., raw material suppliers), carrying out (2) operations that utilize some (3) resources, and move (4) products to the market in an (5) intelligent way to meet customer demand. These five elements (vendors, operations, resources, products, and intelligence governing all interractions across them) are the key dimensions of supply chains, representing different trade-offs decision makers face.
                 We have built VORPI AI on these dimensions and addressed the three critical issues in the supply chain software landscape: (a) data aggregation reduces granularity, leading to information loss and less accurate forecasts, (b) optimization tools are often inflexible and rely on unrealistic assumptions, and (c) reporting applications can obscure or conflate critical operational trade-offs.
               </p>
