@@ -501,6 +501,113 @@ function BootstrapAccordion() {
   );
 }
 
+function IndustriesAccordion() {
+  const items = [
+    {
+      k: "Manufacturers",
+      title: "Plan and execute under deep uncertainty.",
+      bullets: [
+        "Inventory optimization under demand, production lead time, and supply lead time uncertainties",
+        "State-of-the-art demand forecasting with advance order and demand lead time variations",
+        "Seamless integration of sales transactions and MPS/MRP",
+      ],
+    },
+    {
+      k: "Wholesalers",
+      title: "Allocate scarce supply across customers.",
+      bullets: [
+        "Inventory optimization with downstream proliferation of locations",
+        "State-of-the-art demand forecasting with price-dependent product selection",
+        "Strategic inventory placement across distribution and fulfillment centers",
+      ],
+    },
+    {
+      k: "Retailers",
+      title: "Keep products where and when customers buy.",
+      bullets: [
+        "Omni-channel inventory optimization",
+        "State-of-the-art demand forecasting with store and website traffic, product selection, and pricing dynamics",
+        "Streamline replenishment at key locations",
+      ],
+    },
+  ];
+
+  const [openIndex, setOpenIndex] = useState(0);
+
+  return (
+    <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
+      {/* LEFT PANEL */}
+      <div className="lg:col-span-4">
+        <div className="rounded-[28px] border border-white/40 bg-white/90 p-6 md:p-8 backdrop-blur-sm">
+          <div className="mt-3 text-lg md:text-2xl font-semibold tracking-tight text-foreground/90">
+            Built for manufacturers, wholesalers, and retailers
+          </div>
+
+          <p className="mt-6 max-w-md text-base md:text-lg leading-relaxed text-foreground/70">
+            Same twin, different decisions. Clear outcomes for each operating model and channel structure.
+          </p>
+        </div>
+      </div>
+
+      {/* RIGHT PANEL */}
+      <div className="lg:col-span-8">
+        <div className="rounded-[28px] border border-white/40 bg-white/90 px-5 md:px-8 backdrop-blur-sm">
+          {items.map((item, idx) => {
+            const isOpen = idx === openIndex;
+
+            return (
+              <div
+                key={item.k}
+                className="border-b border-white/10 last:border-b-0"
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenIndex(isOpen ? -1 : idx)}
+                  className="flex w-full items-center justify-between gap-6 py-5 md:py-6 text-left"
+                  aria-expanded={isOpen}
+                >
+                  <div>
+                    <div className="text-lg md:text-2xl font-semibold tracking-tight text-foreground/90">
+                      {item.k}
+                    </div>
+                    {isOpen ? (
+                      <div className="mt-2 text-sm md:text-base text-foreground/60 font-medium">
+                        {item.title}
+                      </div>
+                    ) : null}
+                  </div>
+
+                  <div className="shrink-0 text-3xl md:text-4xl leading-none text-foreground/35">
+                    {isOpen ? "−" : "+"}
+                  </div>
+                </button>
+
+                <motion.div
+                  initial={false}
+                  animate={{
+                    height: isOpen ? "auto" : 0,
+                    opacity: isOpen ? 1 : 0,
+                  }}
+                  transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                  className="overflow-hidden"
+                >
+                  <div className="pb-5 md:pb-6">
+                    <ul className="space-y-3">
+                      {item.bullets.map((b) => (
+                        <ListItem key={b}>{b}</ListItem>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SnapSection({
   id,
   children,
@@ -678,8 +785,8 @@ const scrollToSection = (id: string) => {
               </h2>
 
               <p className="mt-4 max-w-5xl text-base md:text-lg leading-relaxed text-foreground/80">
-                Modern supply chain management is all about receiving inputs from (1) vendors (e.g., raw material suppliers), carrying out (2) operations that utilize some (3) resources, and move (4) products to the market in an (5) intelligent way to meet customer demand. These five elements (vendors, operations, resources, products, and intelligence governing all interractions across them) are the key dimensions of supply chains, representing different trade-offs decision makers face.
-                We have built VORPI AI on these dimensions and addressed the three critical issues in the supply chain software landscape: (a) data aggregation reduces granularity, leading to information loss and less accurate forecasts, (b) optimization tools are often inflexible and rely on unrealistic assumptions, and (c) reporting applications can obscure or conflate critical operational trade-offs.
+                Supply chain management is all about receiving inputs from (1) vendors (e.g., raw material suppliers), carrying out (2) operations that utilize some (3) resources, and move (4) products to the market in an (5) intelligent way to meet customer demand. These five elements (vendors, operations, resources, products, and intelligence governing all interractions across them) are the key dimensions of supply chains, representing different trade-offs decision makers face.
+                We have built VORPI AI on these dimensions and addressed the three critical issues in the supply chain software landscape: (a) data aggregation reducing granularity and leading to information loss and less accurate forecasts, (b) optimization tools being inflexible and relying on unrealistic assumptions, and (c) reporting applications obscuring or conflating critical operational trade-offs.
               </p>
             </div>
           </motion.div>
@@ -689,71 +796,31 @@ const scrollToSection = (id: string) => {
       </SnapSection>
 
 
-      {/* INDUSTRIES */}
-      <SnapSection id="for" tone="tint">
-        <SectionBg src="/vorpi-for.jpg" />
-        <div className="relative z-10">
-        <div className="grid gap-10 lg:grid-cols-12 items-start"></div>
+        {/* INDUSTRIES */}
+        <SnapSection id="for" tone="tint">
+          <SectionBg src="/vorpi-for.jpg" />
+          <div className="relative z-10">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.35 }}
+              className="mb-8 md:mb-10 max-w-6xl"
+            >
+              <div className="rounded-[28px] border border-white/40 bg-white/90 p-6 md:p-8 backdrop-blur-sm shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+                <h2 className="text-2xl md:text-2xl font-semibold tracking-tight">
+                  Built for manufacturers, wholesalers, and retailers
+                </h2>
 
-        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.35 }}>
-          <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">Built for manufacturers, wholesalers, and retailers</h2>
-          <p className="mt-3 max-w-3xl text-base md:text-lg leading-relaxed">
-            Same twin, different decisions. Clear outcomes for each audience.
-          </p>
-        </motion.div>
-        
+                <p className="mt-4 max-w-5xl text-base md:text-lg leading-relaxed text-foreground/80">
+                  Same twin, different decisions. Clear outcomes for each audience.
+                </p>
+              </div>
+            </motion.div>
 
-        <div className="mt-8 grid gap-4 lg:grid-cols-12">
-          <Card className="lg:col-span-4 shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2">
-                <Factory className="h-4 w-4 text-primary" /> Manufacturers
-              </CardTitle>
-              <CardDescription>Plan and execute under deep uncertainty.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3">
-                <ListItem>Inventory optimization under demand, production lead time, and supply lead time uncertainties.</ListItem>
-                <ListItem>State-of-art demand forecasting with advance order and demand lead time variations.</ListItem>
-                <ListItem>Seamless integration of sales transactions and MPS/MRP. </ListItem>
-              </ul>
-            </CardContent>
-          </Card>
-
-          <Card className="lg:col-span-4 shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2">
-                <Truck className="h-4 w-4 text-primary" /> Wholesalers
-              </CardTitle>
-              <CardDescription>Allocate scarce supply across customers.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3">
-                <ListItem>Inventory optimization with downstream proliferation of locations.</ListItem>
-                <ListItem>State-of-art demand forecasting with price-dependent product selection.</ListItem>
-                <ListItem>Strategic inventory placement across distribution and fulfillment centers.</ListItem>
-              </ul>
-            </CardContent>
-          </Card>
-
-          <Card className="lg:col-span-4 shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2">
-                <Store className="h-4 w-4 text-primary" /> Retailers
-              </CardTitle>
-              <CardDescription>Keep products where and when customers buy.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3">
-                <ListItem>Omni-channel inventory optimization.</ListItem>
-                <ListItem>State-of-art demand forecasting with store and website traffic, product selection, and pricing dynamics.</ListItem>
-                <ListItem>Streamline replenishment at key locations.</ListItem>
-              </ul>
-            </CardContent>
-          </Card>
-        </div>
-        </div>
-      </SnapSection>
+            <IndustriesAccordion />
+          </div>
+        </SnapSection>
 
 
       {/* BOOTSTRAP ENTRY */}
