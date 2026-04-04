@@ -300,8 +300,8 @@ function ProductAccordion() {
     <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
       {/* LEFT PANEL */}
       <div className="lg:col-span-4">
-        <div className="rounded-[28px] border border-white/10 bg-white/5 p-6 md:p-8 backdrop-blur-xl">
-          <div className="text-[11px] uppercase tracking-[0.22em] text-foreground/55 font-semibold">
+        <div className="rounded-[28px] border border-white/40 bg-white/90 p-6 md:p-8 backdrop-blur-sm">
+          <div className="mt-3 text-lg md:text-2xl font-semibold tracking-tight text-foreground/90">
             Replacing compexity with simplicity in supply chains
           </div>
 
@@ -309,13 +309,12 @@ function ProductAccordion() {
             Built at transactional granularity to overcome information loss,
             inflexible optimization, and reporting systems that blur critical trade-offs.
           </p>
-
         </div>
       </div>
 
       {/* RIGHT PANEL */}
       <div className="lg:col-span-8">
-        <div className="rounded-[28px] border border-white/10 bg-white/5 px-5 md:px-8 backdrop-blur-xl">
+        <div className="rounded-[28px] border border-white/40 bg-white/90 px-5 md:px-8 backdrop-blur-sm">
           {items.map((item, idx) => {
             const isOpen = idx === openIndex;
 
@@ -448,6 +447,7 @@ function BootstrapAccordion() {
           </div>
         </div>
       </div>
+
 
       {/* RIGHT PANEL */}
       <div className="lg:col-span-8">
