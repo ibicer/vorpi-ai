@@ -431,7 +431,7 @@ function BootstrapAccordion() {
     <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
       {/* LEFT PANEL */}
       <div className="lg:col-span-4">
-        <div className="rounded-[28px] border border-white/20 bg-white/15 p-6 md:p-8 backdrop-blur-2xl">
+        <div className="rounded-[28px] border border-white/40 bg-white/90 p-6 md:p-8 backdrop-blur-sm">
 
           <h3 className="mt-3 text-lg md:text-2xl font-semibold tracking-tight text-foreground/90">
             Research Background
@@ -451,7 +451,7 @@ function BootstrapAccordion() {
 
       {/* RIGHT PANEL */}
       <div className="lg:col-span-8">
-        <div className="rounded-[28px] border border-white/20 bg-white/15 px-5 md:px-8 backdrop-blur-2xl">
+        <div className="rounded-[28px] border border-white/40 bg-white/90 px-5 md:px-8 backdrop-blur-sm">
           {items.map((item, idx) => {
             const isOpen = idx === openIndex;
 
