@@ -376,17 +376,54 @@ function BootstrapAccordion() {
   const items = [
     {
       k: "Unique Architecture",
-      title: " VOPRI AI's modular architecture is built on core supply chain dimensions and trade-offs, enabling full-scale leverage of LLMs",
+      title: (
+        <>
+          VOPRI AI's unique architecture combines algorithms and workflows into two modules as Intelligence and Engine. It is built on core supply chain dimensions and trade-offs, enabling full-scale leverage of LLMs.{" "}
+          <a
+            href="https://www.cambridge.org/core/books/reimagining-supply-chain-management/F52562BF8E0860206693593CC8A0B73D"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-primary hover:text-primary/80 transition"
+          >
+            Read our book published by Cambridge University Press!
+          </a>
+        </>
+      ),
     },
     {
       k: "Novel AI Algorithms",
-      title: "VORPI AI uses decomposition-based predictive and optimization models to minimize the inefficiecies resulting from algorithmic issues.",
+      title: (
+        <>
+          VORPI AI uses decomposition-based predictive and optimization models to minimize the inefficiecies resulting from algorithmic issues.{" "}
+          <a
+            href="https://link.springer.com/book/10.1007/978-3-031-30347-0"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-primary hover:text-primary/80 transition"
+          >
+            Read our book published by Springer!
+          </a>
+        </>
+      ),
     },
     {
       k: "Robust Improvements",
-      title: "VORPI AI offers robust improvements in supply chains: +10% leaner inventories with guaranteed service performance, +5% lower working-capital requirements",
+      title: (
+        <>
+          VORPI AI offers robust improvements in supply chains: +10% leaner inventories with guaranteed service performance, +5% lower working-capital requirements.{" "}
+          <a
+            href="https://hbr.org/2022/01/using-uncertainty-modeling-to-better-predict-demand"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-primary hover:text-primary/80 transition"
+          >
+            Read our article published at the Harvard Business Review!
+          </a>
+        </>
+      ),
     },
   ];
+
 
   const [openIndex, setOpenIndex] = useState(0);
 
@@ -400,9 +437,8 @@ function BootstrapAccordion() {
             Research Background
           </h3>
 
-          <p className="mt-6 max-w-md text-base md:text-lg leading-relaxed text-foreground/70">
-            A novel method combining architecture, algorithms, workflows into Intelligence and Engine modules. 
-            Backed by the founder's two academic books and case article publsihed in Cambridge University Press, Springer, and Harvard Business Press, respectively.
+          <p className="mt-6 max-w-md text-base md:text-lg leading-relaxed text-foreground/70"> 
+            Backed by the founder's two academic books and case article publsihed in the Cambridge University Press, Springer, and Harvard Business Press, respectively.
           </p>
 
           <div className="mt-8">
@@ -632,8 +668,7 @@ const scrollToSection = (id: string) => {
             <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">Major breakthrough in supply chain management</h2>
             <p className="mt-3 max-w-3xl text-base md:text-lg leading-relaxed">
                Modern supply chain management is all about receiving inputs from (1) vendors (e.g., raw material suppliers), carrying out (2) operations that utilize some (3) resources, and move (4) products to the market in an (5) intelligent way to meet customer demand. These five elements are the key dimensions of supply chains, representing different trade-offs decision makers face.
-               Yet, there are three challenges in supply chain systems such that (a) data aggregation reduces granularity, leading to information loss and less accurate forecasts, (b) optimization tools are often inflexible and rely on unrealistic assumptions, and (c) reporting applications can obscure or conflate critical operational trade-offs. VORPI AI addresses these issues through 
-               research-backed innovations built on the LLM technology.
+               We have built VORPI AI on these dimensions and addressed the three critical issues in the supply chain software landscape: (a) data aggregation reduces granularity, leading to information loss and less accurate forecasts, (b) optimization tools are often inflexible and rely on unrealistic assumptions, and (c) reporting applications can obscure or conflate critical operational trade-offs.
             </p>
           </motion.div>
           <ProductAccordion />
