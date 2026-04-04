@@ -431,7 +431,7 @@ function BootstrapAccordion() {
     <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
       {/* LEFT PANEL */}
       <div className="lg:col-span-4">
-        <div className="rounded-[28px] border border-white/10 bg-white/5 p-6 md:p-8 backdrop-blur-xl">
+        <div className="rounded-[28px] border border-white/10 bg-white/10 p-6 md:p-8 backdrop-blur-xl">
 
           <h3 className="mt-3 text-lg md:text-2xl font-semibold tracking-tight text-foreground/90">
             Research Background
@@ -451,7 +451,7 @@ function BootstrapAccordion() {
 
       {/* RIGHT PANEL */}
       <div className="lg:col-span-8">
-        <div className="rounded-[28px] border border-white/10 bg-white/5 px-5 md:px-8 backdrop-blur-xl">
+        <div className="rounded-[28px] border border-white/10 bg-white/10 px-5 md:px-8 backdrop-blur-xl">
           {items.map((item, idx) => {
             const isOpen = idx === openIndex;
 
@@ -765,7 +765,7 @@ const scrollToSection = (id: string) => {
           </p>
         </motion.div>
 
-                <Card className="mt-8 shadow-sm">
+        <Card className="mt-8 shadow-sm">
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2">
               <Gauge className="h-4 w-4 text-primary" /> VORPI AI redefines supply chains in the most simple way.
@@ -805,88 +805,6 @@ const scrollToSection = (id: string) => {
             </CardDescription>
           </CardHeader>
         </Card>
-        </div>
-      </SnapSection>
-
-
-
-      {/* CASE STUDIES */}
-      <SnapSection id="proof" tone="tint">
-        <SectionBg src="/vorpi-proof.jpg" />
-        <div className="relative z-10">
-        <div className="grid gap-10 lg:grid-cols-12 items-start"></div>
-        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.35 }}>
-          <h2 className="text-2xl md:text-4xl font-semibold tracking-tight"> Case studies </h2>
-          <p className="mt-3 max-w-3xl text-base md:text-lg leading-relaxed">
-            Evidence-based research tested extensively in practice.
-          </p>
-        </motion.div>
-
-        <div className="mt-8 grid gap-4 lg:grid-cols-12">
-          <Card className="lg:col-span-7 shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2">
-                <BarChart3 className="h-4 w-4 text-primary" /> Success stories
-              </CardTitle>
-              <CardDescription>Our case studies went through extensive academic reviews to justify our claims.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3">
-                <ListItem>
-                Working capital reduction and accurate demand forecasting in the automotive industry. &nbsp;
-                <a
-                  href="https://hbr.org/2022/01/using-uncertainty-modeling-to-better-predict-demand"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline text-primary hover:text-primary/80 transition"
-                >
-                  Read our article published at the Harvard Business Review!
-                </a>
-                </ListItem>
-                <ListItem>
-                Inventory and fulfillment optimization in the manufacturing, wholesale, and retail industries. &nbsp;
-                <a
-                  href="https://link.springer.com/book/10.1007/978-3-031-30347-0"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline text-primary hover:text-primary/80 transition"
-                >
-                  Read our book published by Springer!
-                </a>
-                </ListItem>
-                <ListItem>
-                Supply chain design boosting performance. &nbsp;
-                <a
-                  href="https://www.cambridge.org/core/books/reimagining-supply-chain-management/F52562BF8E0860206693593CC8A0B73D"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline text-primary hover:text-primary/80 transition"
-                >
-                  Read our book published by the Cambridge University Press!
-                </a>
-                </ListItem>
-              </ul>
-            </CardContent>
-          </Card>
-
-          <Card className="lg:col-span-5 shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2">
-                <Lock className="h-4 w-4 text-primary" /> Enterprise readiness
-              </CardTitle>
-              <CardDescription>Start small, scale confidently.</CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-3">
-              {["Pilot-first", "Integration-friendly architecture", "Tailored to your company's needs"].map(
-                (t) => (
-                  <div key={t} className="rounded-2xl border bg-primary/5 p-3 text-sm text-muted-foreground">
-                    {t}
-                  </div>
-                )
-              )}
-            </CardContent>
-          </Card>
-        </div>
         </div>
       </SnapSection>
 
