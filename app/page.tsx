@@ -673,7 +673,7 @@ const scrollToSection = (id: string) => {
           >
 
             <div className="mt-3 rounded-[28px] border border-white/40 bg-white/90 p-6 md:p-8 backdrop-blur-sm shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
-              <h2 className="text-2xl md:text-5xl font-semibold tracking-tight">
+              <h2 className="text-2xl md:text-2xl font-semibold tracking-tight">
                 Major breakthrough in supply chain management
               </h2>
 
