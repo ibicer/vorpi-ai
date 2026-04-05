@@ -781,7 +781,7 @@ const scrollToSection = (id: string) => {
                 </h2>
 
                 <p className="mt-4 max-w-5xl text-base md:text-lg leading-relaxed text-foreground/80">
-                  Same twin, different decisions. Clear outcomes for each audience.
+                  Same software, different decisions. Clear outcomes for each audience.
                 </p>
 
                 <div className="mt-8">
