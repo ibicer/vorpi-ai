@@ -576,6 +576,107 @@ function IndustriesAccordion() {
   );
 }
 
+
+function InnovationAccordion() {
+  const items = [
+    {
+      k: "Vendors",
+      title: (
+        <>
+          This dimension provides a comprehensive vendor management solution, addressing the trade-off between in-house production and outsourcing.
+        </>
+      ),
+    },
+    {
+      k: "Operations",
+      title: (
+        <>
+          VORPI AI enables seamless control and flexible execution of supply chain operations, optimizing the trade-off between excess inventory and product shortages.
+        </>
+      ),
+    },
+    {
+      k: "Resources",
+      title: (
+        <>
+          Employees, machines, and inventory are all critical supply chain resources. A myopic approach may improve efficiency at the expense of responsiveness. VORPI AI helps organizations allocate resources to maximize revenue in an economically efficient manner.
+        </>
+      ),
+    },
+    {
+      k: "Products",
+      title: (
+        <>
+          Product assortment and management often involve a trade-off between customization and standardization. Our hierarchical model enables product-oriented scenario analysis within each category.
+        </>
+      ),
+    },
+      {
+      k: "Intelligence",
+      title: (
+        <>
+          We leverage decomposition-based mechanism design, recognizing that supply chains perform better when sub-models are deployed independently. This principle is applied to both forecasting and optimization algorithms.
+        </>
+      ),
+    },
+  ];
+
+
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  return (
+    <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
+      <div className="lg:col-span-12">
+        <div className="rounded-[28px] border border-white/40 bg-white/90 px-5 md:px-8 backdrop-blur-sm">
+          {items.map((item, idx) => {
+            const isOpen = openIndex === idx;
+
+            return (
+              <div
+                key={item.k}
+                className="border-b border-white/10 last:border-b-0"
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenIndex(isOpen ? -1 : idx)}
+                  className="flex w-full items-center justify-between gap-6 py-5 md:py-6 text-left"
+                  aria-expanded={isOpen}
+                >
+                  <div>
+                    <div className="text-lg md:text-2xl font-semibold tracking-tight text-foreground/90">
+                      {item.k}
+                    </div>
+                    {isOpen ? (
+                      <div className="mt-2 text-sm md:text-base text-foreground/60 font-medium">
+                        {item.title}
+                      </div>
+                    ) : null}
+                  </div>
+
+                  <div className="shrink-0 text-3xl md:text-4xl leading-none text-foreground/35">
+                    {isOpen ? "−" : "+"}
+                  </div>
+                </button>
+
+                <motion.div
+                  initial={false}
+                  animate={{
+                    height: isOpen ? "auto" : 0,
+                    opacity: isOpen ? 1 : 0,
+                  }}
+                  transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                  className="overflow-hidden"
+                >
+                </motion.div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SnapSection({
   id,
   children,
@@ -610,7 +711,6 @@ const tabs = [
   { id: "for", label: "Industries", icon: Factory },
   { id: "bootstrap", label: "Foresight", icon: Workflow }, 
   { id: "why", label: "Innovation", icon: Brain },
-  { id: "proof", label: "Cases", icon: BarChart3 },
   { id: "team", label: "Team", icon: Users }, 
 ];
 
@@ -828,66 +928,40 @@ const scrollToSection = (id: string) => {
 
             <ForesightAccordion />
           </div>
-        </SnapSection>      
+        </SnapSection>    
 
+        {/* OUR INNOVATION */}
+        <SnapSection id="why" tone="base">
+          <SectionBg src="/vorpi-why.jpg" />
+          <div className="relative z-10">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.35 }}
+              className="mb-8 md:mb-10 max-w-6xl"
+            >
+              <div className="rounded-[28px] border border-white/40 bg-white/90 p-6 md:p-8 backdrop-blur-sm shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+                <h2 className="text-2xl md:text-2xl font-semibold tracking-tight">
+                  Technological Innovation
+                </h2>
 
+                <p className="mt-4 max-w-5xl text-base md:text-lg leading-relaxed text-foreground/80">
+                  VORPI AI is built on decomposing the structure and analysis of supply chains. 
+                  Its unique database and algorithmic architecture minimize inefficiencies and unlock the full potential of LLMs.
+                </p>
 
-      {/* OUR INNOVATION */}
-      <SnapSection id="why" tone="base">
-        <SectionBg src="/vorpi-why.jpg" />
-        <div className="relative z-10">
-        <div className="grid gap-10 lg:grid-cols-12 items-start"></div>
-        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.35 }}>
-          <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">Major breakthrough in supply chain management</h2>
-          <p className="mt-3 max-w-3xl text-base md:text-lg leading-relaxed">
-            Perfect decomposition of predictive, optimization, and reporting tools.
-          </p>
-        </motion.div>
+                <div className="mt-8">
+                  <Button asChild size="lg" className="rounded-2xl px-8">
+                    <a href="#contact">Get Started</a>
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
 
-        <Card className="mt-8 shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
-              <Gauge className="h-4 w-4 text-primary" /> VORPI AI redefines supply chains in the most simple way.
-            </CardTitle>
-            <CardDescription>
-              Modern supply chain management is all about receiving inputs from (1) vendors (e.g., raw material suppliers), carrying out (2) operations that utilize some (3) resources, and move (4) products to the market in an (5) intelligent way to meet customer demand. These five elements are the key dimensions of supply chains, representing different trade-offs decision makers face.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-
-        <div className="mt-8 grid gap-4 md:grid-cols-2">
-          {[
-            { icon: Factory, t: "Vendors", d: "In-house vs outsourcing." },
-            { icon: Boxes, t: "Operations", d: "Excess inventory vs shortages." },
-            { icon: Truck, t: "Resources", d: "Efficiency vs responsiveness." },
-            { icon: Building2, t: "Products", d: "Standardization vs customization." },
-            { icon: Sparkles, t: "Intelligence", d: "Inventory imbalances vs revenue growth." },
-          ].map((x) => (
-            <Card key={x.t} className="shadow-sm">
-              <CardHeader>
-                <CardTitle className="text-base flex items-center gap-2">
-                  <x.icon className="h-4 w-4 text-primary" /> {x.t}
-                </CardTitle>
-                <CardDescription>{x.d}</CardDescription>
-              </CardHeader>
-            </Card>
-          ))}
-        </div>
-
-        <Card className="mt-8 shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
-              <Brain className="h-4 w-4 text-primary" /> Decomposition keeps it fast at high granularity
-            </CardTitle>
-            <CardDescription>
-              Instead of one opaque model, VORPI AI coordinates modular subproblems (forecasting, inventory, sourcing, fulfillment) through shared constraints and KPIs.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-        </div>
-      </SnapSection>
-
-
+            <InnovationAccordion />
+          </div>
+        </SnapSection>    
 
 
       {/* TEAM */}
