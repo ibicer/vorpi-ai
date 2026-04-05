@@ -704,6 +704,7 @@ function SnapSection({
 export default function VorpiLanding() {
 
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
 const tabs = [
@@ -835,34 +836,46 @@ const scrollToSection = (id: string) => {
         </div>
       ) : null}
 
-      {/* PRODUCT */}
-      <SnapSection id="product" tone="base">
-        <SectionBg src="/vorpi-product.jpg" />
-        <div className="relative z-10">
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.35 }}
-            className="mb-8 md:mb-10 max-w-6xl"
-          >
+        {/* PRODUCT */}
+        <SnapSection id="product" tone="base">
+          <SectionBg src="/vorpi-product.jpg" />
+          <div className="relative z-10">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.35 }}
+              className="mb-8 md:mb-10 max-w-6xl"
+            >
+              <div className="mt-3 rounded-[28px] border border-white/40 bg-white/90 p-6 md:p-8 backdrop-blur-sm shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+                <h2 className="text-2xl md:text-2xl font-semibold tracking-tight">
+                  Major breakthrough in supply chain management
+                </h2>
 
-            <div className="mt-3 rounded-[28px] border border-white/40 bg-white/90 p-6 md:p-8 backdrop-blur-sm shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
-              <h2 className="text-2xl md:text-2xl font-semibold tracking-tight">
-                Major breakthrough in supply chain management
-              </h2>
+                <div
+                  onClick={() => setExpanded((v) => !v)}
+                  className="mt-4 max-w-5xl cursor-pointer group"
+                >
+                  <p
+                    className={cn(
+                      "text-base md:text-lg leading-relaxed text-foreground/80 transition-all duration-300",
+                      expanded ? "" : "line-clamp-2"
+                    )}
+                  >
+                    Supply chain management is all about receiving inputs from (1) vendors (e.g., raw material suppliers), carrying out (2) operations that utilize some (3) resources, and move (4) products to the market in an (5) intelligent way to meet customer demand. These five elements (vendors, operations, resources, products, and intelligence governing all interractions across them) are the key dimensions of supply chains, representing different trade-offs decision makers face.
+                    We have built VORPI AI on these dimensions and addressed the three critical issues in the supply chain software landscape: (a) data aggregation reducing granularity and leading to information loss and less accurate forecasts, (b) optimization tools being inflexible and relying on unrealistic assumptions, and (c) reporting applications obscuring or conflating critical operational trade-offs.
+                  </p>
 
-              <p className="mt-4 max-w-5xl text-base md:text-lg leading-relaxed text-foreground/80">
-                Supply chain management is all about receiving inputs from (1) vendors (e.g., raw material suppliers), carrying out (2) operations that utilize some (3) resources, and move (4) products to the market in an (5) intelligent way to meet customer demand. These five elements (vendors, operations, resources, products, and intelligence governing all interractions across them) are the key dimensions of supply chains, representing different trade-offs decision makers face.
-                We have built VORPI AI on these dimensions and addressed the three critical issues in the supply chain software landscape: (a) data aggregation reducing granularity and leading to information loss and less accurate forecasts, (b) optimization tools being inflexible and relying on unrealistic assumptions, and (c) reporting applications obscuring or conflating critical operational trade-offs.
-              </p>
-            </div>
-          </motion.div>
+                  <div className="mt-2 text-sm text-foreground/50 transition group-hover:text-foreground/70">
+                    {expanded ? "Click to collapse" : "Click to read more"}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
 
-          <ProductAccordion />
-        </div>
-      </SnapSection>
-
+            <ProductAccordion />
+          </div>
+        </SnapSection>
 
         {/* INDUSTRIES */}
         <SnapSection id="for" tone="tint">
