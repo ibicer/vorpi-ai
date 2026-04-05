@@ -377,7 +377,7 @@ function ProductAccordion() {
   );
 }
 
-function BootstrapAccordion() {
+function ForesightAccordion() {
   const items = [
     {
       k: "Unique Architecture",
@@ -434,29 +434,7 @@ function BootstrapAccordion() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
-      {/* LEFT PANEL */}
-      <div className="lg:col-span-4">
-        <div className="rounded-[28px] border border-white/40 bg-white/90 p-6 md:p-8 backdrop-blur-sm">
-
-          <h3 className="mt-3 text-lg md:text-2xl font-semibold tracking-tight text-foreground/90">
-            Research Background
-          </h3>
-
-          <p className="mt-6 max-w-md text-base md:text-lg leading-relaxed text-foreground/70"> 
-            Backed by the team's 15+ years of academic and professional work.
-          </p>
-
-          <div className="mt-8">
-            <Button asChild size="lg" className="rounded-2xl px-8">
-              <a href="#contact">Get Started</a>
-            </Button>
-          </div>
-        </div>
-      </div>
-
-
-      {/* RIGHT PANEL */}
-      <div className="lg:col-span-8">
+      <div className="lg:col-span-12">
         <div className="rounded-[28px] border border-white/40 bg-white/90 px-5 md:px-8 backdrop-blur-sm">
           {items.map((item, idx) => {
             const isOpen = openIndex === idx;
@@ -826,6 +804,39 @@ const scrollToSection = (id: string) => {
           <BootstrapAccordion />
         </div>
       </SnapSection>
+
+
+        {/* FORESIGHT */}
+        <SnapSection id="bootstrap" tone="base">
+          <SectionBg src="/vorpi-bootstrap.jpg" />
+          <div className="relative z-10">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.35 }}
+              className="mb-8 md:mb-10 max-w-6xl"
+            >
+              <div className="rounded-[28px] border border-white/40 bg-white/90 p-6 md:p-8 backdrop-blur-sm shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
+                <h2 className="text-2xl md:text-2xl font-semibold tracking-tight">
+                  Research Background
+                </h2>
+
+                <p className="mt-4 max-w-5xl text-base md:text-lg leading-relaxed text-foreground/80">
+                  Backed by the team's 15+ years of academic and professional work.
+                </p>
+
+                <div className="mt-8">
+                  <Button asChild size="lg" className="rounded-2xl px-8">
+                    <a href="#contact">Get Started</a>
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+
+            <ForesightAccordion />
+          </div>
+        </SnapSection>      
 
 
 
