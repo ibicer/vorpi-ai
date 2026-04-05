@@ -424,7 +424,7 @@ function BootstrapAccordion() {
   ];
 
 
-  const [openIndex, setOpenIndex] = useState(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
@@ -453,7 +453,7 @@ function BootstrapAccordion() {
       <div className="lg:col-span-8">
         <div className="rounded-[28px] border border-white/40 bg-white/90 px-5 md:px-8 backdrop-blur-sm">
           {items.map((item, idx) => {
-            const isOpen = idx === openIndex;
+            const isOpen = openIndex === idx;
 
             return (
               <div
@@ -532,77 +532,61 @@ function IndustriesAccordion() {
     },
   ];
 
-  const [openIndex, setOpenIndex] = useState(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
-      {/* LEFT PANEL */}
-      <div className="lg:col-span-4">
-        <div className="rounded-[28px] border border-white/40 bg-white/90 p-6 md:p-8 backdrop-blur-sm">
-          <div className="mt-3 text-lg md:text-2xl font-semibold tracking-tight text-foreground/90">
-            Built for manufacturers, wholesalers, and retailers
-          </div>
+      <div className="rounded-[28px] border border-white/40 bg-white/90 px-5 md:px-8 backdrop-blur-sm">
+        {items.map((item, idx) => {
+          const isOpen = openIndex === idx;
 
-          <p className="mt-6 max-w-md text-base md:text-lg leading-relaxed text-foreground/70">
-            Same twin, different decisions. Clear outcomes for each operating model and channel structure.
-          </p>
-        </div>
-      </div>
-
-      {/* RIGHT PANEL */}
-      <div className="lg:col-span-8">
-        <div className="rounded-[28px] border border-white/40 bg-white/90 px-5 md:px-8 backdrop-blur-sm">
-          {items.map((item, idx) => {
-            const isOpen = idx === openIndex;
-
-            return (
-              <div
-                key={item.k}
-                className="border-b border-white/10 last:border-b-0"
+          return (
+            <div
+              key={item.k}
+              className="border-b border-white/10 last:border-b-0"
+            >
+              <button
+                type="button"
+                onClick={() => setOpenIndex(isOpen ? -1 : idx)}
+                className="flex w-full items-center justify-between gap-6 py-5 md:py-6 text-left"
+                aria-expanded={isOpen}
               >
-                <button
-                  type="button"
-                  onClick={() => setOpenIndex(isOpen ? -1 : idx)}
-                  className="flex w-full items-center justify-between gap-6 py-5 md:py-6 text-left"
-                  aria-expanded={isOpen}
-                >
-                  <div>
-                    <div className="text-lg md:text-2xl font-semibold tracking-tight text-foreground/90">
-                      {item.k}
+                <div>
+                  <div className="text-lg md:text-2xl font-semibold tracking-tight text-foreground/90">
+                    {item.k}
+                  </div>
+                  {isOpen ? (
+                    <div className="mt-2 text-sm md:text-base text-foreground/60 font-medium">
+                      {item.title}
                     </div>
-                    {isOpen ? (
-                      <div className="mt-2 text-sm md:text-base text-foreground/60 font-medium">
-                        {item.title}
-                      </div>
-                    ) : null}
-                  </div>
+                  ) : null}
+                </div>
 
-                  <div className="shrink-0 text-3xl md:text-4xl leading-none text-foreground/35">
-                    {isOpen ? "−" : "+"}
-                  </div>
-                </button>
+                <div className="shrink-0 text-3xl md:text-4xl leading-none text-foreground/35">
+                  {isOpen ? "−" : "+"}
+                </div>
+              </button>
 
-                <motion.div
-                  initial={false}
-                  animate={{
-                    height: isOpen ? "auto" : 0,
-                    opacity: isOpen ? 1 : 0,
-                  }}
-                  transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                  className="overflow-hidden"
-                >
-                  <div className="pb-5 md:pb-6">
-                    <ul className="space-y-3">
-                      {item.bullets.map((b) => (
-                        <ListItem key={b}>{b}</ListItem>
-                      ))}
-                    </ul>
-                  </div>
-                </motion.div>
-              </div>
-            );
-          })}
-        </div>
+              <motion.div
+                initial={false}
+                animate={{
+                  height: isOpen ? "auto" : 0,
+                  opacity: isOpen ? 1 : 0,
+                }}
+                transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                className="overflow-hidden"
+              >
+                <div className="pb-5 md:pb-6">
+                  <ul className="space-y-3">
+                    {item.bullets.map((b) => (
+                      <ListItem key={b}>{b}</ListItem>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
