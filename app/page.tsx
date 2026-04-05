@@ -862,9 +862,10 @@ const scrollToSection = (id: string) => {
                       expanded ? "" : "line-clamp-2"
                     )}
                   >
-                    Supply chain management is all about receiving inputs from (1) vendors (e.g., raw material suppliers), carrying out (2) operations that utilize some (3) resources, and move (4) products to the market in an (5) intelligent way to meet customer demand. These five elements (vendors, operations, resources, products, and intelligence governing all interractions across them) are the key dimensions of supply chains, representing different trade-offs decision makers face.
-                    We have built VORPI AI on these dimensions and addressed the three critical issues in the supply chain software landscape: (a) data aggregation reducing granularity and leading to information loss and less accurate forecasts, (b) optimization tools being inflexible and relying on unrealistic assumptions, and (c) reporting applications obscuring or conflating critical operational trade-offs.
-                  </p>
+                    VORPI AI is a next-generation supply chain platform that combines advanced forecasting, optimization algorithms, and LLMs to maximize end-to-end supply chain performance. It is built around two integrated modules: Intelligence (Sales, Forecasting, Decisions, Planning) and Engine (Vendors, Operations, Resources, Products). Intelligence determines what actions should be taken, while Engine ensures those actions are executed, governed, and tracked across the organization.
+                    
+                    At its core, supply chain management revolves around five dimensions: vendors, operations, resources, products, and intelligence. These dimensions capture the fundamental trade-offs firms face when moving from raw materials to customer demand. VORPI AI is designed around this structure and addresses three major gaps in today’s supply chain software: (1) data aggregation that reduces granularity and weakens forecasting accuracy, (2) rigid optimization tools built on unrealistic assumptions, and (3) reporting systems that obscure critical operational trade-offs. By unifying these elements, VORPI AI enables faster, more informed, and more scalable decision-making.
+                    </p>
 
                   <div className="mt-2 text-sm text-foreground/50 transition group-hover:text-foreground/70">
                     {expanded ? "Click to collapse" : "Click to read more"}
