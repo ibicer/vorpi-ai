@@ -298,28 +298,7 @@ function ProductAccordion() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
-      {/* LEFT PANEL */}
-      <div className="lg:col-span-4">
-        <div className="rounded-[28px] border border-white/40 bg-white/90 p-6 md:p-8 backdrop-blur-sm">
-          <div className="mt-3 text-lg md:text-2xl font-semibold tracking-tight text-foreground/90">
-            Replacing compexity with simplicity in supply chains
-          </div>
-
-          <p className="mt-6 max-w-md text-base md:text-lg leading-relaxed text-foreground/70">
-            Built at transactional granularity to overcome information loss,
-            inflexible optimization, and reporting systems that blur critical trade-offs.
-          </p>
-
-          <div className="mt-8">
-            <Button asChild size="lg" className="rounded-2xl px-8">
-              <a href="#contact">Get Started</a>
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* RIGHT PANEL */}
-      <div className="lg:col-span-8">
+      <div className="lg:col-span-12">
         <div className="rounded-[28px] border border-white/40 bg-white/90 px-5 md:px-8 backdrop-blur-sm">
           {items.map((item, idx) => {
             const isOpen = openIndex === idx;
@@ -849,7 +828,7 @@ const scrollToSection = (id: string) => {
             >
               <div className="mt-3 rounded-[28px] border border-white/40 bg-white/90 p-6 md:p-8 backdrop-blur-sm shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
                 <h2 className="text-2xl md:text-2xl font-semibold tracking-tight">
-                  Major breakthrough in supply chain management
+                  Turning Supply Chain Complexity into Simplicity
                 </h2>
 
                 <div
@@ -862,10 +841,13 @@ const scrollToSection = (id: string) => {
                       expanded ? "" : "line-clamp-2"
                     )}
                   >
-                    VORPI AI is a next-generation supply chain platform that combines advanced forecasting, optimization algorithms, and LLMs to maximize end-to-end supply chain performance. It is built around two integrated modules: Intelligence (Sales, Forecasting, Decisions, Planning) and Engine (Vendors, Operations, Resources, Products). Intelligence determines what actions should be taken, while Engine ensures those actions are executed, governed, and tracked across the organization.
-                    
-                    At its core, supply chain management revolves around five dimensions: vendors, operations, resources, products, and intelligence. These dimensions capture the fundamental trade-offs firms face when moving from raw materials to customer demand. VORPI AI is designed around this structure and addresses three major gaps in today’s supply chain software: (1) data aggregation that reduces granularity and weakens forecasting accuracy, (2) rigid optimization tools built on unrealistic assumptions, and (3) reporting systems that obscure critical operational trade-offs. By unifying these elements, VORPI AI enables faster, more informed, and more scalable decision-making.
+                    <p>
+                      VORPI AI is a next-generation supply chain platform that combines advanced forecasting, optimization algorithms, and LLMs to maximize end-to-end supply chain performance. It is built around two integrated modules: Intelligence (Sales, Forecasting, Decisions, Planning) and Engine (Vendors, Operations, Resources, Products). Intelligence determines what actions should be taken, while Engine ensures those actions are executed, governed, and tracked across the organization.
                     </p>
+                    <p>
+                      At its core, supply chain management revolves around five dimensions: vendors, operations, resources, products, and intelligence. These dimensions capture the fundamental trade-offs firms face when moving from raw materials to customer demand. VORPI AI is designed around this structure and addresses three major gaps in today’s supply chain software: (1) data aggregation that reduces granularity and weakens forecasting accuracy, (2) rigid optimization tools built on unrealistic assumptions, and (3) reporting systems that obscure critical operational trade-offs. By unifying these elements, VORPI AI enables faster, more informed, and more scalable decision-making.
+                    </p>
+                  </p>
 
                   <div className="mt-2 text-sm text-foreground/50 transition group-hover:text-foreground/70">
                     {expanded ? "Click to collapse" : "Click to read more"}
