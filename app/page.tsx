@@ -797,14 +797,6 @@ const scrollToSection = (id: string) => {
         </SnapSection>
 
 
-      {/* BOOTSTRAP ENTRY */}
-      <SnapSection id="bootstrap" tone="base">
-        <SectionBg src="/vorpi-bootstrap.jpg" />
-        <div className="relative z-10">
-          <BootstrapAccordion />
-        </div>
-      </SnapSection>
-
 
         {/* FORESIGHT */}
         <SnapSection id="bootstrap" tone="base">
