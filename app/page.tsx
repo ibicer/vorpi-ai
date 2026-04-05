@@ -536,7 +536,7 @@ function IndustriesAccordion() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
-      <div className="rounded-[28px] border border-white/40 bg-white/90 px-5 md:px-8 backdrop-blur-sm">
+      <div className="rounded-[28px] lg:col-span-12 border border-white/40 bg-white/90 px-5 md:px-8 backdrop-blur-sm">
         {items.map((item, idx) => {
           const isOpen = openIndex === idx;
 
