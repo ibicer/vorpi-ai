@@ -293,8 +293,8 @@ function ProductAccordion() {
       ],
     },
   ];
-
-  const [openIndex, setOpenIndex] = useState(0);
+  
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
@@ -316,7 +316,7 @@ function ProductAccordion() {
       <div className="lg:col-span-8">
         <div className="rounded-[28px] border border-white/40 bg-white/90 px-5 md:px-8 backdrop-blur-sm">
           {items.map((item, idx) => {
-            const isOpen = idx === openIndex;
+            const isOpen = openIndex === idx;
 
             return (
               <div
