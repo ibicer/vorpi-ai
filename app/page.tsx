@@ -309,6 +309,12 @@ function ProductAccordion() {
             Built at transactional granularity to overcome information loss,
             inflexible optimization, and reporting systems that blur critical trade-offs.
           </p>
+
+          <div className="mt-8">
+            <Button asChild size="lg" className="rounded-2xl px-8">
+              <a href="#contact">Get Started</a>
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -437,7 +443,7 @@ function BootstrapAccordion() {
           </h3>
 
           <p className="mt-6 max-w-md text-base md:text-lg leading-relaxed text-foreground/70"> 
-            Backed by the founder's two academic books and case article publsihed in the Cambridge University Press, Springer, and Harvard Business Press, respectively.
+            Backed by the team's 15+ years of academic and professional work.
           </p>
 
           <div className="mt-8">
