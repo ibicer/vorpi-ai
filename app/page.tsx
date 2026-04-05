@@ -805,6 +805,12 @@ const scrollToSection = (id: string) => {
                 <p className="mt-4 max-w-5xl text-base md:text-lg leading-relaxed text-foreground/80">
                   Same twin, different decisions. Clear outcomes for each audience.
                 </p>
+
+                <div className="mt-8">
+                  <Button asChild size="lg" className="rounded-2xl px-8">
+                    <a href="#contact">Get Started</a>
+                  </Button>
+                </div>
               </div>
             </motion.div>
 
