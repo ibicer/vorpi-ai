@@ -1,1094 +1,939 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import type { Variants } from "framer-motion";
 import {
-  Menu,
-  X,
-  Users,
+  Activity,
   ArrowRight,
   BarChart3,
+  Bot,
   Boxes,
+  BrainCircuit,
   Building2,
-  CheckCircle2,
+  Check,
+  ChevronRight,
+  CircleDot,
+  Database,
   Factory,
   Gauge,
-  Layers,
+  GitBranch,
+  Layers3,
   LineChart,
-  Lock,
-  AlertTriangle,
+  MapPin,
+  Menu,
+  Network,
+  PackageSearch,
+  PlayCircle,
+  Radar,
   ShieldCheck,
-  Search,
-  Activity,
   Sparkles,
-  Brain,
-  Store,
+  Target,
   Truck,
+  Users,
   Workflow,
+  X,
+  Zap,
 } from "lucide-react";
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+const navItems = [
+  { id: "platform", label: "Platform" },
+  { id: "architecture", label: "Architecture" },
+  { id: "intelligence", label: "Intelligence" },
+  { id: "copilot", label: "AI Copilot" },
+  { id: "company", label: "Company" },
+];
 
-/**
- * vorpi.ai — Full-page snap landing (modern-startup) using shadcn/ui
- *
- * Requirements:
- * - shadcn/ui installed (button, badge, card)
- * - Tailwind configured (shadcn init)
- * - This file is a Client Component (hooks + framer-motion)
- */
-
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 14 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.55,
-      ease: [0.16, 1, 0.3, 1], // <-- replaces "easeOut"
-    },
+const pillars = [
+  {
+    letter: "V",
+    title: "Vendors",
+    description:
+      "Supplier relationships, lead times, pricing, performance, contracts, and procurement risk.",
+    icon: Truck,
   },
-};
+  {
+    letter: "O",
+    title: "Operations",
+    description:
+      "Orders, routings, work execution, activity dependencies, fulfillment, and operational events.",
+    icon: Workflow,
+  },
+  {
+    letter: "R",
+    title: "Resources",
+    description:
+      "People, machines, work centers, capacity, inventory, and manufacturing constraints.",
+    icon: Gauge,
+  },
+  {
+    letter: "P",
+    title: "Products",
+    description:
+      "Product masters, categories, bills of materials, critical paths, and product structures.",
+    icon: Boxes,
+  },
+  {
+    letter: "I",
+    title: "Intelligence",
+    description:
+      "Forecasting, optimization, planning, executive insights, and conversational decision support.",
+    icon: BrainCircuit,
+  },
+];
 
-function SectionBg({ src }: { src: string }) {
+const engines = [
+  {
+    eyebrow: "Versatile Architecture",
+    title: "A proprietary enterprise model built for AI at supply-chain scale.",
+    description:
+      "The VORPI Framework connects vendors, operations, resources, products, and locations into one operational knowledge model. AI can reason across the enterprise because the relationships, dependencies, and trade-offs are represented explicitly.",
+    icon: Network,
+    points: [
+      "Enterprise Core for trusted operational data and execution",
+      "Relationship-aware model across products, suppliers, resources, and locations",
+      "Critical-path and multi-echelon visibility for complex manufacturing",
+    ],
+  },
+  {
+    eyebrow: "Versatile Forecasting",
+    title: "Demand models built from the real mechanics of customer acquisition.",
+    description:
+      "VORPI uses Fast Fourier Transform methods to combine uncertainty from customer traffic, product selection, order occurrence, and quantity. The result is a richer demand model than a single aggregated time-series forecast.",
+    icon: LineChart,
+    points: [
+      "Additive, multiplicative, and intermittent demand modeling",
+      "Transaction-level learning with uncertainty preserved",
+      "Scenario distributions designed for planning and service decisions",
+    ],
+  },
+  {
+    eyebrow: "Versatile Optimization",
+    title: "Reinforcement learning that turns uncertainty into enterprise decisions.",
+    description:
+      "The platform uses reinforcement learning, decomposition, and critical-path logic to evaluate inventory, procurement, production, and planning decisions over time—balancing service, risk, working capital, and operational feasibility.",
+    icon: Target,
+    points: [
+      "Multi-echelon safety-stock and decoupling-point decisions",
+      "Q-learning and policy evaluation across planning horizons",
+      "Explainable recommendations for FAS, MPS, MRP, and procurement",
+    ],
+  },
+];
+
+const outcomes = [
+  { value: "Faster", label: "decision cycles", icon: Zap },
+  { value: "Lower", label: "inventory exposure", icon: PackageSearch },
+  { value: "Higher", label: "service performance", icon: ShieldCheck },
+  { value: "Clearer", label: "enterprise visibility", icon: Radar },
+];
+
+const industries = [
+  {
+    title: "Industrial Manufacturing",
+    description:
+      "For complex BOMs, long lead times, constrained resources, and high-mix / low-volume environments.",
+    icon: Factory,
+  },
+  {
+    title: "OEMs",
+    description:
+      "Coordinate suppliers, components, final assembly, customer commitments, and critical-path risk.",
+    icon: Building2,
+  },
+  {
+    title: "Wholesale & Distribution",
+    description:
+      "Improve replenishment, inventory placement, supplier coordination, and multi-location service.",
+    icon: Database,
+  },
+  {
+    title: "Retail & CPG",
+    description:
+      "Model traffic, product choice, channel demand, promotions, and fulfillment at scale.",
+    icon: BarChart3,
+  },
+];
+
+function SectionHeading({
+  eyebrow,
+  title,
+  body,
+  align = "left",
+}: {
+  eyebrow: string;
+  title: string;
+  body?: string;
+  align?: "left" | "center";
+}) {
   return (
-    <div className="absolute inset-0 z-0 pointer-events-none">
+    <div className={align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
+      <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200">
+        <Sparkles className="h-3.5 w-3.5" />
+        {eyebrow}
+      </div>
+      <h2 className="text-balance text-3xl font-semibold tracking-[-0.035em] text-white md:text-5xl">
+        {title}
+      </h2>
+      {body ? (
+        <p className="mt-5 text-pretty text-base leading-8 text-slate-300 md:text-lg">
+          {body}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+function Logo({ compact = false }: { compact?: boolean }) {
+  return (
+    <a href="#top" className="flex items-center gap-3" aria-label="VORPI AI home">
       <img
-        src={src}
+        src="/vorpi-mark.png"
         alt=""
-        className="h-full w-full object-cover scale-110 brightness-[0.62] contrast-[1.25] saturate-[1.35]"
+        className={compact ? "h-9 w-9 object-contain" : "h-11 w-11 object-contain"}
       />
-      <div className="absolute inset-0 bg-sky-600/20 mix-blend-multiply" />
-      <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/65 to-background/55" />
-      <div className="absolute inset-0 bg-gradient-to-l from-background/35 via-transparent to-transparent" />
-    </div>
+      <div className="leading-none">
+        <div className="text-[0.9rem] font-medium tracking-[0.42em] text-white">VORPI</div>
+        <div className="mt-1 text-[0.58rem] font-semibold tracking-[0.48em] text-slate-400">AI</div>
+      </div>
+    </a>
   );
 }
 
-function ListItem({ children }: { children: React.ReactNode }) {
-  return (
-    <li className="flex gap-2 text-sm md:text-base">
-      <CheckCircle2 className="mt-0.5 h-5 w-5 flex-none text-primary" />
-      <span className="leading-relaxed">{children}</span>
-    </li>
-  );
-}
-
-function WarningItem({ children }: { children: React.ReactNode }) {
-  return (
-    <li className="flex gap-2 text-sm md:text-base text-foreground/90">
-      <AlertTriangle className="mt-0.5 h-4 w-4 flex-none text-primary" />
-      <span>{children}</span>
-    </li>
-  );
-}
-
-
-function KPI({ label, value, note }: { label: string; value: string; note?: string }) {
-  return (
-    <Card className="shadow-sm">
-      <CardContent className="p-4">
-        <div className="text-xs text-muted-foreground">{label}</div>
-        <div className="mt-1 text-lg md:text-xl font-semibold tracking-tight text-foreground">
-          {value}
-        </div>
-        {note ? <div className="mt-1 text-xs text-muted-foreground">{note}</div> : null}
-      </CardContent>
-    </Card>
-  );
-}
-
-function TopTabs({
-  containerRef,
-  items,
-}: {
-  containerRef: React.RefObject<HTMLDivElement | null>;
-  items: Array<{ id: string; label: string }>;
-}) {
-  const [active, setActive] = useState(items[0]?.id ?? "product");
-  const observerRef = useRef<IntersectionObserver | null>(null);
+function Header() {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const rootEl = containerRef.current;
-    if (!rootEl) return;
-
-    const els = items
-      .map((s) => document.getElementById(s.id))
-      .filter(Boolean) as HTMLElement[];
-    if (!els.length) return;
-
-    observerRef.current?.disconnect();
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => (a.boundingClientRect.top ?? 0) - (b.boundingClientRect.top ?? 0));
-        const topMost = visible[0];
-        if (!topMost) return;
-        setActive((topMost.target as HTMLElement).id);
-      },
-      {
-        root: rootEl,
-        rootMargin: "-10% 0px -70% 0px",
-        threshold: 0.01,
-      }
-    );
-
-    els.forEach((el) => observerRef.current?.observe(el));
-    return () => observerRef.current?.disconnect();
-  }, [containerRef, items]);
-
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <nav className="hidden md:flex items-center gap-1">
-      {items.map((t) => (
-        <button
-          key={t.id}
-          type="button"
-          onClick={() => scrollTo(t.id)}
-          className={cn(
-            "rounded-xl px-4 py-2 text-sm font-semibold transition cursor-pointer text-white/80 hover:text-white hover:bg-white/10",
-            active === t.id
-              ? "bg-white/15 text-white border border-white/30 shadow"
-              : "text-white/70 hover:text-white hover:bg-white/10"
-          )}
-          aria-current={active === t.id ? "page" : undefined}
-        >
-          {t.label}
-        </button>
-      ))}
-    </nav>
-  );
-}
-
-function MobileTabs({
-  containerRef,
-  items,
-}: {
-  containerRef: React.RefObject<HTMLDivElement | null>;
-  items: Array<{ id: string; label: string; icon: React.ComponentType<{ className?: string }> }>;
-}) {
-  const [active, setActive] = useState(items[0]?.id ?? "product");
-  const observerRef = useRef<IntersectionObserver | null>(null);
-
-  useEffect(() => {
-    const rootEl = containerRef.current;
-    if (!rootEl) return;
-
-    const els = items
-      .map((s) => document.getElementById(s.id))
-      .filter(Boolean) as HTMLElement[];
-    if (!els.length) return;
-
-    observerRef.current?.disconnect();
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => (a.boundingClientRect.top ?? 0) - (b.boundingClientRect.top ?? 0));
-        const topMost = visible[0];
-        if (!topMost) return;
-        setActive((topMost.target as HTMLElement).id);
-      },
-      {
-        root: rootEl,
-        rootMargin: "-20% 0px -60% 0px",
-        threshold: 0.01,
-      }
-    );
-
-    els.forEach((el) => observerRef.current?.observe(el));
-    return () => observerRef.current?.disconnect();
-  }, [containerRef, items]);
-
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
-  return (
-    <div className="md:hidden fixed bottom-3 left-0 right-0 z-50 px-3">
-      <div className="mx-auto max-w-md rounded-2xl border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/70 shadow-lg">
-        <div className="grid grid-cols-5">
-          {items.map((t) => {
-            const Icon = t.icon;
-            const isActive = active === t.id;
-            return (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => scrollTo(t.id)}
-                className={cn(
-                  "flex flex-col items-center justify-center gap-1 py-2.5 text-[11px] font-medium transition cursor-pointer",
-                  isActive ? "text-foreground" : "text-muted-foreground"
-                )}
-                aria-current={isActive ? "page" : undefined}
-              >
-                <span
-                  className={cn(
-                    "inline-flex h-9 w-9 items-center justify-center rounded-xl transition",
-                    isActive ? "bg-primary/12 border border-primary/25" : "bg-transparent"
-                  )}
-                >
-                  <Icon className={cn("h-5 w-5", isActive ? "text-primary" : "")} />
-                </span>
-                <span className={cn("leading-none", isActive ? "text-foreground" : "")}>{t.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ProductAccordion() {
-  const items = [
-    {
-      k: "Accurate Demand Forecasting",
-      title: "Uncertainty modeling for robust and precise forecasting.",
-      bullets: [
-        "Built on the fast Fourier transform and machine-learning regularization",
-        "Operates directly on transactional data while incorporating customer traffic, product-selection, and demand lead-time dynamics",
-      ],
-    },
-    {
-      k: "Inventory & Fulfillment Optimization",
-      title: "Large-scale optimization under uncertainty.",
-      bullets: [
-        "Built on dynamic optimization and decomposition techniques",
-        "Optimizes end-to-end decisions including procurement, production, and fulfillment across the supply chain",
-      ],
-    },
-    {
-      k: "Detailed Scenario Analysis",
-      title: "Simplified scenario analysis in complex environments.",
-      bullets: [
-        "Built on the VORPI framework across Vendors, Operations, Resources, Products, and Intelligence",
-        "Structures scenario analysis directly around interacting supply-chain trade-offs",
-      ],
-    },
-    {
-      k: "Real-Time Activity Monitoring",
-      title: "Blending operational monitoring with predictive foresight.",
-      bullets: [
-        "Powered by a database model uniquely tailored to the VORPI framework",
-        "Enables rapid information transfer and continuously updates system trajectories in real time",
-      ],
-    },
-  ];
-  
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  return (
-    <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
-      <div className="lg:col-span-12">
-        <div className="rounded-[28px] border border-white/40 bg-white/90 px-5 md:px-8 backdrop-blur-sm">
-          {items.map((item, idx) => {
-            const isOpen = openIndex === idx;
-
-            return (
-              <div
-                key={item.k}
-                className="border-b border-white/10 last:border-b-0"
-              >
-                <button
-                  type="button"
-                  onClick={() => setOpenIndex(isOpen ? -1 : idx)}
-                  className="flex w-full items-center justify-between gap-6 py-5 md:py-6 text-left"
-                  aria-expanded={isOpen}
-                >
-                  <div>
-                    <div className="text-lg md:text-2xl font-semibold tracking-tight text-foreground/90">
-                      {item.k}
-                    </div>
-                    {isOpen ? (
-                      <div className="mt-2 text-sm md:text-base text-foreground/60 font-medium">
-                        {item.title}
-                      </div>
-                    ) : null}
-                  </div>
-
-                  <div className="shrink-0 text-3xl md:text-4xl leading-none text-foreground/35">
-                    {isOpen ? "−" : "+"}
-                  </div>
-                </button>
-
-                <motion.div
-                  initial={false}
-                  animate={{
-                    height: isOpen ? "auto" : 0,
-                    opacity: isOpen ? 1 : 0,
-                  }}
-                  transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                  className="overflow-hidden"
-                >
-                  <div className="pb-5 md:pb-6">
-                    <ul className="space-y-3">
-                      {item.bullets.map((b) => (
-                        <ListItem key={b}>{b}</ListItem>
-                      ))}
-                    </ul>
-                  </div>
-                </motion.div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ForesightAccordion() {
-  const items = [
-    {
-      k: "Unique Architecture",
-      title: (
-        <>
-          VOPRI AI's unique architecture combines algorithms and workflows into two modules as Intelligence and Engine. It is built on core supply chain dimensions and trade-offs, enabling full-scale leverage of LLMs.{" "}
-          <a
-            href="https://www.cambridge.org/core/books/reimagining-supply-chain-management/F52562BF8E0860206693593CC8A0B73D"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline text-primary hover:text-primary/80 transition"
-          >
-            Read our book published by Cambridge University Press!
-          </a>
-        </>
-      ),
-    },
-    {
-      k: "Novel AI Algorithms",
-      title: (
-        <>
-          VORPI AI uses decomposition-based predictive and optimization models to minimize the inefficiecies resulting from algorithmic issues.{" "}
-          <a
-            href="https://link.springer.com/book/10.1007/978-3-031-30347-0"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline text-primary hover:text-primary/80 transition"
-          >
-            Read our book published by Springer!
-          </a>
-        </>
-      ),
-    },
-    {
-      k: "Robust Improvements",
-      title: (
-        <>
-          VORPI AI offers robust improvements in supply chains: +10% leaner inventories with guaranteed service performance, +5% lower working-capital requirements.{" "}
-          <a
-            href="https://hbr.org/2022/01/using-uncertainty-modeling-to-better-predict-demand"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline text-primary hover:text-primary/80 transition"
-          >
-            Read our article published at the Harvard Business Review!
-          </a>
-        </>
-      ),
-    },
-  ];
-
-
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  return (
-    <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
-      <div className="lg:col-span-12">
-        <div className="rounded-[28px] border border-white/40 bg-white/90 px-5 md:px-8 backdrop-blur-sm">
-          {items.map((item, idx) => {
-            const isOpen = openIndex === idx;
-
-            return (
-              <div
-                key={item.k}
-                className="border-b border-white/10 last:border-b-0"
-              >
-                <button
-                  type="button"
-                  onClick={() => setOpenIndex(isOpen ? -1 : idx)}
-                  className="flex w-full items-center justify-between gap-6 py-5 md:py-6 text-left"
-                  aria-expanded={isOpen}
-                >
-                  <div>
-                    <div className="text-lg md:text-2xl font-semibold tracking-tight text-foreground/90">
-                      {item.k}
-                    </div>
-                    {isOpen ? (
-                      <div className="mt-2 text-sm md:text-base text-foreground/60 font-medium">
-                        {item.title}
-                      </div>
-                    ) : null}
-                  </div>
-
-                  <div className="shrink-0 text-3xl md:text-4xl leading-none text-foreground/35">
-                    {isOpen ? "−" : "+"}
-                  </div>
-                </button>
-
-                <motion.div
-                  initial={false}
-                  animate={{
-                    height: isOpen ? "auto" : 0,
-                    opacity: isOpen ? 1 : 0,
-                  }}
-                  transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                  className="overflow-hidden"
-                >
-                </motion.div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function IndustriesAccordion() {
-  const items = [
-    {
-      k: "Manufacturers",
-      title: "Plan and execute under deep uncertainty.",
-      bullets: [
-        "Inventory optimization under demand, production lead time, and supply lead time uncertainties",
-        "State-of-the-art demand forecasting with advance order and demand lead time variations",
-        "Seamless integration of sales transactions and MPS/MRP",
-      ],
-    },
-    {
-      k: "Wholesalers",
-      title: "Allocate scarce supply across customers.",
-      bullets: [
-        "Inventory optimization with downstream proliferation of locations",
-        "State-of-the-art demand forecasting with price-dependent product selection",
-        "Strategic inventory placement across distribution and fulfillment centers",
-      ],
-    },
-    {
-      k: "Retailers",
-      title: "Keep products where and when customers buy.",
-      bullets: [
-        "Omni-channel inventory optimization",
-        "State-of-the-art demand forecasting with store and website traffic, product selection, and pricing dynamics",
-        "Streamline replenishment at key locations",
-      ],
-    },
-  ];
-
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  return (
-    <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
-      <div className="rounded-[28px] lg:col-span-12 border border-white/40 bg-white/90 px-5 md:px-8 backdrop-blur-sm">
-        {items.map((item, idx) => {
-          const isOpen = openIndex === idx;
-
-          return (
-            <div
-              key={item.k}
-              className="border-b border-white/10 last:border-b-0"
-            >
-              <button
-                type="button"
-                onClick={() => setOpenIndex(isOpen ? -1 : idx)}
-                className="flex w-full items-center justify-between gap-6 py-5 md:py-6 text-left"
-                aria-expanded={isOpen}
-              >
-                <div>
-                  <div className="text-lg md:text-2xl font-semibold tracking-tight text-foreground/90">
-                    {item.k}
-                  </div>
-                  {isOpen ? (
-                    <div className="mt-2 text-sm md:text-base text-foreground/60 font-medium">
-                      {item.title}
-                    </div>
-                  ) : null}
-                </div>
-
-                <div className="shrink-0 text-3xl md:text-4xl leading-none text-foreground/35">
-                  {isOpen ? "−" : "+"}
-                </div>
-              </button>
-
-              <motion.div
-                initial={false}
-                animate={{
-                  height: isOpen ? "auto" : 0,
-                  opacity: isOpen ? 1 : 0,
-                }}
-                transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                className="overflow-hidden"
-              >
-                <div className="pb-5 md:pb-6">
-                  <ul className="space-y-3">
-                    {item.bullets.map((b) => (
-                      <ListItem key={b}>{b}</ListItem>
-                    ))}
-                  </ul>
-                </div>
-              </motion.div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-
-function InnovationAccordion() {
-  const items = [
-    {
-      k: "Vendors",
-      title: (
-        <>
-          This dimension provides a comprehensive vendor management solution, addressing the trade-off between in-house production and outsourcing.
-        </>
-      ),
-    },
-    {
-      k: "Operations",
-      title: (
-        <>
-          VORPI AI enables seamless control and flexible execution of supply chain operations, optimizing the trade-off between excess inventory and product shortages.
-        </>
-      ),
-    },
-    {
-      k: "Resources",
-      title: (
-        <>
-          Employees, machines, and inventory are all critical supply chain resources. A myopic approach may improve efficiency at the expense of responsiveness. VORPI AI helps organizations allocate resources to maximize revenue in an economically efficient manner.
-        </>
-      ),
-    },
-    {
-      k: "Products",
-      title: (
-        <>
-          Product assortment and management often involve a trade-off between customization and standardization. Our hierarchical model enables product-oriented scenario analysis within each category.
-        </>
-      ),
-    },
-      {
-      k: "Intelligence",
-      title: (
-        <>
-          We leverage decomposition-based mechanism design, recognizing that supply chains perform better when sub-models are deployed independently. This principle is applied to both forecasting and optimization algorithms.
-        </>
-      ),
-    },
-  ];
-
-
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  return (
-    <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
-      <div className="lg:col-span-12">
-        <div className="rounded-[28px] border border-white/40 bg-white/90 px-5 md:px-8 backdrop-blur-sm">
-          {items.map((item, idx) => {
-            const isOpen = openIndex === idx;
-
-            return (
-              <div
-                key={item.k}
-                className="border-b border-white/10 last:border-b-0"
-              >
-                <button
-                  type="button"
-                  onClick={() => setOpenIndex(isOpen ? -1 : idx)}
-                  className="flex w-full items-center justify-between gap-6 py-5 md:py-6 text-left"
-                  aria-expanded={isOpen}
-                >
-                  <div>
-                    <div className="text-lg md:text-2xl font-semibold tracking-tight text-foreground/90">
-                      {item.k}
-                    </div>
-                    {isOpen ? (
-                      <div className="mt-2 text-sm md:text-base text-foreground/60 font-medium">
-                        {item.title}
-                      </div>
-                    ) : null}
-                  </div>
-
-                  <div className="shrink-0 text-3xl md:text-4xl leading-none text-foreground/35">
-                    {isOpen ? "−" : "+"}
-                  </div>
-                </button>
-
-                <motion.div
-                  initial={false}
-                  animate={{
-                    height: isOpen ? "auto" : 0,
-                    opacity: isOpen ? 1 : 0,
-                  }}
-                  transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                  className="overflow-hidden"
-                >
-                </motion.div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function SnapSection({
-  id,
-  children,
-  tone = "base",
-}: {
-  id: string;
-  children: React.ReactNode;
-  tone?: "base" | "tint";
-}) {
-  return (
-    <section
-      id={id}
-      className={cn(
-        "relative overflow-hidden snap-start min-h-screen flex items-center",
-        tone === "tint" ? "bg-primary/5" : "bg-background"
-      )}
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "border-b border-white/10 bg-[#070b12]/85 shadow-[0_16px_50px_rgba(0,0,0,.28)] backdrop-blur-xl"
+          : "bg-transparent"
+      }`}
     >
-      <div className="mx-auto max-w-6xl px-4 w-full pt-20 pb-14 md:pb-18">
-        {children}
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 md:px-8">
+        <Logo compact />
+
+        <nav className="hidden items-center gap-1 lg:flex">
+          {navItems.map((item) => (
+            <a
+              key={item.id}
+              href={`#${item.id}`}
+              className="rounded-full px-4 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/5 hover:text-white"
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+
+        <div className="hidden items-center gap-3 lg:flex">
+          <a
+            href="mailto:contact@vorpi.ai?subject=VORPI%20AI%20Enterprise%20Platform"
+            className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-100"
+          >
+            Request a conversation
+            <ArrowRight className="h-4 w-4" />
+          </a>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setOpen((value) => !value)}
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white lg:hidden"
+          aria-label="Toggle navigation"
+          aria-expanded={open}
+        >
+          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
+      </div>
+
+      {open ? (
+        <div className="border-t border-white/10 bg-[#080d15]/96 px-5 py-5 backdrop-blur-xl lg:hidden">
+          <div className="mx-auto grid max-w-7xl gap-2">
+            {navItems.map((item) => (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                onClick={() => setOpen(false)}
+                className="rounded-2xl px-4 py-3 text-sm font-medium text-slate-200 hover:bg-white/5"
+              >
+                {item.label}
+              </a>
+            ))}
+            <a
+              href="mailto:contact@vorpi.ai?subject=VORPI%20AI%20Enterprise%20Platform"
+              className="mt-2 inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-950"
+            >
+              Request a conversation
+              <ArrowRight className="h-4 w-4" />
+            </a>
+          </div>
+        </div>
+      ) : null}
+    </header>
+  );
+}
+
+function Hero() {
+  return (
+    <section id="top" className="relative isolate overflow-hidden bg-[#060a11] pt-20">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(34,211,238,.12),transparent_26%),radial-gradient(circle_at_86%_28%,rgba(148,163,184,.12),transparent_30%),linear-gradient(180deg,#070b12_0%,#0a1019_58%,#070b12_100%)]" />
+        <div className="absolute inset-0 opacity-[0.12] [background-image:linear-gradient(rgba(255,255,255,.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.08)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:linear-gradient(to_bottom,black,transparent_88%)]" />
+        <div className="absolute -right-40 top-24 h-[520px] w-[520px] rounded-full border border-cyan-200/10" />
+        <div className="absolute -right-20 top-44 h-[370px] w-[370px] rounded-full border border-white/10" />
+      </div>
+
+      <div className="relative mx-auto grid min-h-[830px] max-w-7xl items-center gap-16 px-5 py-24 md:px-8 lg:grid-cols-[1.05fr_.95fr] lg:py-28">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+        >
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-slate-300 shadow-[inset_0_1px_0_rgba(255,255,255,.05)]">
+            <CircleDot className="h-4 w-4 text-cyan-300" />
+            AI First. Enterprise-wide. Built for decisions.
+          </div>
+
+          <h1 className="mt-7 max-w-4xl text-balance text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-white md:text-7xl lg:text-[5.25rem]">
+            The Enterprise Artificial Intelligence Platform
+          </h1>
+
+          <p className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-slate-300 md:text-xl">
+            VORPI AI transforms operational execution into enterprise intelligence. Our platform
+            listens to users, understands their needs, and orchestrates forecasting, optimization,
+            planning, and operational tools to produce explainable decisions.
+          </p>
+
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <a
+              href="mailto:contact@vorpi.ai?subject=Enterprise%20AI%20Platform%20Conversation"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-100"
+            >
+              Discuss your enterprise challenge
+              <ArrowRight className="h-4 w-4" />
+            </a>
+            <a
+              href="#platform"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-white/[0.08]"
+            >
+              Explore the platform
+              <ChevronRight className="h-4 w-4" />
+            </a>
+          </div>
+
+          <div className="mt-10 grid max-w-2xl gap-3 sm:grid-cols-3">
+            {[
+              ["Architecture", "VORPI Framework"],
+              ["Forecasting", "Fast Fourier Transform"],
+              ["Optimization", "Reinforcement Learning"],
+            ].map(([label, value]) => (
+              <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+                <div className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-200">
+                  {label}
+                </div>
+                <div className="mt-2 text-sm font-medium leading-6 text-white">{value}</div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="relative"
+        >
+          <div className="absolute -inset-8 rounded-full bg-cyan-300/10 blur-3xl" />
+          <div className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.025))] p-4 shadow-[0_35px_100px_rgba(0,0,0,.48)] backdrop-blur-xl">
+            <div className="rounded-[1.55rem] border border-white/10 bg-[#0a1019]/95 p-5 md:p-7">
+              <div className="flex items-center justify-between border-b border-white/10 pb-5">
+                <div>
+                  <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                    Enterprise AI Copilot
+                  </div>
+                  <div className="mt-1 text-lg font-semibold text-white">From user intent to action</div>
+                </div>
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-cyan-300/20 bg-cyan-300/10">
+                  <Bot className="h-5 w-5 text-cyan-200" />
+                </div>
+              </div>
+
+              <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.035] p-4">
+                <div className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">
+                  User request
+                </div>
+                <p className="mt-2 text-sm leading-6 text-slate-200">
+                  “Which components should we protect to meet a six-week customer lead time while
+                  reducing excess inventory?”
+                </p>
+              </div>
+
+              <div className="my-5 flex items-center gap-3">
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-cyan-300/30 to-transparent" />
+                <Sparkles className="h-4 w-4 text-cyan-300" />
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-cyan-300/30 to-transparent" />
+              </div>
+
+              <div className="grid gap-3">
+                {[
+                  [BrainCircuit, "Understand", "Interpret intent, context, constraints, and decision horizon"],
+                  [GitBranch, "Orchestrate", "Select forecasting, critical-path, optimization, and planning tools"],
+                  [Activity, "Execute", "Run business logic across the VORPI enterprise model"],
+                  [BarChart3, "Explain", "Deliver recommendations, assumptions, scenarios, and impact"],
+                ].map(([Icon, title, body]) => {
+                  const ItemIcon = Icon as typeof BrainCircuit;
+                  return (
+                    <div key={title as string} className="flex gap-4 rounded-2xl border border-white/8 bg-white/[0.025] p-4">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04]">
+                        <ItemIcon className="h-5 w-5 text-cyan-200" />
+                      </div>
+                      <div>
+                        <div className="text-sm font-semibold text-white">{title as string}</div>
+                        <div className="mt-1 text-xs leading-5 text-slate-400">{body as string}</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="mt-5 rounded-2xl border border-emerald-300/15 bg-emerald-300/[0.06] p-4">
+                <div className="flex items-center gap-2 text-sm font-semibold text-emerald-200">
+                  <Check className="h-4 w-4" />
+                  Explainable enterprise recommendation
+                </div>
+                <div className="mt-2 text-xs leading-5 text-slate-400">
+                  Prioritized component protection, planning implications, expected service impact,
+                  and the rationale behind the decision.
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
 }
 
-export default function VorpiLanding() {
-
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [expanded, setExpanded] = useState(false);
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-
-const tabs = [
-  { id: "product", label: "Product", icon: LineChart },
-  { id: "for", label: "Industries", icon: Factory },
-  { id: "bootstrap", label: "Foresight", icon: Workflow }, 
-  { id: "why", label: "Innovation", icon: Brain },
-  { id: "team", label: "Team", icon: Users }, 
-];
-
-const scrollToSection = (id: string) => {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.scrollIntoView({ behavior: "smooth", block: "start" });
-  setMobileOpen(false);
-};
-
+function AiFirstSection() {
   return (
-    <div
-      ref={scrollRef}
-      className="h-screen overflow-y-auto overflow-x-hidden scroll-smooth snap-y snap-proximity md:snap-mandatory bg-background text-foreground pb-24 md:pb-0"
-    >
-      {/* Sticky header */}
-      <header
-        className="sticky top-0 z-40 border-b"
-      >
-        {/* Background image */}
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/vorpi-logo-wide-bg.jpg')" }}
+    <section id="platform" className="border-y border-white/8 bg-[#0a1019] py-24 md:py-32">
+      <div className="mx-auto max-w-7xl px-5 md:px-8">
+        <SectionHeading
+          eyebrow="The AI-First Philosophy"
+          title="Enterprise software should not merely tell people how to use a system. It should help the enterprise decide."
+          body="Most vendors begin with ERP workflows and add AI as an assistant around the edges. VORPI begins with intelligence: understanding the enterprise, modeling uncertainty, evaluating alternatives, and coordinating the right operational tools to turn insight into action."
         />
 
-        {/* Optional: subtle contrast layer (keep it LIGHT so it doesn't go black) */}
-        <div className="absolute inset-0 bg-black/15" />
-
-        {/* Content */}
-        <div className="relative">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-            {/* Logo strip with smooth fade to the right */}
-            <div className="relative h-14">
-              <img
-                src="/vorpi-logo-wide.jpg"
-                alt="VORPI AI"
-                className="h-14 w-auto"
-                style={{
-                  WebkitMaskImage:
-                    "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 78%, rgba(0,0,0,0) 100%)",
-                  maskImage:
-                    "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 78%, rgba(0,0,0,0) 100%)",
-                }}
-              />
+        <div className="mt-14 grid gap-5 lg:grid-cols-2">
+          <div className="rounded-[2rem] border border-white/10 bg-white/[0.025] p-7 md:p-9">
+            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+              ERP First
             </div>
-
-            {/* Desktop tabs (make text white on this header) */}
-            <div className="hidden md:block text-white">
-              <TopTabs containerRef={scrollRef} items={tabs} />
-            </div>
-
-            {/* Mobile hamburger (white icon) */}
-            <div className="md:hidden">
-              <button
-                type="button"
-                onClick={() => setMobileOpen((v) => !v)}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-white/10 backdrop-blur hover:bg-white/15"
-                aria-label="Open menu"
-                aria-expanded={mobileOpen}
-              >
-                {mobileOpen ? <X className="h-5 w-5 text-white" /> : <Menu className="h-5 w-5 text-white" />}
-              </button>
-            </div>
-
-            {/* Contact button (white style) */}
-            <div className="hidden md:block">
-              <Button asChild className="bg-white text-black hover:bg-white/90">
-                <a href="#contact">Contact us</a>
-              </Button>
+            <h3 className="mt-3 text-2xl font-semibold text-slate-200">AI helps users navigate software.</h3>
+            <div className="mt-7 space-y-4">
+              {[
+                "The transaction system remains the center of the architecture",
+                "AI primarily retrieves information or explains existing workflows",
+                "Forecasting, optimization, and planning remain disconnected modules",
+                "Decisions still depend on users assembling the full picture manually",
+              ].map((item) => (
+                <div key={item} className="flex gap-3 text-sm leading-6 text-slate-400">
+                  <X className="mt-1 h-4 w-4 shrink-0 text-slate-600" />
+                  {item}
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-      </header>
 
-      {/* Mobile menu dropdown */}
-      {mobileOpen ? (
-        <div className="md:hidden">
-          {/* Backdrop */}
-          <div
-            className="fixed inset-0 z-40 bg-black/40"
-            onClick={() => setMobileOpen(false)}
-          />
-
-          {/* Branded panel */}
-          <div className="fixed left-0 right-0 top-[57px] z-50 overflow-hidden">
-            {/* Background image */}
-            <div
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: "url('/vorpi-logo-wide-bg.jpg')" }}
-            />
-            {/* Light contrast layer */}
-            <div className="absolute inset-0 bg-black/25" />
-
-            {/* Content */}
-            <div className="relative mx-auto max-w-6xl px-4 py-4">
-              <div className="grid gap-2 text-white">
-                {tabs.map((t) => (
-                  <button
-                    key={t.id}
-                    type="button"
-                    onClick={() => scrollToSection(t.id)}
-                    className="w-full rounded-xl px-4 py-3 text-left text-sm font-semibold
-                              hover:bg-white/15 transition"
-                  >
-                    {t.label}
-                  </button>
+          <div className="relative overflow-hidden rounded-[2rem] border border-cyan-300/20 bg-[linear-gradient(145deg,rgba(34,211,238,.12),rgba(255,255,255,.035))] p-7 shadow-[0_28px_80px_rgba(8,145,178,.12)] md:p-9">
+            <div className="absolute right-0 top-0 h-48 w-48 rounded-full bg-cyan-300/10 blur-3xl" />
+            <div className="relative">
+              <div className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200">
+                AI First — VORPI
+              </div>
+              <h3 className="mt-3 text-2xl font-semibold text-white">AI orchestrates enterprise decisions.</h3>
+              <div className="mt-7 space-y-4">
+                {[
+                  "The enterprise knowledge model is designed for machine reasoning",
+                  "LLMs understand needs, constraints, and business context",
+                  "Forecasting and optimization engines are selected and combined dynamically",
+                  "Recommendations are executed through integrated planning and operational workflows",
+                ].map((item) => (
+                  <div key={item} className="flex gap-3 text-sm leading-6 text-slate-200">
+                    <Check className="mt-1 h-4 w-4 shrink-0 text-cyan-200" />
+                    {item}
+                  </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
+function ArchitectureSection() {
+  return (
+    <section id="architecture" className="bg-[#070b12] py-24 md:py-32">
+      <div className="mx-auto max-w-7xl px-5 md:px-8">
+        <SectionHeading
+          eyebrow="Versatile Architecture"
+          title="The VORPI Framework gives AI an enterprise it can understand."
+          body="VORPI represents the operating system of the supply chain: Vendors, Operations, Resources, Products, and Intelligence. The platform pairs these dimensions with locations, transactions, dependencies, and constraints so that AI can reason across the full enterprise rather than within isolated functions."
+        />
+
+        <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+          {pillars.map((pillar, index) => {
+            const Icon = pillar.icon;
+            return (
+              <motion.article
+                key={pillar.letter}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ delay: index * 0.06 }}
+                className="group rounded-[1.7rem] border border-white/10 bg-white/[0.028] p-5 transition hover:-translate-y-1 hover:border-cyan-300/20 hover:bg-white/[0.045]"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="text-4xl font-semibold tracking-[-0.05em] text-white">{pillar.letter}</div>
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.035] text-cyan-200">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                </div>
+                <h3 className="mt-7 text-lg font-semibold text-white">{pillar.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-400">{pillar.description}</p>
+              </motion.article>
+            );
+          })}
+        </div>
+
+        <div className="mt-8 overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.025]">
+          <div className="grid lg:grid-cols-[.8fr_1.2fr]">
+            <div className="border-b border-white/10 p-7 md:p-10 lg:border-b-0 lg:border-r">
+              <div className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200">
+                Enterprise Core
+              </div>
+              <h3 className="mt-3 text-2xl font-semibold text-white">Trusted execution and operational truth</h3>
+              <p className="mt-4 text-sm leading-7 text-slate-400">
+                Manage enterprise records, transactions, relationships, and workflows across vendors,
+                operations, resources, and products.
+              </p>
+            </div>
+            <div className="p-7 md:p-10">
+              <div className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200">
+                Enterprise Intelligence Platform
+              </div>
+              <h3 className="mt-3 text-2xl font-semibold text-white">Predictive, prescriptive, and conversational intelligence</h3>
+              <p className="mt-4 text-sm leading-7 text-slate-400">
+                Transform enterprise data into demand models, optimization policies, synchronized plans,
+                executive visibility, and explainable recommendations through the Enterprise AI Copilot.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function IntelligenceSection() {
+  const [active, setActive] = useState(0);
+  const ActiveIcon = engines[active].icon;
+
+  return (
+    <section id="intelligence" className="border-y border-white/8 bg-[#0a1019] py-24 md:py-32">
+      <div className="mx-auto max-w-7xl px-5 md:px-8">
+        <SectionHeading
+          eyebrow="The Three Versatile Engines"
+          title="One platform. Three differentiated capabilities."
+          body="VORPI combines a proprietary enterprise architecture, FFT-based uncertainty modeling, and reinforcement-learning optimization. Together, they form a decision system designed for the real complexity of supply chains."
+        />
+
+        <div className="mt-14 grid gap-6 lg:grid-cols-[.8fr_1.2fr]">
+          <div className="space-y-3">
+            {engines.map((engine, index) => {
+              const Icon = engine.icon;
+              const isActive = active === index;
+              return (
                 <button
+                  key={engine.eyebrow}
                   type="button"
-                  onClick={() => scrollToSection("contact")}
-                  className="mt-2 w-full rounded-xl bg-white text-black px-4 py-3 text-left
-                            text-sm font-semibold hover:bg-white/90 transition"
+                  onClick={() => setActive(index)}
+                  className={`w-full rounded-[1.4rem] border p-5 text-left transition ${
+                    isActive
+                      ? "border-cyan-300/25 bg-cyan-300/[0.08]"
+                      : "border-white/10 bg-white/[0.025] hover:bg-white/[0.04]"
+                  }`}
                 >
-                  Contact us
+                  <div className="flex items-center gap-4">
+                    <div
+                      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border ${
+                        isActive
+                          ? "border-cyan-300/25 bg-cyan-300/10 text-cyan-200"
+                          : "border-white/10 bg-white/[0.03] text-slate-400"
+                      }`}
+                    >
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">
+                        0{index + 1}
+                      </div>
+                      <div className={`mt-1 font-semibold ${isActive ? "text-white" : "text-slate-300"}`}>
+                        {engine.eyebrow}
+                      </div>
+                    </div>
+                  </div>
                 </button>
+              );
+            })}
+          </div>
+
+          <motion.div
+            key={active}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.02))] p-7 md:p-10"
+          >
+            <div className="absolute right-0 top-0 h-56 w-56 rounded-full bg-cyan-300/[0.08] blur-3xl" />
+            <div className="relative">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-cyan-300/20 bg-cyan-300/10 text-cyan-200">
+                <ActiveIcon className="h-7 w-7" />
               </div>
+              <div className="mt-7 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200">
+                {engines[active].eyebrow}
+              </div>
+              <h3 className="mt-3 max-w-2xl text-3xl font-semibold tracking-[-0.03em] text-white">
+                {engines[active].title}
+              </h3>
+              <p className="mt-5 max-w-2xl text-base leading-8 text-slate-300">
+                {engines[active].description}
+              </p>
+              <div className="mt-8 grid gap-3">
+                {engines[active].points.map((point) => (
+                  <div key={point} className="flex gap-3 rounded-2xl border border-white/8 bg-white/[0.025] p-4">
+                    <Check className="mt-0.5 h-5 w-5 shrink-0 text-cyan-200" />
+                    <div className="text-sm leading-6 text-slate-200">{point}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CopilotSection() {
+  const steps = useMemo(
+    () => [
+      {
+        number: "01",
+        title: "Listen",
+        body: "Capture goals, constraints, context, and follow-up questions in natural language.",
+        icon: Users,
+      },
+      {
+        number: "02",
+        title: "Understand",
+        body: "Use enterprise context and memory to determine the real decision behind the request.",
+        icon: BrainCircuit,
+      },
+      {
+        number: "03",
+        title: "Orchestrate",
+        body: "Select and sequence the right forecasting, optimization, planning, and reporting tools.",
+        icon: GitBranch,
+      },
+      {
+        number: "04",
+        title: "Deliver",
+        body: "Return insights, recommendations, scenarios, and actions with clear explanations.",
+        icon: Sparkles,
+      },
+      {
+        number: "05",
+        title: "Learn",
+        body: "Use outcomes and feedback to improve future models, policies, and recommendations.",
+        icon: Activity,
+      },
+    ],
+    []
+  );
+
+  return (
+    <section id="copilot" className="bg-[#070b12] py-24 md:py-32">
+      <div className="mx-auto max-w-7xl px-5 md:px-8">
+        <SectionHeading
+          eyebrow="Enterprise AI Copilot"
+          title="The intelligence layer that connects people, models, and enterprise execution."
+          body="The VORPI AI Copilot is not a chat interface placed on top of an ERP. It is an orchestration layer that translates business intent into coordinated analytical and operational workflows."
+          align="center"
+        />
+
+        <div className="relative mt-16">
+          <div className="absolute left-8 right-8 top-[3.4rem] hidden h-px bg-gradient-to-r from-transparent via-cyan-300/25 to-transparent lg:block" />
+          <div className="grid gap-4 lg:grid-cols-5">
+            {steps.map((step, index) => {
+              const Icon = step.icon;
+              return (
+                <motion.div
+                  key={step.number}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ delay: index * 0.07 }}
+                  className="relative rounded-[1.6rem] border border-white/10 bg-white/[0.028] p-5"
+                >
+                  <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-2xl border border-cyan-300/20 bg-[#0a1019] text-cyan-200 shadow-[0_0_0_8px_#070b12]">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <div className="mt-7 text-xs font-semibold uppercase tracking-[0.17em] text-slate-500">
+                    {step.number}
+                  </div>
+                  <h3 className="mt-2 text-lg font-semibold text-white">{step.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-400">{step.body}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {[
+            [LineChart, "Analytics", "Forecasting, uncertainty, inventory, scenario analysis"],
+            [Workflow, "Planning", "FAS, MPS, ATP, capacity, procurement, production"],
+            [BarChart3, "Reporting", "BOM, critical path, ex-factory, performance, risk"],
+            [ShieldCheck, "Governance", "Permissions, confirmations, auditability, explainability"],
+          ].map(([Icon, title, body]) => {
+            const CapabilityIcon = Icon as typeof LineChart;
+            return (
+              <div key={title as string} className="rounded-2xl border border-white/10 bg-white/[0.025] p-5">
+                <CapabilityIcon className="h-5 w-5 text-cyan-200" />
+                <div className="mt-4 font-semibold text-white">{title as string}</div>
+                <div className="mt-2 text-sm leading-6 text-slate-400">{body as string}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function OutcomesSection() {
+  return (
+    <section className="border-y border-white/8 bg-[#0a1019] py-24 md:py-32">
+      <div className="mx-auto max-w-7xl px-5 md:px-8">
+        <div className="grid gap-12 lg:grid-cols-[.9fr_1.1fr] lg:items-end">
+          <SectionHeading
+            eyebrow="Enterprise Impact"
+            title="From operational data to intelligent decisions—and from decisions to measurable outcomes."
+            body="VORPI helps organizations improve planning quality without losing the operational discipline, traceability, and human judgment required in real enterprises."
+          />
+          <div className="grid gap-4 sm:grid-cols-2">
+            {outcomes.map((outcome) => {
+              const Icon = outcome.icon;
+              return (
+                <div key={outcome.label} className="rounded-[1.6rem] border border-white/10 bg-white/[0.03] p-6">
+                  <Icon className="h-5 w-5 text-cyan-200" />
+                  <div className="mt-7 text-3xl font-semibold tracking-[-0.04em] text-white">{outcome.value}</div>
+                  <div className="mt-1 text-sm text-slate-400">{outcome.label}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function IndustriesSection() {
+  return (
+    <section className="bg-[#070b12] py-24 md:py-32">
+      <div className="mx-auto max-w-7xl px-5 md:px-8">
+        <SectionHeading
+          eyebrow="Built for complex supply chains"
+          title="Designed for organizations where uncertainty, dependencies, and operational trade-offs matter."
+          body="The initial focus is manufacturing, with an architecture that can extend across wholesale, consumer packaged goods, and retail environments."
+        />
+
+        <div className="mt-14 grid gap-4 md:grid-cols-2">
+          {industries.map((industry) => {
+            const Icon = industry.icon;
+            return (
+              <article key={industry.title} className="group rounded-[1.7rem] border border-white/10 bg-white/[0.028] p-6 transition hover:border-cyan-300/20 hover:bg-white/[0.045] md:p-7">
+                <div className="flex items-start justify-between gap-5">
+                  <div>
+                    <h3 className="text-xl font-semibold text-white">{industry.title}</h3>
+                    <p className="mt-3 max-w-xl text-sm leading-7 text-slate-400">{industry.description}</p>
+                  </div>
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.035] text-cyan-200 transition group-hover:bg-cyan-300/10">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CompanySection() {
+  return (
+    <section id="company" className="border-t border-white/8 bg-[#0a1019] py-24 md:py-32">
+      <div className="mx-auto max-w-7xl px-5 md:px-8">
+        <div className="grid gap-8 lg:grid-cols-[1.05fr_.95fr]">
+          <div className="rounded-[2rem] border border-white/10 bg-white/[0.028] p-7 md:p-10">
+            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200">Research-driven innovation</div>
+            <h2 className="mt-4 text-3xl font-semibold tracking-[-0.035em] text-white md:text-4xl">
+              Scientific rigor. Enterprise practicality. Long-term partnership.
+            </h2>
+            <p className="mt-5 text-base leading-8 text-slate-300">
+              VORPI AI brings together nearly two decades of work in supply-chain management,
+              uncertainty modeling, optimization, enterprise systems, and decision intelligence.
+              The objective is not to replace human expertise, but to augment it with transparent,
+              explainable, and measurable enterprise AI.
+            </p>
+            <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              {[
+                ["19 years", "academic and industry experience"],
+                ["2 books", "Cambridge University Press and Springer Nature"],
+                ["15 articles", "peer-reviewed research publications"],
+              ].map(([value, label]) => (
+                <div key={value} className="rounded-2xl border border-white/8 bg-white/[0.025] p-4">
+                  <div className="text-lg font-semibold text-white">{value}</div>
+                  <div className="mt-1 text-xs leading-5 text-slate-500">{label}</div>
+                </div>
+              ))}
             </div>
           </div>
 
-          <MobileTabs containerRef={scrollRef} items={tabs} />
-        </div>
-      ) : null}
-
-        {/* PRODUCT */}
-        <SnapSection id="product" tone="base">
-          <SectionBg src="/vorpi-product.jpg" />
-          <div className="relative z-10">
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.35 }}
-              className="mb-8 md:mb-10 max-w-6xl"
-            >
-              <div className="mt-3 rounded-[28px] border border-white/40 bg-white/90 p-6 md:p-8 backdrop-blur-sm shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
-                <h2 className="text-2xl md:text-2xl font-semibold tracking-tight">
-                  Turning Supply Chain Complexity into Simplicity
-                </h2>
-
-                <div
-                  onClick={() => setExpanded((v) => !v)}
-                  className="mt-4 max-w-5xl cursor-pointer group"
-                >
-                  <p
-                    className={cn(
-                      "text-base md:text-lg leading-relaxed text-foreground/80 transition-all duration-300",
-                      expanded ? "" : "line-clamp-2"
-                    )}
-                  >
-                    <p>
-                      VORPI AI is a next-generation supply chain platform that combines advanced forecasting, optimization algorithms, and LLMs to maximize end-to-end supply chain performance. It is built around two integrated modules: Intelligence (Sales, Forecasting, Decisions, Planning) and Engine (Vendors, Operations, Resources, Products). Intelligence determines what actions should be taken, while Engine ensures those actions are executed, governed, and tracked across the organization.
-                    </p>
-                    <p>
-                      At its core, supply chain management revolves around five dimensions: vendors, operations, resources, products, and intelligence. These dimensions capture the fundamental trade-offs firms face when moving from raw materials to final products. VORPI AI is designed around this structure and addresses three major gaps in today’s supply chain software: (1) data aggregation that reduces granularity and weakens forecasting accuracy, (2) rigid optimization tools built on unrealistic assumptions, and (3) reporting systems that obscure critical operational trade-offs. By unifying these elements, VORPI AI enables faster, more informed, and more scalable decision-making.
-                    </p>
-                  </p>
-
-                  <div className="mt-2 text-sm text-foreground/50 transition group-hover:text-foreground/70">
-                    {expanded ? "Click to collapse" : "Click to read more"}
-                  </div>
+          <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.02))] p-7 md:p-10">
+            <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
+              <img
+                src="/team/isik.jpg"
+                alt="Işık Biçer"
+                className="h-28 w-28 rounded-[1.6rem] border border-white/10 object-cover grayscale"
+              />
+              <div>
+                <div className="text-2xl font-semibold text-white">Işık Biçer, PhD</div>
+                <div className="mt-2 text-sm text-cyan-200">Founder & Chief Scientist, VORPI AI</div>
+                <div className="mt-1 text-sm leading-6 text-slate-400">
+                  Associate Professor of Operations Management and Information Systems,
+                  Schulich School of Business, York University.
                 </div>
               </div>
-            </motion.div>
-
-            <ProductAccordion />
-          </div>
-        </SnapSection>
-
-        {/* INDUSTRIES */}
-        <SnapSection id="for" tone="tint">
-          <SectionBg src="/vorpi-for.jpg" />
-          <div className="relative z-10">
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.35 }}
-              className="mb-8 md:mb-10 max-w-6xl"
-            >
-              <div className="rounded-[28px] border border-white/40 bg-white/90 p-6 md:p-8 backdrop-blur-sm shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
-                <h2 className="text-2xl md:text-2xl font-semibold tracking-tight">
-                  Built for manufacturers, wholesalers, and retailers
-                </h2>
-
-                <p className="mt-4 max-w-5xl text-base md:text-lg leading-relaxed text-foreground/80">
-                  Same software, different decisions. Clear outcomes for each audience.
-                </p>
-
-                <div className="mt-8">
-                  <Button asChild size="lg" className="rounded-2xl px-8">
-                    <a href="#contact">Get Started</a>
-                  </Button>
-                </div>
-              </div>
-            </motion.div>
-
-            <IndustriesAccordion />
-          </div>
-        </SnapSection>
-
-
-
-        {/* FORESIGHT */}
-        <SnapSection id="bootstrap" tone="base">
-          <SectionBg src="/vorpi-bootstrap.jpg" />
-          <div className="relative z-10">
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.35 }}
-              className="mb-8 md:mb-10 max-w-6xl"
-            >
-              <div className="rounded-[28px] border border-white/40 bg-white/90 p-6 md:p-8 backdrop-blur-sm shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
-                <h2 className="text-2xl md:text-2xl font-semibold tracking-tight">
-                  Research Background
-                </h2>
-
-                <p className="mt-4 max-w-5xl text-base md:text-lg leading-relaxed text-foreground/80">
-                  Backed by the team's 15+ years of academic and professional work.
-                </p>
-
-                <div className="mt-8">
-                  <Button asChild size="lg" className="rounded-2xl px-8">
-                    <a href="#contact">Get Started</a>
-                  </Button>
-                </div>
-              </div>
-            </motion.div>
-
-            <ForesightAccordion />
-          </div>
-        </SnapSection>    
-
-        {/* OUR INNOVATION */}
-        <SnapSection id="why" tone="base">
-          <SectionBg src="/vorpi-why.jpg" />
-          <div className="relative z-10">
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.35 }}
-              className="mb-8 md:mb-10 max-w-6xl"
-            >
-              <div className="rounded-[28px] border border-white/40 bg-white/90 p-6 md:p-8 backdrop-blur-sm shadow-[0_8px_30px_rgba(0,0,0,0.06)]">
-                <h2 className="text-2xl md:text-2xl font-semibold tracking-tight">
-                  Technological Innovation
-                </h2>
-
-                <p className="mt-4 max-w-5xl text-base md:text-lg leading-relaxed text-foreground/80">
-                  VORPI AI is built on decomposing the structure and analysis of supply chains. 
-                  Its unique database and algorithmic architecture minimize inefficiencies and unlock the full potential of LLMs.
-                </p>
-
-                <div className="mt-8">
-                  <Button asChild size="lg" className="rounded-2xl px-8">
-                    <a href="#contact">Get Started</a>
-                  </Button>
-                </div>
-              </div>
-            </motion.div>
-
-            <InnovationAccordion />
-          </div>
-        </SnapSection>    
-
-
-      {/* TEAM */}
-      <SnapSection id="team" tone="tint">
-        {/* Background (same treatment as your other pages) */}
-        <SectionBg src="/vorpi-team.jpg" />
-
-        <div className="relative z-10">
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.35 }}
-          >
-            <h2 className="text-2xl md:text-4xl font-semibold tracking-tight">Team</h2>
-            <p className="mt-3 max-w-3xl text-base md:text-lg leading-relaxed">
-              Researchers with professional experience focusing on measurable operational performance.
-            </p>
-          </motion.div>
-
-          <div className="mt-8 grid gap-4 lg:grid-cols-12">
-            {/* Left: Founder profile (main card) */}
-            <Card className="lg:col-span-8 relative overflow-hidden rounded-3xl bg-background/85 backdrop-blur-xl border border-white/20 shadow-2xl">
-              <CardHeader>
-                <CardTitle className="text-base flex items-center gap-2">
-                  Our Founder
-                </CardTitle>
-              </CardHeader>
-
-              <CardContent className="flex flex-col md:flex-row gap-6">
-                {/* Photo */}
-                <div className="flex-none">
-                  <div className="h-28 w-28 md:h-32 md:w-32 rounded-2xl overflow-hidden border border-white/30 shadow-sm">
-                    <img
-                      src="/team/isik.jpg"   // <-- put your headshot here
-                      alt="Your name"
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                </div>
-
-                {/* Bio */}
-                <div className="min-w-0">
-                  <div className="text-lg font-semibold">Isik Bicer, PhD</div>
-                  <div className="text-sm text-muted-foreground">
-                    Founder, VORPI AI • Supply chain analytics & optimization
-                  </div>
-
-                  <p className="mt-3 text-sm md:text-base leading-relaxed text-muted-foreground">
-                    Isik is a tenured professor of operations management and information systems at the Schulich School of Business,
-                    York University, where he leads the Supply Chain Analytics Lab.
-                    With 19 years of academic and industry experience, he has published 15 top-tier journal articles,
-                    authored a book on supply-chain analytics with Springer Nature, and a second book on
-                    digital transformation with Cambridge University Press. The analytical tools and
-                    frameworks he has developed have been adopted across the pharmaceutical, automotive, agriculture,
-                    and finance industries. 
-                  </p>
-
-                  {/* Links */}
-                  <div className="mt-5 flex flex-wrap gap-3">
-                    <Button asChild size="sm">
-                      <a href="https://www.linkedin.com/in/isikbicer" target="_blank" rel="noopener noreferrer">
-                        LinkedIn
-                      </a>
-                    </Button>
-                    <Button asChild size="sm" variant="outline">
-                      <a href="https://www.yorku.ca/research/areas/supplychainanalytics/" target="_blank" rel="noopener noreferrer">
-                        Isik's lab webpage
-                      </a>
-                    </Button>
-                    <Button asChild size="sm" variant="outline">
-                      <a href="mailto:contact@vorpi.ai">Email</a>
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </SnapSection>
-
-
-
-
-
-
-      {/* CONTACT */}
-      <SnapSection id="contact" tone="base">
-        <SectionBg src="/vorpi-contact.jpg" />
-        <div className="relative z-10">
-        <div className="grid gap-10 lg:grid-cols-12 items-start"></div>
-        <div className="grid gap-8 lg:grid-cols-12 items-start">
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.35 }}
-            className="lg:col-span-7"
-          >
-            <h2 className="mt-4 text-2xl md:text-4xl font-semibold tracking-tight">Run VORPI AI on Your Supply Chain</h2>
-            <p className="mt-3 max-w-2xl text-base md:text-lg leading-relaxed">
-              Tell us your problem. We’ll come up with a digital solution tailored to your operations.
-            </p>
-            <div className="mt-6 flex flex-col sm:flex-row gap-3">
-              <Button asChild size="lg">
-                <a
-                  href="mailto:contact@vorpi.ai?subject=Vorpi%20Demo%20Request&body=Hello%20Vorpi%20Team,%0D%0A%0D%0AI%20would%20like%20to%20request%20a%20demo%20of%20Vorpi%E2%80%99s%20Transactional%20Digital%20Twin.%0D%0A%0D%0ACompany:%0D%0AIndustry:%0D%0AThank%20you,%0D%0A"
-                  target="_blank"
-                >
-                  Email us
-                </a>
-              </Button>
-
-              <Button asChild variant="outline" size="lg">
-                <a
-                  href="https://calendly.com/your-calendar-link"
-                  target="_blank"
-                >
-                  Book a call
-                </a>
-              </Button>
             </div>
+            <p className="mt-7 text-sm leading-7 text-slate-300">
+              Işık’s work spans demand forecasting, probabilistic modeling, mathematical
+              optimization, simulation, machine learning, and enterprise decision intelligence.
+              His research and analytical frameworks have supported initiatives across manufacturing,
+              pharmaceuticals, agriculture, finance, retail, and the public sector.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <a
+                href="https://www.linkedin.com/in/isikbicer"
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-full border border-white/12 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/5"
+              >
+                LinkedIn
+              </a>
+              <a
+                href="https://www.yorku.ca/research/areas/supplychainanalytics/"
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-full border border-white/12 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/5"
+              >
+                Research lab
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
-          </motion.div>
+function CtaSection() {
+  return (
+    <section className="relative overflow-hidden bg-[#060a11] py-24 md:py-32">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_100%,rgba(34,211,238,.13),transparent_42%)]" />
+      <div className="relative mx-auto max-w-5xl px-5 text-center md:px-8">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-[1.4rem] border border-cyan-300/20 bg-cyan-300/10">
+          <BrainCircuit className="h-8 w-8 text-cyan-200" />
         </div>
+        <h2 className="mt-7 text-balance text-4xl font-semibold tracking-[-0.045em] text-white md:text-6xl">
+          Bring AI First thinking to your enterprise.
+        </h2>
+        <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-8 text-slate-300">
+          Tell us where operational complexity is limiting planning, service, inventory,
+          productivity, or growth. We will explore how the VORPI Enterprise AI Platform can
+          turn that challenge into an intelligent, scalable decision system.
+        </p>
+        <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+          <a
+            href="mailto:contact@vorpi.ai?subject=VORPI%20AI%20Enterprise%20Conversation&body=Hello%20VORPI%20AI%20Team,%0D%0A%0D%0AI%20would%20like%20to%20discuss%20our%20enterprise%20planning%20and%20AI%20needs.%0D%0A%0D%0ACompany:%0D%0AIndustry:%0D%0APriority%20challenge:%0D%0A"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-100"
+          >
+            Start the conversation
+            <ArrowRight className="h-4 w-4" />
+          </a>
+          <a
+            href="mailto:contact@vorpi.ai"
+            className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/[0.04] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-white/[0.08]"
+          >
+            contact@vorpi.ai
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
 
-        <div className="mt-10 text-sm text-muted-foreground">
-          © {new Date().getFullYear()} VORPI AI • Transactional Digital Twin
+function Footer() {
+  return (
+    <footer className="border-t border-white/8 bg-[#05080d]">
+      <div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 py-10 md:px-8 lg:flex-row lg:items-center lg:justify-between">
+        <Logo compact />
+        <div className="text-sm text-slate-500">
+          Transforming operational execution into enterprise intelligence.
         </div>
-        </div>
-      </SnapSection>
-    </div>
+        <div className="text-sm text-slate-600">© {new Date().getFullYear()} VORPI AI</div>
+      </div>
+    </footer>
+  );
+}
+
+export default function VorpiLandingPage() {
+  return (
+    <main className="min-h-screen bg-[#070b12] text-white selection:bg-cyan-300/25">
+      <Header />
+      <Hero />
+      <AiFirstSection />
+      <ArchitectureSection />
+      <IntelligenceSection />
+      <CopilotSection />
+      <OutcomesSection />
+      <IndustriesSection />
+      <CompanySection />
+      <CtaSection />
+      <Footer />
+    </main>
   );
 }
