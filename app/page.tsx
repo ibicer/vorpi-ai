@@ -233,8 +233,8 @@ function Logo({
         alt="VORPI AI"
         className={
           compact
-            ? "h-20 w-auto sm:h-24 lg:h-28"
-            : "h-24 w-auto sm:h-28 lg:h-36"
+            ? "h-24 w-auto sm:h-28 lg:h-32"
+            : "h-28 w-auto sm:h-32 lg:h-40"
         }
       />
     </a>
