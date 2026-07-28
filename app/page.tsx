@@ -185,16 +185,20 @@ function SectionHeading({
 
 function Logo({ compact = false }: { compact?: boolean }) {
   return (
-    <a href="#top" className="flex items-center gap-3" aria-label="VORPI AI home">
+    <a
+      href="#top"
+      className="flex shrink-0 items-center"
+      aria-label="VORPI AI home"
+    >
       <img
-        src="/vorpi-mark.png"
-        alt=""
-        className={compact ? "h-9 w-9 object-contain" : "h-11 w-11 object-contain"}
+        src="/vorpi-logo-wide-transparent.png"
+        alt="VORPI AI"
+        className={
+          compact
+            ? "h-12 w-auto max-w-[210px] object-contain sm:h-14 sm:max-w-[250px]"
+            : "h-14 w-auto max-w-[260px] object-contain sm:h-16 sm:max-w-[310px]"
+        }
       />
-      <div className="leading-none">
-        <div className="text-[0.9rem] font-medium tracking-[0.42em] text-white">VORPI</div>
-        <div className="mt-1 text-[0.58rem] font-semibold tracking-[0.48em] text-slate-400">AI</div>
-      </div>
     </a>
   );
 }
@@ -218,7 +222,8 @@ function Header() {
           : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 md:px-8">
+
+      <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-5 md:px-8">
         <Logo compact />
 
         <nav className="hidden items-center gap-1 lg:flex">
@@ -283,7 +288,7 @@ function Header() {
 
 function Hero() {
   return (
-    <section id="top" className="relative isolate overflow-hidden bg-[#060a11] pt-20">
+    <section id="top" className="relative isolate overflow-hidden bg-[#060a11] pt-24">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(34,211,238,.12),transparent_26%),radial-gradient(circle_at_86%_28%,rgba(148,163,184,.12),transparent_30%),linear-gradient(180deg,#070b12_0%,#0a1019_58%,#070b12_100%)]" />
         <div className="absolute inset-0 opacity-[0.12] [background-image:linear-gradient(rgba(255,255,255,.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.08)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:linear-gradient(to_bottom,black,transparent_88%)]" />
