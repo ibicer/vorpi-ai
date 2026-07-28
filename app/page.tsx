@@ -182,19 +182,15 @@ function SectionHeading({
 
 function Logo({ compact = false }: { compact?: boolean }) {
   return (
-    <a
-      href="#top"
-      aria-label="VORPI AI home"
-      className={`relative block shrink-0 overflow-hidden ${
-        compact
-          ? "h-16 w-[270px] sm:h-20 sm:w-[340px]"
-          : "h-20 w-[340px] sm:h-24 sm:w-[410px]"
-      }`}
-    >
+    <a href="#top" className="flex items-center shrink-0">
       <img
         src="/vorpi-logo-wide-transparent.png"
         alt="VORPI AI"
-        className="h-14 w-auto"
+        className={
+          compact
+            ? "h-28 w-auto"
+            : "h-36 w-auto"
+        }
       />
     </a>
   );
