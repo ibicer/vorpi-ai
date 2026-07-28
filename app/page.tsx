@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Activity,
@@ -327,7 +327,6 @@ function Header() {
 type CopilotMessage = {
   role: "user" | "ai";
   text: string;
-  steps?: string[];
 };
 
 const copilotConversation: CopilotMessage[] = [
@@ -345,18 +344,15 @@ const copilotConversation: CopilotMessage[] = [
     role: "user",
     text: "Excellent! Let’s do that.",
   },
-  {
-    role: "ai",
-    text: "Next steps:",
-    steps: [
-      "Run critical-path analysis",
-      "Identify decoupling points",
-      "Forecast demand",
-      "Optimize safety stock for critical components at the decoupling points",
-      "Develop FAS, MPS, and MRP",
-      "Return accurate delivery windows for each order from FAS",
-    ],
-  },
+];
+
+const copilotWorkflow = [
+  "Run critical-path analysis",
+  "Identify decoupling points",
+  "Forecast demand",
+  "Optimize safety stock for critical components at the decoupling points",
+  "Develop FAS, MPS, and MRP",
+  "Return accurate delivery windows for each order from FAS",
 ];
 
 function CopilotBubble({
@@ -396,51 +392,56 @@ function CopilotBubble({
             <span className="ml-0.5 inline-block h-4 w-[2px] animate-pulse bg-cyan-200 align-middle" />
           ) : null}
         </p>
-
-        {message.steps ? (
-          <div className="mt-3 grid gap-2">
-            {message.steps.map((step, index) => (
-              <div
-                key={step}
-                className="flex items-start gap-2 rounded-xl border border-white/[0.08] bg-black/10 px-3 py-2.5"
-              >
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-cyan-300/20 bg-cyan-300/10 text-[0.65rem] font-semibold text-cyan-200">
-                  {index + 1}
-                </span>
-                <span className="text-xs leading-5 text-slate-300">{step}</span>
-              </div>
-            ))}
-          </div>
-        ) : null}
       </div>
     </motion.div>
   );
 }
 
 function EnterpriseCopilotDemo() {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
   const [visibleMessages, setVisibleMessages] = useState<CopilotMessage[]>([]);
   const [activeMessageIndex, setActiveMessageIndex] = useState(0);
   const [typedText, setTypedText] = useState("");
-  const [isComplete, setIsComplete] = useState(false);
+  const [conversationComplete, setConversationComplete] = useState(false);
+  const [visibleWorkflowSteps, setVisibleWorkflowSteps] = useState(0);
+  const [workflowComplete, setWorkflowComplete] = useState(false);
 
   useEffect(() => {
-    if (isComplete) {
+    const container = scrollContainerRef.current;
+
+    if (!container) {
+      return;
+    }
+
+    container.scrollTo({
+      top: container.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [
+    visibleMessages,
+    typedText,
+    conversationComplete,
+    visibleWorkflowSteps,
+    workflowComplete,
+  ]);
+
+  useEffect(() => {
+    if (conversationComplete) {
       return;
     }
 
     const currentMessage = copilotConversation[activeMessageIndex];
 
     if (!currentMessage) {
-      setIsComplete(true);
+      setConversationComplete(true);
       return;
     }
 
     if (typedText.length < currentMessage.text.length) {
       const typingTimer = window.setTimeout(() => {
-        setTypedText(
-          currentMessage.text.slice(0, typedText.length + 1)
-        );
-      }, currentMessage.role === "user" ? 18 : 14);
+        setTypedText(currentMessage.text.slice(0, typedText.length + 1));
+      }, currentMessage.role === "user" ? 55 : 40);
 
       return () => window.clearTimeout(typingTimer);
     }
@@ -450,14 +451,42 @@ function EnterpriseCopilotDemo() {
       setTypedText("");
 
       if (activeMessageIndex === copilotConversation.length - 1) {
-        setIsComplete(true);
+        setConversationComplete(true);
       } else {
         setActiveMessageIndex((previous) => previous + 1);
       }
-    }, currentMessage.steps ? 700 : 850);
+    }, currentMessage.role === "ai" ? 1500 : 1200);
 
     return () => window.clearTimeout(pauseTimer);
-  }, [activeMessageIndex, typedText, isComplete]);
+  }, [
+    activeMessageIndex,
+    typedText,
+    conversationComplete,
+  ]);
+
+  useEffect(() => {
+    if (!conversationComplete || workflowComplete) {
+      return;
+    }
+
+    if (visibleWorkflowSteps < copilotWorkflow.length) {
+      const workflowTimer = window.setTimeout(() => {
+        setVisibleWorkflowSteps((previous) => previous + 1);
+      }, 900);
+
+      return () => window.clearTimeout(workflowTimer);
+    }
+
+    const completionTimer = window.setTimeout(() => {
+      setWorkflowComplete(true);
+    }, 1200);
+
+    return () => window.clearTimeout(completionTimer);
+  }, [
+    conversationComplete,
+    visibleWorkflowSteps,
+    workflowComplete,
+  ]);
 
   const activeMessage = copilotConversation[activeMessageIndex];
 
@@ -488,8 +517,9 @@ function EnterpriseCopilotDemo() {
           </div>
 
           <div
+            ref={scrollContainerRef}
             aria-live="polite"
-            className="mt-6 flex flex-1 flex-col gap-4"
+            className="mt-6 h-[390px] overflow-y-auto pr-1 flex flex-col gap-4"
           >
             {visibleMessages.map((message, index) => (
               <CopilotBubble
@@ -498,7 +528,7 @@ function EnterpriseCopilotDemo() {
               />
             ))}
 
-            {!isComplete && activeMessage ? (
+            {!conversationComplete && activeMessage ? (
               <CopilotBubble
                 message={{
                   role: activeMessage.role,
@@ -507,13 +537,78 @@ function EnterpriseCopilotDemo() {
                 isTyping
               />
             ) : null}
+
+            {conversationComplete ? (
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35 }}
+                className="rounded-2xl border border-cyan-300/15 bg-cyan-300/[0.05] p-4"
+              >
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-200">
+                  <Sparkles className="h-4 w-4" />
+                  AI Workspace
+                </div>
+
+                <div className="mt-2 text-sm font-semibold text-white">
+                  Building the decision workflow
+                </div>
+
+                <div className="mt-4 grid gap-2">
+                  {copilotWorkflow
+                    .slice(0, visibleWorkflowSteps)
+                    .map((step, index) => (
+                      <motion.div
+                        key={step}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="flex items-start gap-3 rounded-xl border border-white/[0.08] bg-black/10 px-3 py-2.5"
+                      >
+                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-emerald-300/20 bg-emerald-300/10">
+                          <Check className="h-3 w-3 text-emerald-200" />
+                        </span>
+
+                        <span className="text-xs leading-5 text-slate-300">
+                          {step}
+                        </span>
+                      </motion.div>
+                    ))}
+                </div>
+              </motion.div>
+            ) : null}
+
+            {workflowComplete ? (
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="rounded-2xl border border-emerald-300/20 bg-emerald-300/[0.07] p-4"
+              >
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-200">
+                  <Check className="h-4 w-4" />
+                  Decision workflow prepared
+                </div>
+
+                <div className="mt-3 text-lg font-semibold text-white">
+                  Delivery-window logic is ready for execution
+                </div>
+
+                <p className="mt-2 text-xs leading-5 text-slate-400">
+                  VORPI AI can now connect critical-path timing, decoupling points,
+                  demand forecasts, safety stock, and FAS-based order commitments.
+                </p>
+              </motion.div>
+            ) : null}
           </div>
 
           <div className="mt-6 flex items-center gap-2 border-t border-white/[0.08] pt-4 text-xs text-slate-500">
             <Sparkles className="h-3.5 w-3.5 text-cyan-300" />
-            {isComplete
-              ? "Decision workflow prepared"
-              : "VORPI AI is analyzing the request"}
+            {workflowComplete
+              ? "Enterprise workflow ready"
+              : conversationComplete
+                ? "VORPI AI is building the workflow"
+                : "VORPI AI is analyzing the request"}
           </div>
         </div>
       </div>
