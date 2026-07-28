@@ -194,7 +194,7 @@ function Logo({ compact = false }: { compact?: boolean }) {
       <img
         src="/vorpi-logo-wide-transparent.png"
         alt="VORPI AI"
-        className="absolute left-1/2 top-1/2 h-auto w-[145%] max-w-none -translate-x-1/2 -translate-y-1/2 scale-[1.55] object-contain"
+        className="h-14 w-auto"
       />
     </a>
   );
