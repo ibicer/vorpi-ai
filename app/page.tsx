@@ -323,6 +323,204 @@ function Header() {
   );
 }
 
+
+type CopilotMessage = {
+  role: "user" | "ai";
+  text: string;
+  steps?: string[];
+};
+
+const copilotConversation: CopilotMessage[] = [
+  {
+    role: "user",
+    text:
+      "Our promised lead times for Product XYZ are not reliable, and today I received customer complaints about that. How can we set a target delivery window for customers?",
+  },
+  {
+    role: "ai",
+    text:
+      "We can run a critical-path analysis and determine the time required to make Product XYZ from scratch. Then, we can identify the right decoupling points for the target delivery windows.",
+  },
+  {
+    role: "user",
+    text: "Excellent! Let’s do that.",
+  },
+  {
+    role: "ai",
+    text: "Next steps:",
+    steps: [
+      "Run critical-path analysis",
+      "Identify decoupling points",
+      "Forecast demand",
+      "Optimize safety stock for critical components at the decoupling points",
+      "Develop FAS, MPS, and MRP",
+      "Return accurate delivery windows for each order from FAS",
+    ],
+  },
+];
+
+function CopilotBubble({
+  message,
+  isTyping = false,
+}: {
+  message: CopilotMessage;
+  isTyping?: boolean;
+}) {
+  const isUser = message.role === "user";
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className={`flex ${isUser ? "justify-end" : "justify-start"}`}
+    >
+      <div
+        className={`max-w-[92%] rounded-2xl px-4 py-3 ${
+          isUser
+            ? "rounded-br-md border border-white/10 bg-white/[0.07] text-slate-100"
+            : "rounded-bl-md border border-cyan-300/15 bg-cyan-300/[0.07] text-slate-200"
+        }`}
+      >
+        <div
+          className={`mb-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.16em] ${
+            isUser ? "text-slate-500" : "text-cyan-200"
+          }`}
+        >
+          {isUser ? "User" : "VORPI AI"}
+        </div>
+
+        <p className="text-sm leading-6">
+          {message.text}
+          {isTyping ? (
+            <span className="ml-0.5 inline-block h-4 w-[2px] animate-pulse bg-cyan-200 align-middle" />
+          ) : null}
+        </p>
+
+        {message.steps ? (
+          <div className="mt-3 grid gap-2">
+            {message.steps.map((step, index) => (
+              <div
+                key={step}
+                className="flex items-start gap-2 rounded-xl border border-white/[0.08] bg-black/10 px-3 py-2.5"
+              >
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-cyan-300/20 bg-cyan-300/10 text-[0.65rem] font-semibold text-cyan-200">
+                  {index + 1}
+                </span>
+                <span className="text-xs leading-5 text-slate-300">{step}</span>
+              </div>
+            ))}
+          </div>
+        ) : null}
+      </div>
+    </motion.div>
+  );
+}
+
+function EnterpriseCopilotDemo() {
+  const [visibleMessages, setVisibleMessages] = useState<CopilotMessage[]>([]);
+  const [activeMessageIndex, setActiveMessageIndex] = useState(0);
+  const [typedText, setTypedText] = useState("");
+  const [isComplete, setIsComplete] = useState(false);
+
+  useEffect(() => {
+    if (isComplete) {
+      return;
+    }
+
+    const currentMessage = copilotConversation[activeMessageIndex];
+
+    if (!currentMessage) {
+      setIsComplete(true);
+      return;
+    }
+
+    if (typedText.length < currentMessage.text.length) {
+      const typingTimer = window.setTimeout(() => {
+        setTypedText(
+          currentMessage.text.slice(0, typedText.length + 1)
+        );
+      }, currentMessage.role === "user" ? 18 : 14);
+
+      return () => window.clearTimeout(typingTimer);
+    }
+
+    const pauseTimer = window.setTimeout(() => {
+      setVisibleMessages((previous) => [...previous, currentMessage]);
+      setTypedText("");
+
+      if (activeMessageIndex === copilotConversation.length - 1) {
+        setIsComplete(true);
+      } else {
+        setActiveMessageIndex((previous) => previous + 1);
+      }
+    }, currentMessage.steps ? 700 : 850);
+
+    return () => window.clearTimeout(pauseTimer);
+  }, [activeMessageIndex, typedText, isComplete]);
+
+  const activeMessage = copilotConversation[activeMessageIndex];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.97 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.8, delay: 0.1 }}
+      className="relative"
+    >
+      <div className="absolute -inset-8 rounded-full bg-cyan-300/10 blur-3xl" />
+
+      <div className="relative overflow-hidden rounded-[2rem] border border-white/[0.12] bg-[linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.025))] p-4 shadow-[0_35px_100px_rgba(0,0,0,.48)] backdrop-blur-xl">
+        <div className="flex min-h-[590px] flex-col rounded-[1.55rem] border border-white/10 bg-[#0a1019]/95 p-5 md:p-7">
+          <div className="flex items-center justify-between border-b border-white/10 pb-5">
+            <div>
+              <div className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200">
+                Enterprise AI Copilot
+              </div>
+              <div className="mt-1 text-lg font-semibold text-white">
+                From enterprise challenge to coordinated action
+              </div>
+            </div>
+
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-cyan-300/20 bg-cyan-300/10">
+              <Bot className="h-5 w-5 text-cyan-200" />
+            </div>
+          </div>
+
+          <div
+            aria-live="polite"
+            className="mt-6 flex flex-1 flex-col gap-4"
+          >
+            {visibleMessages.map((message, index) => (
+              <CopilotBubble
+                key={`${message.role}-${index}`}
+                message={message}
+              />
+            ))}
+
+            {!isComplete && activeMessage ? (
+              <CopilotBubble
+                message={{
+                  role: activeMessage.role,
+                  text: typedText,
+                }}
+                isTyping
+              />
+            ) : null}
+          </div>
+
+          <div className="mt-6 flex items-center gap-2 border-t border-white/[0.08] pt-4 text-xs text-slate-500">
+            <Sparkles className="h-3.5 w-3.5 text-cyan-300" />
+            {isComplete
+              ? "Decision workflow prepared"
+              : "VORPI AI is analyzing the request"}
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 function Hero() {
   return (
     <section id="top" className="relative isolate overflow-hidden bg-[#060a11] pt-24 md:pt-28">
@@ -369,78 +567,7 @@ function Hero() {
 
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.97 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="relative"
-        >
-          <div className="absolute -inset-8 rounded-full bg-cyan-300/10 blur-3xl" />
-          <div className="relative overflow-hidden rounded-[2rem] border border-white/[0.12] bg-[linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.025))] p-4 shadow-[0_35px_100px_rgba(0,0,0,.48)] backdrop-blur-xl">
-            <div className="rounded-[1.55rem] border border-white/10 bg-[#0a1019]/95 p-5 md:p-7">
-              <div className="flex items-center justify-between border-b border-white/10 pb-5">
-                <div>
-                  <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                    Enterprise AI Copilot
-                  </div>
-                  <div className="mt-1 text-lg font-semibold text-white">From user intent to action</div>
-                </div>
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-cyan-300/20 bg-cyan-300/10">
-                  <Bot className="h-5 w-5 text-cyan-200" />
-                </div>
-              </div>
-
-              <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.035] p-4">
-                <div className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-500">
-                  User request
-                </div>
-                <p className="mt-2 text-sm leading-6 text-slate-200">
-                  “Which components should we protect to meet a six-week customer lead time while
-                  reducing excess inventory?”
-                </p>
-              </div>
-
-              <div className="my-5 flex items-center gap-3">
-                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-cyan-300/30 to-transparent" />
-                <Sparkles className="h-4 w-4 text-cyan-300" />
-                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-cyan-300/30 to-transparent" />
-              </div>
-
-              <div className="grid gap-3">
-                {[
-                  [BrainCircuit, "Understand", "Interpret intent, context, constraints, and decision horizon"],
-                  [GitBranch, "Orchestrate", "Select forecasting, critical-path, optimization, and planning tools"],
-                  [Activity, "Execute", "Run business logic across the VORPI enterprise model"],
-                  [BarChart3, "Explain", "Deliver recommendations, assumptions, scenarios, and impact"],
-                ].map(([Icon, title, body]) => {
-                  const ItemIcon = Icon as typeof BrainCircuit;
-                  return (
-                    <div key={title as string} className="flex gap-4 rounded-2xl border border-white/[0.08] bg-white/[0.025] p-4">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04]">
-                        <ItemIcon className="h-5 w-5 text-cyan-200" />
-                      </div>
-                      <div>
-                        <div className="text-sm font-semibold text-white">{title as string}</div>
-                        <div className="mt-1 text-xs leading-5 text-slate-400">{body as string}</div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              <div className="mt-5 rounded-2xl border border-emerald-300/15 bg-emerald-300/[0.06] p-4">
-                <div className="flex items-center gap-2 text-sm font-semibold text-emerald-200">
-                  <Check className="h-4 w-4" />
-                  Explainable enterprise recommendation
-                </div>
-                <div className="mt-2 text-xs leading-5 text-slate-400">
-                  Prioritized component protection, planning implications, expected service impact,
-                  and the rationale behind the decision.
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
+        <EnterpriseCopilotDemo />
       </div>
     </section>
   );
