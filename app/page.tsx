@@ -799,7 +799,7 @@ function IntelligenceSection() {
     <section id="intelligence" className="border-y border-white/[0.08] bg-[#0a1019] py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <SectionHeading
-          eyebrow="The Three Versatile Engines"
+          eyebrow="The Three Versatile Dimensions"
           title="One platform. Three differentiated capabilities."
           body="VORPI combines a proprietary enterprise architecture, FFT-based uncertainty modeling, and reinforcement-learning optimization. Together, they form a decision system designed for the real complexity of supply chains."
         />
