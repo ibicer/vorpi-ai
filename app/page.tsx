@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Activity,
@@ -151,6 +151,40 @@ const industries = [
   },
 ];
 
+
+const copilotSteps = [
+  {
+    number: "01",
+    title: "Listen",
+    body: "Capture goals, constraints, context, and follow-up questions in natural language.",
+    icon: Users,
+  },
+  {
+    number: "02",
+    title: "Understand",
+    body: "Use enterprise context and memory to determine the real decision behind the request.",
+    icon: BrainCircuit,
+  },
+  {
+    number: "03",
+    title: "Orchestrate",
+    body: "Select and sequence the right forecasting, optimization, planning, and reporting tools.",
+    icon: GitBranch,
+  },
+  {
+    number: "04",
+    title: "Deliver",
+    body: "Return insights, recommendations, scenarios, and actions with clear explanations.",
+    icon: Sparkles,
+  },
+  {
+    number: "05",
+    title: "Learn",
+    body: "Use outcomes and feedback to improve future models, policies, and recommendations.",
+    icon: Activity,
+  },
+];
+
 function SectionHeading({
   eyebrow,
   title,
@@ -180,16 +214,27 @@ function SectionHeading({
   );
 }
 
-function Logo({ compact = false }: { compact?: boolean }) {
+function Logo({
+  compact = false,
+  onClick,
+}: {
+  compact?: boolean;
+  onClick?: () => void;
+}) {
   return (
-    <a href="#top" className="flex items-center shrink-0">
+    <a
+      href="#top"
+      aria-label="VORPI AI home"
+      onClick={onClick}
+      className="flex shrink-0 items-center"
+    >
       <img
         src="/vorpi-logo-wide-transparent.png"
         alt="VORPI AI"
         className={
           compact
-            ? "h-28 w-auto"
-            : "h-36 w-auto"
+            ? "h-20 w-auto sm:h-24 lg:h-28"
+            : "h-24 w-auto sm:h-28 lg:h-36"
         }
       />
     </a>
@@ -215,9 +260,8 @@ function Header() {
           : "bg-transparent"
       }`}
     >
-
       <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-5 md:h-28 md:px-8">
-        <Logo compact />
+        <Logo compact onClick={() => setOpen(false)} />
 
         <nav className="hidden items-center gap-1 lg:flex">
           {navItems.map((item) => (
@@ -350,7 +394,7 @@ function Hero() {
           className="relative"
         >
           <div className="absolute -inset-8 rounded-full bg-cyan-300/10 blur-3xl" />
-          <div className="relative overflow-hidden rounded-[2rem] border border-white/12 bg-[linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.025))] p-4 shadow-[0_35px_100px_rgba(0,0,0,.48)] backdrop-blur-xl">
+          <div className="relative overflow-hidden rounded-[2rem] border border-white/[0.12] bg-[linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.025))] p-4 shadow-[0_35px_100px_rgba(0,0,0,.48)] backdrop-blur-xl">
             <div className="rounded-[1.55rem] border border-white/10 bg-[#0a1019]/95 p-5 md:p-7">
               <div className="flex items-center justify-between border-b border-white/10 pb-5">
                 <div>
@@ -389,7 +433,7 @@ function Hero() {
                 ].map(([Icon, title, body]) => {
                   const ItemIcon = Icon as typeof BrainCircuit;
                   return (
-                    <div key={title as string} className="flex gap-4 rounded-2xl border border-white/8 bg-white/[0.025] p-4">
+                    <div key={title as string} className="flex gap-4 rounded-2xl border border-white/[0.08] bg-white/[0.025] p-4">
                       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04]">
                         <ItemIcon className="h-5 w-5 text-cyan-200" />
                       </div>
@@ -422,7 +466,7 @@ function Hero() {
 
 function AiFirstSection() {
   return (
-    <section id="platform" className="border-y border-white/8 bg-[#0a1019] py-24 md:py-32">
+    <section id="platform" className="border-y border-white/[0.08] bg-[#0a1019] py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <SectionHeading
           eyebrow="The AI-First Philosophy"
@@ -548,7 +592,7 @@ function IntelligenceSection() {
   const ActiveIcon = engines[active].icon;
 
   return (
-    <section id="intelligence" className="border-y border-white/8 bg-[#0a1019] py-24 md:py-32">
+    <section id="intelligence" className="border-y border-white/[0.08] bg-[#0a1019] py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <SectionHeading
           eyebrow="The Three Versatile Engines"
@@ -619,7 +663,7 @@ function IntelligenceSection() {
               </p>
               <div className="mt-8 grid gap-3">
                 {engines[active].points.map((point) => (
-                  <div key={point} className="flex gap-3 rounded-2xl border border-white/8 bg-white/[0.025] p-4">
+                  <div key={point} className="flex gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.025] p-4">
                     <Check className="mt-0.5 h-5 w-5 shrink-0 text-cyan-200" />
                     <div className="text-sm leading-6 text-slate-200">{point}</div>
                   </div>
@@ -634,42 +678,6 @@ function IntelligenceSection() {
 }
 
 function CopilotSection() {
-  const steps = useMemo(
-    () => [
-      {
-        number: "01",
-        title: "Listen",
-        body: "Capture goals, constraints, context, and follow-up questions in natural language.",
-        icon: Users,
-      },
-      {
-        number: "02",
-        title: "Understand",
-        body: "Use enterprise context and memory to determine the real decision behind the request.",
-        icon: BrainCircuit,
-      },
-      {
-        number: "03",
-        title: "Orchestrate",
-        body: "Select and sequence the right forecasting, optimization, planning, and reporting tools.",
-        icon: GitBranch,
-      },
-      {
-        number: "04",
-        title: "Deliver",
-        body: "Return insights, recommendations, scenarios, and actions with clear explanations.",
-        icon: Sparkles,
-      },
-      {
-        number: "05",
-        title: "Learn",
-        body: "Use outcomes and feedback to improve future models, policies, and recommendations.",
-        icon: Activity,
-      },
-    ],
-    []
-  );
-
   return (
     <section id="copilot" className="bg-[#070b12] py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
@@ -683,7 +691,7 @@ function CopilotSection() {
         <div className="relative mt-16">
           <div className="absolute left-8 right-8 top-[3.4rem] hidden h-px bg-gradient-to-r from-transparent via-cyan-300/25 to-transparent lg:block" />
           <div className="grid gap-4 lg:grid-cols-5">
-            {steps.map((step, index) => {
+            {copilotSteps.map((step, index) => {
               const Icon = step.icon;
               return (
                 <motion.div
@@ -732,7 +740,7 @@ function CopilotSection() {
 
 function OutcomesSection() {
   return (
-    <section className="border-y border-white/8 bg-[#0a1019] py-24 md:py-32">
+    <section className="border-y border-white/[0.08] bg-[#0a1019] py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <div className="grid gap-12 lg:grid-cols-[.9fr_1.1fr] lg:items-end">
           <SectionHeading
@@ -793,7 +801,7 @@ function IndustriesSection() {
 
 function CompanySection() {
   return (
-    <section id="company" className="border-t border-white/8 bg-[#0a1019] py-24 md:py-32">
+    <section id="company" className="border-t border-white/[0.08] bg-[#0a1019] py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <div className="grid gap-8 lg:grid-cols-[1.05fr_.95fr]">
           <div className="rounded-[2rem] border border-white/10 bg-white/[0.028] p-7 md:p-10">
@@ -813,7 +821,7 @@ function CompanySection() {
                 ["2 books", "Cambridge University Press and Springer Nature"],
                 ["15 articles", "peer-reviewed research publications"],
               ].map(([value, label]) => (
-                <div key={value} className="rounded-2xl border border-white/8 bg-white/[0.025] p-4">
+                <div key={value} className="rounded-2xl border border-white/[0.08] bg-white/[0.025] p-4">
                   <div className="text-lg font-semibold text-white">{value}</div>
                   <div className="mt-1 text-xs leading-5 text-slate-500">{label}</div>
                 </div>
@@ -848,7 +856,7 @@ function CompanySection() {
                 href="https://www.linkedin.com/in/isikbicer"
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-full border border-white/12 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/5"
+                className="rounded-full border border-white/[0.12] px-4 py-2 text-sm font-medium text-white transition hover:bg-white/5"
               >
                 LinkedIn
               </a>
@@ -856,7 +864,7 @@ function CompanySection() {
                 href="https://www.yorku.ca/research/areas/supplychainanalytics/"
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-full border border-white/12 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/5"
+                className="rounded-full border border-white/[0.12] px-4 py-2 text-sm font-medium text-white transition hover:bg-white/5"
               >
                 Research lab
               </a>
@@ -906,15 +914,15 @@ function CtaSection() {
 
 function Footer() {
   return (
-    <footer className="border-t border-white/8 bg-[#05080d]">
-      <div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 py-10 md:px-8 lg:flex-row lg:items-center lg:justify-between">
+    <footer className="border-t border-white/[0.08] bg-[#05080d]">
+      <div className="mx-auto flex max-w-7xl flex-col items-start gap-6 px-5 py-10 md:px-8 lg:flex-row lg:items-center lg:justify-between">
         <Logo compact />
 
-        <p className="text-sm text-slate-500">
+        <p className="max-w-sm text-sm leading-6 text-slate-500">
           Transforming operational execution into enterprise intelligence.
         </p>
 
-        <p className="text-sm text-slate-600">
+        <p className="whitespace-nowrap text-sm text-slate-600">
           © {new Date().getFullYear()} VORPI AI
         </p>
       </div>
