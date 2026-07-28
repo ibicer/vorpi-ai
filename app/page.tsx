@@ -17,13 +17,10 @@ import {
   Factory,
   Gauge,
   GitBranch,
-  Layers3,
   LineChart,
-  MapPin,
   Menu,
   Network,
   PackageSearch,
-  PlayCircle,
   Radar,
   ShieldCheck,
   Sparkles,
@@ -187,17 +184,17 @@ function Logo({ compact = false }: { compact?: boolean }) {
   return (
     <a
       href="#top"
-      className="flex shrink-0 items-center"
       aria-label="VORPI AI home"
+      className={`relative block shrink-0 overflow-hidden ${
+        compact
+          ? "h-16 w-[270px] sm:h-20 sm:w-[340px]"
+          : "h-20 w-[340px] sm:h-24 sm:w-[410px]"
+      }`}
     >
       <img
         src="/vorpi-logo-wide-transparent.png"
         alt="VORPI AI"
-        className={
-          compact
-            ? "h-12 w-auto max-w-[210px] object-contain sm:h-14 sm:max-w-[250px]"
-            : "h-14 w-auto max-w-[260px] object-contain sm:h-16 sm:max-w-[310px]"
-        }
+        className="absolute left-1/2 top-1/2 h-auto w-[145%] max-w-none -translate-x-1/2 -translate-y-1/2 scale-[1.55] object-contain"
       />
     </a>
   );
@@ -223,7 +220,7 @@ function Header() {
       }`}
     >
 
-      <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-5 md:px-8">
+      <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-5 md:h-28 md:px-8">
         <Logo compact />
 
         <nav className="hidden items-center gap-1 lg:flex">
@@ -288,7 +285,7 @@ function Header() {
 
 function Hero() {
   return (
-    <section id="top" className="relative isolate overflow-hidden bg-[#060a11] pt-24">
+    <section id="top" className="relative isolate overflow-hidden bg-[#060a11] pt-24 md:pt-28">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(34,211,238,.12),transparent_26%),radial-gradient(circle_at_86%_28%,rgba(148,163,184,.12),transparent_30%),linear-gradient(180deg,#070b12_0%,#0a1019_58%,#070b12_100%)]" />
         <div className="absolute inset-0 opacity-[0.12] [background-image:linear-gradient(rgba(255,255,255,.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.08)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:linear-gradient(to_bottom,black,transparent_88%)]" />
@@ -916,10 +913,14 @@ function Footer() {
     <footer className="border-t border-white/8 bg-[#05080d]">
       <div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 py-10 md:px-8 lg:flex-row lg:items-center lg:justify-between">
         <Logo compact />
-        <div className="text-sm text-slate-500">
+
+        <p className="text-sm text-slate-500">
           Transforming operational execution into enterprise intelligence.
-        </div>
-        <div className="text-sm text-slate-600">© {new Date().getFullYear()} VORPI AI</div>
+        </p>
+
+        <p className="text-sm text-slate-600">
+          © {new Date().getFullYear()} VORPI AI
+        </p>
       </div>
     </footer>
   );
