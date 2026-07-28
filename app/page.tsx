@@ -356,35 +356,21 @@ function Hero() {
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <a
-              href="mailto:contact@vorpi.ai?subject=Enterprise%20AI%20Platform%20Conversation"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-100"
-            >
-              Discuss your enterprise challenge
-              <ArrowRight className="h-4 w-4" />
-            </a>
-            <a
               href="#platform"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-white/[0.08]"
             >
               Explore the platform
               <ChevronRight className="h-4 w-4" />
             </a>
+            <a
+              href="mailto:contact@vorpi.ai?subject=Enterprise%20AI%20Platform%20Conversation"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-100"
+            >
+              Discuss your enterprise challenge
+              <ArrowRight className="h-4 w-4" />
+            </a>
           </div>
-
-          <div className="mt-10 grid max-w-2xl gap-3 sm:grid-cols-3">
-            {[
-              ["Architecture", "VORPI Framework"],
-              ["Forecasting", "Fast Fourier Transform"],
-              ["Optimization", "Reinforcement Learning"],
-            ].map(([label, value]) => (
-              <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
-                <div className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-200">
-                  {label}
-                </div>
-                <div className="mt-2 text-sm font-medium leading-6 text-white">{value}</div>
-              </div>
-            ))}
-          </div>
+          
         </motion.div>
 
         <motion.div
