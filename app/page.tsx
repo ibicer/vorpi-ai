@@ -1101,7 +1101,7 @@ function CtaSection() {
             href="mailto:contact@vorpi.ai?subject=VORPI%20AI%20Enterprise%20Conversation&body=Hello%20VORPI%20AI%20Team,%0D%0A%0D%0AI%20would%20like%20to%20discuss%20our%20enterprise%20planning%20and%20AI%20needs.%0D%0A%0D%0ACompany:%0D%0AIndustry:%0D%0APriority%20challenge:%0D%0A"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-100"
           >
-            Get a free consultancy with Prof. Bicer
+            Book a Demo
             <ArrowRight className="h-4 w-4" />
           </a>
           <a
