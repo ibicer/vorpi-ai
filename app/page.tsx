@@ -339,10 +339,6 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-slate-300 shadow-[inset_0_1px_0_rgba(255,255,255,.05)]">
-            <CircleDot className="h-4 w-4 text-cyan-300" />
-            AI First. Enterprise-wide. Built for decisions.
-          </div>
 
           <h1 className="mt-7 max-w-4xl text-balance text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-white md:text-7xl lg:text-[5.25rem]">
             The Enterprise Artificial Intelligence Platform
@@ -370,7 +366,7 @@ function Hero() {
               <ArrowRight className="h-4 w-4" />
             </a>
           </div>
-          
+
         </motion.div>
 
         <motion.div
