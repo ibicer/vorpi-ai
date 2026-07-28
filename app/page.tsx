@@ -313,7 +313,7 @@ function Header() {
               href="mailto:contact@vorpi.ai?subject=VORPI%20AI%20Enterprise%20Platform"
               className="mt-2 inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-950"
             >
-              Request a conversation
+              Book a Demo
               <ArrowRight className="h-4 w-4" />
             </a>
           </div>
