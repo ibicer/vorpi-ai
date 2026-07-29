@@ -655,7 +655,7 @@ function Hero() {
               href="mailto:contact@vorpi.ai?subject=Executive%20Consultation%20Request&body=Dear%20Prof.%20Bicer,%0D%0A%0D%0AI%20would%20appreciate%20the%20opportunity%20to%20discuss%20our%20organization's%20supply%20chain%20and%20AI%20challenges.%0D%0A%0D%0ACompany:%0D%0AIndustry:%0D%0AYour%20Name:%0D%0APosition%20/%20Role:%0D%0A%0D%0ABriefly%20describe%20your%20current%20challenge:%0D%0A%0D%0AWhat%20outcome%20are%20you%20hoping%20to%20achieve?%0D%0A%0D%0APreferred%20consultation%20dates%20and%20times:%0D%0A%0D%0AAnything%20else%20you%20would%20like%20to%20share%20before%20the%20meeting?%0D%0A%0D%0AThank%20you,%0D%0A"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-100"
             >
-              Book a Free Consultation with Prof. Bicer
+              Book a Free Consultation with Prof. Işık Biçer
               <ArrowRight className="h-4 w-4" />
             </a>
           </div>
