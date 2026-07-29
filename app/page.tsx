@@ -277,7 +277,7 @@ function Header() {
 
         <div className="hidden items-center gap-3 lg:flex">
           <a
-            href="mailto:contact@vorpi.ai?subject=VORPI%20AI%20Enterprise%20Platform"
+            href="mailto:contact@vorpi.ai?subject=VORPI%20AI%20%7C%20Demo%20Request&body=Hello%20VORPI%20AI%20Team,%0D%0A%0D%0AI%20would%20like%20to%20schedule%20a%20demonstration%20of%20the%20VORPI%20AI%20Enterprise%20Platform.%0D%0A%0D%0ACompany:%0D%0AIndustry:%0D%0AYour%20Name:%0D%0APosition%20/%20Role:%0D%0ANumber%20of%20Employees:%0D%0ACurrent%20ERP%20/%20Planning%20System%20(if%20any):%0D%0A%0D%0AWhat%20would%20you%20like%20to%20see%20during%20the%20demo?%0D%0A-%20Demand%20Forecasting%0D%0A-%20Inventory%20Optimization%0D%0A-%20AI%20Copilot%0D%0A-%20Planning%20(FAS%20/%20MPS%20/%20MRP)%0D%0A-%20Supplier%20Management%0D%0A-%20Executive%20Dashboard%0D%0A-%20Other:%0D%0A%0D%0APrimary%20business%20challenge:%0D%0A%0D%0APreferred%20meeting%20dates%20and%20times:%0D%0A%0D%0AAdditional%20comments:%0D%0A"
             className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-100"
           >
             Book a Demo
@@ -310,7 +310,7 @@ function Header() {
               </a>
             ))}
             <a
-              href="mailto:contact@vorpi.ai?subject=VORPI%20AI%20Enterprise%20Platform"
+              href="mailto:contact@vorpi.ai?subject=VORPI%20AI%20%7C%20Demo%20Request&body=Hello%20VORPI%20AI%20Team,%0D%0A%0D%0AI%20would%20like%20to%20schedule%20a%20demonstration%20of%20the%20VORPI%20AI%20Enterprise%20Platform.%0D%0A%0D%0ACompany:%0D%0AIndustry:%0D%0AYour%20Name:%0D%0APosition%20/%20Role:%0D%0ANumber%20of%20Employees:%0D%0ACurrent%20ERP%20/%20Planning%20System%20(if%20any):%0D%0A%0D%0AWhat%20would%20you%20like%20to%20see%20during%20the%20demo?%0D%0A-%20Demand%20Forecasting%0D%0A-%20Inventory%20Optimization%0D%0A-%20AI%20Copilot%0D%0A-%20Planning%20(FAS%20/%20MPS%20/%20MRP)%0D%0A-%20Supplier%20Management%0D%0A-%20Executive%20Dashboard%0D%0A-%20Other:%0D%0A%0D%0APrimary%20business%20challenge:%0D%0A%0D%0APreferred%20meeting%20dates%20and%20times:%0D%0A%0D%0AAdditional%20comments:%0D%0A"
               className="mt-2 inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-950"
             >
               Book a Demo
@@ -652,7 +652,7 @@ function Hero() {
               <ChevronRight className="h-4 w-4" />
             </a>
             <a
-              href="mailto:contact@vorpi.ai?subject=Enterprise%20AI%20Platform%20Conversation"
+              href="mailto:contact@vorpi.ai?subject=Executive%20Consultation%20Request&body=Dear%20Prof.%20Bicer,%0D%0A%0D%0AI%20would%20appreciate%20the%20opportunity%20to%20discuss%20our%20organization's%20supply%20chain%20and%20AI%20challenges.%0D%0A%0D%0ACompany:%0D%0AIndustry:%0D%0AYour%20Name:%0D%0APosition%20/%20Role:%0D%0A%0D%0ABriefly%20describe%20your%20current%20challenge:%0D%0A%0D%0AWhat%20outcome%20are%20you%20hoping%20to%20achieve?%0D%0A%0D%0APreferred%20consultation%20dates%20and%20times:%0D%0A%0D%0AAnything%20else%20you%20would%20like%20to%20share%20before%20the%20meeting?%0D%0A%0D%0AThank%20you,%0D%0A"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-100"
             >
               Book a Free Consultation with Prof. Bicer
@@ -1098,7 +1098,7 @@ function CtaSection() {
         </p>
         <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
           <a
-            href="mailto:contact@vorpi.ai?subject=VORPI%20AI%20Enterprise%20Conversation&body=Hello%20VORPI%20AI%20Team,%0D%0A%0D%0AI%20would%20like%20to%20discuss%20our%20enterprise%20planning%20and%20AI%20needs.%0D%0A%0D%0ACompany:%0D%0AIndustry:%0D%0APriority%20challenge:%0D%0A"
+            href="mailto:contact@vorpi.ai?subject=VORPI%20AI%20%7C%20Demo%20Request&body=Hello%20VORPI%20AI%20Team,%0D%0A%0D%0AI%20would%20like%20to%20schedule%20a%20demonstration%20of%20the%20VORPI%20AI%20Enterprise%20Platform.%0D%0A%0D%0ACompany:%0D%0AIndustry:%0D%0AYour%20Name:%0D%0APosition%20/%20Role:%0D%0ANumber%20of%20Employees:%0D%0ACurrent%20ERP%20/%20Planning%20System%20(if%20any):%0D%0A%0D%0AWhat%20would%20you%20like%20to%20see%20during%20the%20demo?%0D%0A-%20Demand%20Forecasting%0D%0A-%20Inventory%20Optimization%0D%0A-%20AI%20Copilot%0D%0A-%20Planning%20(FAS%20/%20MPS%20/%20MRP)%0D%0A-%20Supplier%20Management%0D%0A-%20Executive%20Dashboard%0D%0A-%20Other:%0D%0A%0D%0APrimary%20business%20challenge:%0D%0A%0D%0APreferred%20meeting%20dates%20and%20times:%0D%0A%0D%0AAdditional%20comments:%0D%0A"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-100"
           >
             Book a Demo
