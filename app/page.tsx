@@ -801,7 +801,7 @@ function IntelligenceSection() {
         <SectionHeading
           eyebrow="The Three Versatile Dimensions"
           title="One platform. Three differentiated capabilities."
-          body="VORPI combines a proprietary enterprise architecture, FFT-based uncertainty modeling, and reinforcement-learning optimization. Together, they form a decision system designed for the real complexity of supply chains."
+          body="VORPI combines a proprietary enterprise architecture, ultra-granular uncertainty modeling powered by Fast Fourier Transform (FFT), and adaptive decision optimization driven by reinforcement learning. Together, these technologies create an enterprise AI decision platform built for the real complexity of supply chains."
         />
 
         <div className="mt-14 grid gap-6 lg:grid-cols-[.8fr_1.2fr]">
